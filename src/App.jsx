@@ -5,7 +5,6 @@ import GamesDisplay from "./components/GameDisplay";
 import LoginForm from "./components/LoginForm";
 
 function App() {
-  const [isUpdatingTimer, setIsUpdatingTimer] = useState(false);
   const [authToken, setAuthToken] = useState(null);
 
   return (
@@ -14,18 +13,9 @@ function App() {
       <div className="timers-container">
         <LoginForm
           setAuthToken={setAuthToken}
-          setIsUpdatingTimer={setIsUpdatingTimer}
+          // setIsUpdatingTimer={setIsUpdatingTimer}
         />
-        <GamesDisplay />
-        {/* <TimersList
-          isUpdatingTimer={isUpdatingTimer}
-          setIsUpdatingTimer={setIsUpdatingTimer}
-          authToken={authToken}
-        />
-        <AddTimerButton
-          setIsUpdatingTimer={setIsUpdatingTimer}
-          authToken={authToken}
-        /> */}
+        <GamesDisplay authToken={authToken} />
       </div>
     </div>
   );
