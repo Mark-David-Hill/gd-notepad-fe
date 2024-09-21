@@ -1,6 +1,7 @@
 import { useState } from "react";
-import AddTimerButton from "./components/AddTimerButton";
-import TimersList from "./components/TimersList";
+// import AddTimerButton from "./components/GameDisplay";
+// import TimersList from "./components/TimersList";
+import GamesDisplay from "./components/GameDisplay";
 import LoginForm from "./components/LoginForm";
 
 function App() {
@@ -15,7 +16,8 @@ function App() {
           setAuthToken={setAuthToken}
           setIsUpdatingTimer={setIsUpdatingTimer}
         />
-        <TimersList
+        <GamesDisplay />
+        {/* <TimersList
           isUpdatingTimer={isUpdatingTimer}
           setIsUpdatingTimer={setIsUpdatingTimer}
           authToken={authToken}
@@ -23,7 +25,7 @@ function App() {
         <AddTimerButton
           setIsUpdatingTimer={setIsUpdatingTimer}
           authToken={authToken}
-        />
+        /> */}
       </div>
     </div>
   );
