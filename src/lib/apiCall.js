@@ -7,6 +7,7 @@ const apiCall = (endpoint, method, body = null, authToken = null) =>
     }
     payload.method = method;
     payload.headers = { "Content-Type": "application/json", auth: authToken };
+    payload.credentials = "include";
 
     fetch(`http://localhost:8086${endpoint}`, payload)
       .then((res) => {
