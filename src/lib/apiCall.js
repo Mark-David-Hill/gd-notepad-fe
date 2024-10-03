@@ -1,4 +1,4 @@
-const apiCall = (endpoint, method, body = null, authToken = null) =>
+const apiCall = (endpoint, method, body = null) =>
   new Promise((resolve, reject) => {
     const payload = {};
 
@@ -6,8 +6,8 @@ const apiCall = (endpoint, method, body = null, authToken = null) =>
       payload.body = JSON.stringify(body);
     }
     payload.method = method;
-    payload.headers = { "Content-Type": "application/json", auth: authToken };
-    payload.credentials = "include";
+    payload.headers = { "Content-Type": "application/json" };
+    payload.credentials = "include"; // Make sure cookies are included
 
     fetch(`http://localhost:8086${endpoint}`, payload)
       .then((res) => {
@@ -17,7 +17,6 @@ const apiCall = (endpoint, method, body = null, authToken = null) =>
 
         return res.json();
       })
-
       .then(resolve)
       .catch(reject);
   });

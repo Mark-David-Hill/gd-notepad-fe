@@ -13,6 +13,28 @@ const LoginForm = ({ setAuthToken }) => {
     setPassword(event.target.value);
   };
 
+  async function loginUser(email, password) {
+    const response = await fetch("http://localhost:8086/user/auth", {
+      // <-- Updated URL
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include", // Important to include cookies
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Login successful:", data);
+    } else {
+      console.error("Login failed:", await response.json());
+    }
+  }
+
   const handleLogin = () => {
     // setIsUpdatingTimer(true);
 
@@ -22,14 +44,15 @@ const LoginForm = ({ setAuthToken }) => {
     };
 
     if (email && password) {
-      fetchWrapper
-        .apiCall(`/user/auth`, "POST", body)
-        .then((data) => {
-          console.log("auth data:", data);
-          setAuthToken(data.result.auth_token);
-          // setIsUpdatingTimer(false);
-        })
-        .catch((error) => console.error("couldn't login", error));
+      loginUser(email, password);
+      // fetchWrapper
+      //   .apiCall(`/user/auth`, "POST", body)
+      //   .then((data) => {
+      //     console.log("auth data:", data);
+      //     setAuthToken(data.result.auth_token);
+      //     // setIsUpdatingTimer(false);
+      //   })
+      //   .catch((error) => console.error("couldn't login", error));
     }
   };
 
