@@ -1,6 +1,6 @@
 // import GamesDisplay from "../GameDisplay";
 
-export default function Games() {
+export default function Levels() {
   return (
     <div className="login-container">
       <h1>Levels</h1>

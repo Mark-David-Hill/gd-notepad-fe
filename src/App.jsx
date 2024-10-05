@@ -10,6 +10,12 @@ import Navbar from "./components/nav/Navbar";
 import Footer from "./components/nav/Footer";
 import Dashboard from "./components/pages/Dashboard";
 import Home from "./components/pages/Home";
+import Games from "./components/pages/Games";
+import Mechanics from "./components/pages/Mechanics";
+import Levels from "./components/pages/Levels";
+import LevelElements from "./components/pages/LevelElements";
+import EnemyElements from "./components/pages/EnemyElements";
+import PowerUps from "./components/pages/PowerUps";
 
 const isAuthenticated = () => {
   return true;
@@ -46,6 +52,12 @@ function App() {
             }
           />
           <Route path="/" element={<Home />} />
+          <Route path="/games" element={<Games />} />
+          <Route path="/mechanics" element={<Mechanics />} />
+          <Route path="/levels" element={<Levels />} />
+          <Route path="/level-elements" element={<LevelElements />} />
+          <Route path="/enemy-elements" element={<EnemyElements />} />
+          <Route path="/power-ups" element={<PowerUps />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </Router>

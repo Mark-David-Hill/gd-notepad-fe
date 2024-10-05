@@ -18,37 +18,67 @@ export default function Navbar() {
         <div className="links-container">
           <div className="main-links">
             <NavLink
-              to="/products"
+              to="/games"
               className={({ isActive }) =>
                 isActive ? "active-link" : undefined
               }
               onClick={() => setMenuIsOpen(false)}
             >
-              Products
+              Games
             </NavLink>
 
             <NavLink
-              to="/about"
+              to="/mechanics"
               className={({ isActive }) =>
                 isActive ? "active-link" : undefined
               }
               onClick={() => setMenuIsOpen(false)}
             >
-              About
+              Mechanics
             </NavLink>
 
             <NavLink
-              to="/contact"
+              to="/levels"
               className={({ isActive }) =>
                 isActive ? "active-link" : undefined
               }
               onClick={() => setMenuIsOpen(false)}
             >
-              Contact
+              Levels
+            </NavLink>
+
+            <NavLink
+              to="/level-elements"
+              className={({ isActive }) =>
+                isActive ? "active-link" : undefined
+              }
+              onClick={() => setMenuIsOpen(false)}
+            >
+              Level Elements
+            </NavLink>
+
+            <NavLink
+              to="/enemy-elements"
+              className={({ isActive }) =>
+                isActive ? "active-link" : undefined
+              }
+              onClick={() => setMenuIsOpen(false)}
+            >
+              Enemy Elements
+            </NavLink>
+
+            <NavLink
+              to="/power-ups"
+              className={({ isActive }) =>
+                isActive ? "active-link" : undefined
+              }
+              onClick={() => setMenuIsOpen(false)}
+            >
+              Power Ups
             </NavLink>
           </div>
 
-          <div className="cart-button-wrapper">
+          {/* <div className="cart-button-wrapper">
             <NavLink
               to="/cart"
               className={({ isActive }) =>
@@ -59,7 +89,7 @@ export default function Navbar() {
             >
               Cart
             </NavLink>
-          </div>
+          </div> */}
         </div>
 
         <div className="navbar-right">
@@ -77,7 +107,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div
+      {/* <div
         className={"hamburger-menu-wrapper " + (menuIsOpen ? "show-menu" : "")}
         onClick={() => setMenuIsOpen(false)}
       >
@@ -112,7 +142,7 @@ export default function Navbar() {
         >
           Cart
         </NavLink>
-      </div>
+      </div> */}
     </div>
   );
 }
