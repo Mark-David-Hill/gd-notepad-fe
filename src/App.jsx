@@ -1,3 +1,9 @@
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+} from "react-router-dom                  ";
+
 import GamesDisplay from "./components/GameDisplay";
 import LoginForm from "./components/LoginForm";
 
