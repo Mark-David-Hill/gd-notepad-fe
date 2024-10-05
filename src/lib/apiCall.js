@@ -7,7 +7,7 @@ const apiCall = (endpoint, method, body = null, headers = null) =>
     }
     payload.method = method;
     payload.headers = { "Content-Type": "application/json" };
-    payload.credentials = "include"; // Make sure cookies are included
+    payload.credentials = "include";
 
     fetch(`http://localhost:8086${endpoint}`, payload)
       .then((res) => {

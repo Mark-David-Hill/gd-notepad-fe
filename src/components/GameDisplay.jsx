@@ -1,7 +1,7 @@
 import { useState } from "react";
 import fetchWrapper from "../lib/apiCall";
 
-const GamesDisplay = ({ authToken }) => {
+const GamesDisplay = () => {
   const [gamesList, setGamesList] = useState(null);
 
   const handleDisplayGames = () => {

@@ -19,22 +19,13 @@ const LoginForm = () => {
       password: password,
     };
 
-    const headers = {
-      "Content-Type": "application/json",
-    };
-
     fetchWrapper
-      .apiCall(`/user/auth`, "POST", body, headers)
+      .apiCall(`/user/auth`, "POST", body)
       .then((response) => console.log("Login successful:", response))
       .catch((error) => console.error("Login failed:", error));
   }
 
   const handleLogin = () => {
-    const body = {
-      email: email,
-      password: password,
-    };
-
     if (email && password) {
       loginUser(email, password);
     }
