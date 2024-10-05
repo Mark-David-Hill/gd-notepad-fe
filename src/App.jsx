@@ -1,20 +1,55 @@
 import {
-  BrowserRouter,
-  Switch,
+  BrowserRouter as Router,
+  Routes,
   Route,
-} from "react-router-dom                  ";
+  Navigate,
+} from "react-router-dom";
+import NoPage from "./components/pages/NoPage";
+import Login from "./components/pages/Login";
+// import Navbar from "./components/nav/Navbar";
+import Footer from "./components/nav/Footer";
+import Dashboard from "./components/pages/Dashboard";
+import Home from "./components/pages/Home";
 
-import GamesDisplay from "./components/GameDisplay";
-import LoginForm from "./components/LoginForm";
+const isAuthenticated = () => {
+  return true;
+};
+
+const PrivateRoute = ({ children }) => {
+  return isAuthenticated() ? children : <Navigate to="/login" />;
+};
+
+const PublicRoute = ({ children }) => {
+  return !isAuthenticated() ? children : <Navigate to="/dashboard" />;
+};
 
 function App() {
   return (
     <div className="app-container">
-      <h1>Timers App</h1>
-      <div className="timers-container">
-        <LoginForm />
-        <GamesDisplay />
-      </div>
+      {/* <Navbar /> */}
+      <Router>
+        <Routes>
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<NoPage />} />
+        </Routes>
+      </Router>
+      <Footer />
     </div>
   );
 }
