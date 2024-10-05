@@ -18,7 +18,7 @@ import EnemyElements from "./components/pages/EnemyElements";
 import PowerUps from "./components/pages/PowerUps";
 
 const isAuthenticated = () => {
-  return true;
+  return false;
 };
 
 const PrivateRoute = ({ children }) => {
