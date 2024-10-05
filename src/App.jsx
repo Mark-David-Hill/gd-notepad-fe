@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import NoPage from "./components/pages/NoPage";
 import Login from "./components/pages/Login";
-// import Navbar from "./components/nav/Navbar";
+import Navbar from "./components/nav/Navbar";
 import Footer from "./components/nav/Footer";
 import Dashboard from "./components/pages/Dashboard";
 import Home from "./components/pages/Home";
@@ -26,8 +26,8 @@ const PublicRoute = ({ children }) => {
 function App() {
   return (
     <div className="app-container">
-      {/* <Navbar /> */}
       <Router>
+        <Navbar />
         <Routes>
           <Route
             path="/login"
