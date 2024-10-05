@@ -6,7 +6,7 @@ const GamesDisplay = ({ authToken }) => {
 
   const handleDisplayGames = () => {
     fetchWrapper
-      .apiCall(`/games`, "GET", null, authToken)
+      .apiCall(`/games`, "GET")
       .then((response) => setGamesList(response.results))
       .catch((error) => console.error("couldn't display games", error));
   };
