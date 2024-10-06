@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import fetchWrapper from "../lib/apiCall";
 
-const LoginForm = () => {
+const LoginForm = ({ setAuth }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSetEmail = (event) => {
     setEmail(event.target.value);
@@ -19,10 +21,18 @@ const LoginForm = () => {
       password: password,
     };
 
-    fetchWrapper
-      .apiCall(`/user/auth`, "POST", body)
-      .then((response) => console.log("Login successful:", response))
-      .catch((error) => console.error("Login failed:", error));
+    try {
+      const response = await fetchWrapper.apiCall(`/user/auth`, "POST", body);
+      console.log("Login successful:", response);
+      if (response.message === "login successful") {
+        setAuth(true);
+        navigate("/dashboard");
+      } else {
+        console.error("Login failed:", response.message);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   }
 
   const handleLogin = () => {

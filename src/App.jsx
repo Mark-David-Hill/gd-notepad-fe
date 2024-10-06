@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -16,40 +17,47 @@ import Levels from "./components/pages/Levels";
 import LevelElements from "./components/pages/LevelElements";
 import EnemyElements from "./components/pages/EnemyElements";
 import PowerUps from "./components/pages/PowerUps";
+import fetchWrapper from "./lib/apiCall";
 
-const isAuthenticated = () => {
-  return false;
-};
-
-const PrivateRoute = ({ children }) => {
-  return isAuthenticated() ? children : <Navigate to="/login" />;
-};
-
-const PublicRoute = ({ children }) => {
-  return !isAuthenticated() ? children : <Navigate to="/dashboard" />;
+const isAuthenticated = async () => {
+  try {
+    const response = await fetchWrapper.apiCall(`/user/check-login`, "GET");
+    return true;
+  } catch (error) {
+    console.error("Login failed:", error);
+    return false;
+  }
 };
 
 function App() {
+  const [auth, setAuth] = useState(null);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const result = await isAuthenticated();
+      setAuth(result);
+    };
+    checkAuth();
+  }, []);
+
+  if (auth === null) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className="app-container">
-      <Router>
+    <Router>
+      <div className="app-container">
         <Navbar />
         <Routes>
           <Route
             path="/login"
             element={
-              <PublicRoute>
-                <Login />
-              </PublicRoute>
+              auth ? <Navigate to="/dashboard" /> : <Login setAuth={setAuth} />
             }
           />
           <Route
             path="/dashboard"
-            element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            }
+            element={auth ? <Dashboard /> : <Navigate to="/login" />}
           />
           <Route path="/" element={<Home />} />
           <Route path="/games" element={<Games />} />
@@ -60,9 +68,9 @@ function App() {
           <Route path="/power-ups" element={<PowerUps />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
-      </Router>
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
