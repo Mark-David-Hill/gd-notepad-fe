@@ -33,11 +33,11 @@ const EnemyElements = () => {
                 <div key={levelId}>
                   <h2>{levelData.name}</h2>
                   <p>{levelData.description}</p>
-                  {/* <img
+                  <img
                     src={levelData.image_url}
                     alt={levelData.name + " image"}
                     style={{ width: "200px" }}
-                  /> */}
+                  />
                 </div>
               );
             })}
