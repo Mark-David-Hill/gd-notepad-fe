@@ -1,10 +1,11 @@
-// import GamesDisplay from "../GameDisplay";
+import GameElementsDisplay from "../GameElementDisplay";
 
-export default function Mechanics() {
+const Mechanics = () => {
   return (
-    <div className="login-container">
-      <h1>Mechanics</h1>
-      {/* <GamesDisplay /> */}
+    <div className="mechanics-container">
+      <GameElementsDisplay elementType={"Mechanic"} />
     </div>
   );
-}
+};
+
+export default Mechanics;

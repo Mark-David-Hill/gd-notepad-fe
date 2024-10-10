@@ -1,10 +1,11 @@
-// import GamesDisplay from "../GameDisplay";
+import GameElementsDisplay from "../GameElementDisplay";
 
-export default function PowerUps() {
+const PowerUps = () => {
   return (
-    <div className="login-container">
-      <h1>Power Ups</h1>
-      {/* <GamesDisplay /> */}
+    <div className="power-ups-container">
+      <GameElementsDisplay elementType={"Power Up"} />
     </div>
   );
-}
+};
+
+export default PowerUps;

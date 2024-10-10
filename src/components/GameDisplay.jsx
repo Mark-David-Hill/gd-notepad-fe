@@ -12,7 +12,7 @@ const GamesDisplay = () => {
   };
 
   return (
-    <div className="add-timer">
+    <div className="game-display-container">
       <div>
         <button onClick={handleDisplayGames}>Display Games</button>
       </div>

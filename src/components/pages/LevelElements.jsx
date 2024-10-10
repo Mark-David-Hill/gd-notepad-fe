@@ -1,10 +1,11 @@
-// import GamesDisplay from "../GameDisplay";
+import GameElementsDisplay from "../GameElementDisplay";
 
-export default function LevelElements() {
+const LevelElements = () => {
   return (
-    <div className="login-container">
-      <h1>Level Elements</h1>
-      {/* <GamesDisplay /> */}
+    <div className="level-elements-container">
+      <GameElementsDisplay elementType={"Level Element"} />
     </div>
   );
-}
+};
+
+export default LevelElements;
