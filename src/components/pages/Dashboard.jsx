@@ -1,4 +1,4 @@
-import GamesDisplay from "../GameDisplay";
+import GamesDisplay from "../GamesDisplay";
 
 export default function Dashboard() {
   return (

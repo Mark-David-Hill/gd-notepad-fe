@@ -1,6 +1,8 @@
 import { useState } from "react";
 import fetchWrapper from "../../lib/apiCall";
 
+import { NavLink } from "react-router-dom";
+
 const Games = () => {
   const [gamesList, setGamesList] = useState(null);
 
@@ -30,6 +32,9 @@ const Games = () => {
                     alt={gameData.name + " image"}
                     style={{ width: "200px" }}
                   />
+                  <NavLink to={`/games/${gameData.game_id}`}>
+                    View More Details
+                  </NavLink>
                 </div>
               );
             })}

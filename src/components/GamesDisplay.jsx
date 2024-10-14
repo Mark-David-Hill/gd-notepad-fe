@@ -1,6 +1,8 @@
 import { useState } from "react";
 import fetchWrapper from "../lib/apiCall";
 
+import { NavLink } from "react-router-dom";
+
 const GamesDisplay = () => {
   const [gamesList, setGamesList] = useState(null);
 

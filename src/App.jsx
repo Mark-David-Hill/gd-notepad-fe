@@ -19,6 +19,7 @@ import Navbar from "./components/nav/Navbar";
 import Footer from "./components/nav/Footer";
 import Games from "./components/pages/Games";
 import Home from "./components/pages/Home";
+import Game from "./components/pages/Game";
 import fetchWrapper from "./lib/apiCall";
 
 const isAuthenticated = async () => {
@@ -68,6 +69,7 @@ function App() {
           <Route path="/level-elements" element={<LevelElements />} />
           <Route path="/enemy-elements" element={<EnemyElements />} />
           <Route path="/power-ups" element={<PowerUps />} />
+          <Route path="games/:id" element={<Game />} />
           <Route path="/game-elements/:id" element={<GameElement />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
