@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 import fetchWrapper from "../lib/apiCall";
 
@@ -8,11 +9,11 @@ const GameElementsDisplay = ({ elementType }) => {
   const handleDisplayElements = () => {
     fetchWrapper
       .apiCall(`/elements`, "GET")
-      .then((response) =>
+      .then((response) => {
         setElementsList(
           response.results.filter((element) => element.type.name == elementType)
-        )
-      )
+        );
+      })
       .catch((error) =>
         console.error(`couldn't display ${elementType}s`, error)
       );
@@ -37,6 +38,9 @@ const GameElementsDisplay = ({ elementType }) => {
                     alt={elementData.name + " image"}
                     style={{ width: "200px" }}
                   />
+                  <NavLink to={`/game-elements/${elementData.element_id}`}>
+                    View More Details
+                  </NavLink>
                 </div>
               );
             })}

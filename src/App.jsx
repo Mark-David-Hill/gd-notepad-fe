@@ -5,18 +5,20 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+
+import LevelElements from "./components/pages/LevelElements";
+import EnemyElements from "./components/pages/EnemyElements";
+import GameElement from "./components/pages/GameElement";
+import Dashboard from "./components/pages/Dashboard";
+import Mechanics from "./components/pages/Mechanics";
+import PowerUps from "./components/pages/PowerUps";
 import NoPage from "./components/pages/NoPage";
+import Levels from "./components/pages/Levels";
 import Login from "./components/pages/Login";
 import Navbar from "./components/nav/Navbar";
 import Footer from "./components/nav/Footer";
-import Dashboard from "./components/pages/Dashboard";
-import Home from "./components/pages/Home";
 import Games from "./components/pages/Games";
-import Mechanics from "./components/pages/Mechanics";
-import Levels from "./components/pages/Levels";
-import LevelElements from "./components/pages/LevelElements";
-import EnemyElements from "./components/pages/EnemyElements";
-import PowerUps from "./components/pages/PowerUps";
+import Home from "./components/pages/Home";
 import fetchWrapper from "./lib/apiCall";
 
 const isAuthenticated = async () => {
@@ -66,6 +68,7 @@ function App() {
           <Route path="/level-elements" element={<LevelElements />} />
           <Route path="/enemy-elements" element={<EnemyElements />} />
           <Route path="/power-ups" element={<PowerUps />} />
+          <Route path="/game-elements/:id" element={<GameElement />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
         <Footer />
