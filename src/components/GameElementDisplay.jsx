@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
 import fetchWrapper from "../lib/apiCall";
@@ -6,7 +6,7 @@ import fetchWrapper from "../lib/apiCall";
 const GameElementsDisplay = ({ elementType }) => {
   const [elementsList, setElementsList] = useState([]);
 
-  const handleDisplayElements = () => {
+  useEffect(() => {
     fetchWrapper
       .apiCall(`/elements`, "GET")
       .then((response) => {
@@ -17,17 +17,16 @@ const GameElementsDisplay = ({ elementType }) => {
       .catch((error) =>
         console.error(`couldn't display ${elementType}s`, error)
       );
-  };
+  }, []);
 
   return (
     <div className={"game-elements-container"}>
       <h1>{elementType}s</h1>
       <div>
-        <button onClick={handleDisplayElements}>Display {elementType}s</button>
-      </div>
-      <div>
-        <div className="timers-list-wrapper">
-          {elementsList &&
+        <div className="game-elements-wrapper">
+          {!elementsList.length ? (
+            <p>Loading...</p>
+          ) : (
             elementsList.map((elementData, elementId) => {
               return (
                 <div key={elementId}>
@@ -43,7 +42,8 @@ const GameElementsDisplay = ({ elementType }) => {
                   </NavLink>
                 </div>
               );
-            })}
+            })
+          )}
         </div>
       </div>
     </div>
