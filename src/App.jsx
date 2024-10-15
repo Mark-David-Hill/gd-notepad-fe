@@ -50,7 +50,7 @@ function App() {
   return (
     <Router>
       <div className="app-container">
-        <Navbar />
+        <Navbar auth={auth} />
         <Routes>
           <Route
             path="/login"
