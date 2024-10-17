@@ -16,10 +16,7 @@ const LoginForm = ({ setAuth }) => {
   };
 
   async function loginUser(email, password) {
-    const body = {
-      email: email,
-      password: password,
-    };
+    const body = { email, password };
 
     try {
       const response = await fetchWrapper.apiCall(`/user/auth`, "POST", body);
@@ -35,22 +32,33 @@ const LoginForm = ({ setAuth }) => {
     }
   }
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault(); // Prevent form submission from reloading the page
     if (email && password) {
       loginUser(email, password);
     }
   };
 
   return (
-    <div className="login">
-      <input type="text" placeholder="Email" onChange={handleSetEmail} />
+    <form className="login" onSubmit={handleLogin}>
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        autoComplete="email"
+        value={email}
+        onChange={handleSetEmail}
+      />
       <input
         type="password"
+        name="password"
         placeholder="Password"
+        autoComplete="current-password"
+        value={password}
         onChange={handleSetPassword}
       />
-      <button onClick={handleLogin}>Login</button>
-    </div>
+      <button type="submit">Login</button>
+    </form>
   );
 };
 
