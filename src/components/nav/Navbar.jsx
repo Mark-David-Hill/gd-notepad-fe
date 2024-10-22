@@ -8,7 +8,7 @@ export default function Navbar({ auth }) {
     <div className="navbar-container">
       <div className="navbar-wrapper">
         <NavLink
-          to="/"
+          to={auth ? "/dashboard" : "/"}
           className={({ isActive }) => (isActive ? "active-link" : undefined)}
           onClick={() => setMenuIsOpen(false)}
         >

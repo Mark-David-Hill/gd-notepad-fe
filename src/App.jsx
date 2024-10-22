@@ -59,6 +59,10 @@ function App() {
             }
           />
           <Route
+            path="/"
+            element={auth ? <Navigate to="/dashboard" /> : <Home />}
+          />
+          <Route
             path="/dashboard"
             element={auth ? <Dashboard /> : <Navigate to="/login" />}
           />
