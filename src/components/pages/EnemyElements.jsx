@@ -1,4 +1,4 @@
-import GameElementsDisplay from "../GameElementDisplay";
+import GameElementsDisplay from "../ElementsDisplay";
 
 const EnemyElements = () => {
   return (
