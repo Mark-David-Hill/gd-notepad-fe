@@ -3,7 +3,7 @@ import GameElementsDisplay from "../GameElementDisplay";
 const Mechanics = () => {
   return (
     <div className="mechanics-container">
-      <GameElementsDisplay elementType={"Mechanic"} />
+      <GameElementsDisplay elementType="Mechanic" />
     </div>
   );
 };
