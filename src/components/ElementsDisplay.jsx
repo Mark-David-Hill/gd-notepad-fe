@@ -7,6 +7,7 @@ import GameElementsList from "./ElementsList";
 
 const GameElementsDisplay = ({ elementType }) => {
   const [elementsList, setElementsList] = useState([]);
+  const [relationshipsList, setRelationshipsList] = useState([]);
 
   useEffect(() => {
     fetchWrapper
@@ -21,11 +22,26 @@ const GameElementsDisplay = ({ elementType }) => {
       );
   }, []);
 
+  useEffect(() => {
+    fetchWrapper
+      .apiCall(`/relationships`, "GET")
+      .then((response) => {
+        setRelationshipsList(response.results);
+        console.log(response.results);
+      })
+      .catch((error) =>
+        console.error(`couldn't get relationships for ${elementType}s`, error)
+      );
+  }, []);
+
   return (
     <div className={"game-elements-container"}>
       <h1>{elementType}s</h1>
       <div>
-        <GameElementsList elementsList={elementsList} />
+        <GameElementsList
+          elementsList={elementsList}
+          relationshipsList={relationshipsList}
+        />
       </div>
     </div>
   );

@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom";
 
-const GameElementsList = ({ elementsList }) => {
+const GameElementsList = ({ elementsList, relationshipsList }) => {
   return (
     <div className="game-elements-list-wrapper">
-      {!elementsList.length ? (
+      {!elementsList.length || !relationshipsList.length ? (
         <p>Loading...</p>
       ) : (
         elementsList.map((elementData, elementId) => {
@@ -33,6 +33,23 @@ const GameElementsList = ({ elementsList }) => {
 
               <div>
                 <h2>Relationships</h2>
+                {relationshipsList.map((relationship, relationshipId) =>
+                  relationship.element_1.element_id ===
+                  elementData.element_id ? (
+                    <div key={relationshipId}>
+                      <p>{relationship.element_2.name}</p>
+                      <p>{relationship.description}</p>
+                    </div>
+                  ) : (
+                    relationship.element_2.element_id ===
+                      elementData.element_id && (
+                      <div key={relationshipId}>
+                        <p>{relationship.element_1.name}</p>
+                        <p>{relationship.description}</p>
+                      </div>
+                    )
+                  )
+                )}
               </div>
             </div>
           );
