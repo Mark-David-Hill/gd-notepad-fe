@@ -76,20 +76,17 @@ export default function Navbar({ auth }) {
             >
               Power Ups
             </NavLink>
-
-            {!auth && (
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  isActive ? "active-link" : undefined
-                }
-                onClick={() => setMenuIsOpen(false)}
-              >
-                Login
-              </NavLink>
-            )}
           </div>
         </div>
+        {!auth && (
+          <NavLink
+            to="/login"
+            className={({ isActive }) => (isActive ? "active-link" : undefined)}
+            onClick={() => setMenuIsOpen(false)}
+          >
+            Login
+          </NavLink>
+        )}
 
         <div className="navbar-right">
           <div className="switch-wrapper">
