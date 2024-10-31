@@ -1,9 +1,9 @@
-import GameElementsDisplay from "../ElementsDisplay";
+import ElementsDisplay from "../ElementsDisplay";
 
 const PowerUps = () => {
   return (
-    <div className="power-ups-container">
-      <GameElementsDisplay elementType={"Power Up"} />
+    <div className="game-elements-container">
+      <ElementsDisplay elementType={"Power Up"} />
     </div>
   );
 };

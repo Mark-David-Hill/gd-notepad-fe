@@ -5,7 +5,7 @@ import fetchWrapper from "../lib/apiCall";
 
 import GameElementsList from "./ElementsList";
 
-const GameElementsDisplay = ({ elementType }) => {
+const ElementsDisplay = ({ elementType }) => {
   const [elementsList, setElementsList] = useState([]);
   const [relationshipsList, setRelationshipsList] = useState([]);
 
@@ -35,16 +35,14 @@ const GameElementsDisplay = ({ elementType }) => {
   }, []);
 
   return (
-    <div className={"game-elements-container"}>
+    <div className={"game-elements-wrapper"}>
       <h1>{elementType}s</h1>
-      <div>
-        <GameElementsList
-          elementsList={elementsList}
-          relationshipsList={relationshipsList}
-        />
-      </div>
+      <GameElementsList
+        elementsList={elementsList}
+        relationshipsList={relationshipsList}
+      />
     </div>
   );
 };
 
-export default GameElementsDisplay;
+export default ElementsDisplay;

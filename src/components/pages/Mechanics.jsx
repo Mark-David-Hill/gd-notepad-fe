@@ -1,9 +1,9 @@
-import GameElementsDisplay from "../ElementsDisplay";
+import ElementsDisplay from "../ElementsDisplay";
 
 const Mechanics = () => {
   return (
-    <div className="mechanics-container">
-      <GameElementsDisplay elementType="Mechanic" />
+    <div className="game-elements-container">
+      <ElementsDisplay elementType="Mechanic" />
     </div>
   );
 };

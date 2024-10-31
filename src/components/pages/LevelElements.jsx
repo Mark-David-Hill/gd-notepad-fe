@@ -1,9 +1,9 @@
-import GameElementsDisplay from "../ElementsDisplay";
+import ElementsDisplay from "../ElementsDisplay";
 
 const LevelElements = () => {
   return (
-    <div className="level-elements-container">
-      <GameElementsDisplay elementType={"Level Element"} />
+    <div className="game-elements-container">
+      <ElementsDisplay elementType={"Level Element"} />
     </div>
   );
 };

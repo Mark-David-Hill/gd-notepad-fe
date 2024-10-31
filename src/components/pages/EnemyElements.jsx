@@ -1,9 +1,9 @@
-import GameElementsDisplay from "../ElementsDisplay";
+import ElementsDisplay from "../ElementsDisplay";
 
 const EnemyElements = () => {
   return (
-    <div className="enemy-elements-container">
-      <GameElementsDisplay elementType={"Enemy Element"} />
+    <div className="game-elements-container">
+      <ElementsDisplay elementType={"Enemy Element"} />
     </div>
   );
 };

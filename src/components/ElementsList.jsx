@@ -8,21 +8,24 @@ const GameElementsList = ({ elementsList, relationshipsList }) => {
       ) : (
         elementsList.map((elementData, elementId) => {
           return (
-            <div key={elementId}>
-              <div>
-                <h2>{elementData.name}</h2>
-                <p>{elementData.description}</p>
-                <img
-                  src={elementData.image_url}
-                  alt={elementData.name + " image"}
-                  style={{ width: "200px" }}
-                />
-                <NavLink to={`/game-elements/${elementData.element_id}`}>
-                  View More Details
-                </NavLink>
+            <div className="game-element-wrapper" key={elementId}>
+              <div className="element-content-wrapper">
+                <div className="name-img-wrapper">
+                  <h2>{elementData.name}</h2>
+                  <img
+                    src={elementData.image_url}
+                    alt={elementData.name + " image"}
+                  />
+                </div>
+                <div className="description-wrapper">
+                  <p>{elementData.description}</p>
+                  <NavLink to={`/game-elements/${elementData.element_id}`}>
+                    View More Details
+                  </NavLink>
+                </div>
               </div>
               {elementData.notes.length > 0 && (
-                <div>
+                <div className="element-notes">
                   <h3>Notes</h3>
                   {elementData.notes.map((note) => (
                     <p key={note.note_id}>{note.content}</p>
@@ -30,7 +33,7 @@ const GameElementsList = ({ elementsList, relationshipsList }) => {
                 </div>
               )}
 
-              <div>
+              <div className="element-relationships">
                 {relationshipsList.reduce((count, relationship) => {
                   return (
                     count +
@@ -62,7 +65,6 @@ const GameElementsList = ({ elementsList, relationshipsList }) => {
                         <img
                           src={relationship.element_1.image_url}
                           alt={relationship.element_1.name}
-                          style={{ width: "100px" }}
                         />
                       </div>
                     )
