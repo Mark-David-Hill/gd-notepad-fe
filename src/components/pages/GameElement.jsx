@@ -1,7 +1,8 @@
-import { useEffect, useState, useContext } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import fetchWrapper from "../../lib/apiCall";
+import ElementCard from "../ElementCard";
 
 export default function GameElement(props) {
   const { id } = useParams();
@@ -11,7 +12,6 @@ export default function GameElement(props) {
   fetchWrapper
     .apiCall(`/element/${id}`, "GET")
     .then((response) => {
-      console.log(response);
       setElementData(response.result);
     })
     .catch((error) => console.error(`couldn't retrieve game element`, error));
@@ -19,15 +19,7 @@ export default function GameElement(props) {
   return (
     <div className="game-element-container">
       {elementData ? (
-        <div className="game-element-wrapper">
-          <h2>{elementData.name}</h2>
-          <p>{elementData.description}</p>
-          <img
-            src={elementData.image_url}
-            alt={elementData.name + " image"}
-            style={{ width: "200px" }}
-          />
-        </div>
+        <ElementCard elementData={elementData} />
       ) : (
         <p>Loading...</p>
         // <FontAwesomeIcon icon="fa-circle-notch" spin size="xl" />

@@ -11,7 +11,6 @@ export default function Game() {
   fetchWrapper
     .apiCall(`/game/${id}`, "GET")
     .then((response) => {
-      console.log(response);
       setGameData(response.result);
     })
     .catch((error) => console.error(`couldn't retrieve game element`, error));

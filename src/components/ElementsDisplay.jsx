@@ -3,11 +3,10 @@ import { NavLink } from "react-router-dom";
 
 import fetchWrapper from "../lib/apiCall";
 
-import GameElementsList from "./ElementsList";
+import ElementsList from "./ElementsList";
 
 const ElementsDisplay = ({ elementType }) => {
   const [elementsList, setElementsList] = useState([]);
-  const [relationshipsList, setRelationshipsList] = useState([]);
 
   useEffect(() => {
     fetchWrapper
@@ -22,25 +21,10 @@ const ElementsDisplay = ({ elementType }) => {
       );
   }, []);
 
-  useEffect(() => {
-    fetchWrapper
-      .apiCall(`/relationships`, "GET")
-      .then((response) => {
-        setRelationshipsList(response.results);
-        console.log(response.results);
-      })
-      .catch((error) =>
-        console.error(`couldn't get relationships for ${elementType}s`, error)
-      );
-  }, []);
-
   return (
     <div className={"game-elements-wrapper"}>
       <h1>{elementType}s</h1>
-      <GameElementsList
-        elementsList={elementsList}
-        relationshipsList={relationshipsList}
-      />
+      <ElementsList elementsList={elementsList} />
     </div>
   );
 };
