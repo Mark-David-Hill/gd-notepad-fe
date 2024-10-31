@@ -12,6 +12,7 @@ const ElementsList = ({ elementsList }) => {
               key={elementId}
               elementData={elementData}
               elementId={elementId}
+              viewType="card"
             />
           );
         })

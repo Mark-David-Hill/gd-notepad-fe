@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 import fetchWrapper from "../lib/apiCall";
 
-const ElementCard = ({ elementData, viewType }) => {
+const ElementCard = ({ elementData, viewType = "square" }) => {
   const [relationshipsList, setRelationshipsList] = useState([]);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const ElementCard = ({ elementData, viewType }) => {
   return (
     elementData &&
     relationshipsList && (
-      <div className="game-element-wrapper">
+      <div className={"game-element-wrapper " + viewType}>
         <div className="element-content-wrapper">
           <div className="name-img-wrapper">
             <h2>{elementData.name}</h2>

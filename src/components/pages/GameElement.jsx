@@ -19,7 +19,7 @@ export default function GameElement(props) {
   return (
     <div className="game-element-container">
       {elementData ? (
-        <ElementCard elementData={elementData} />
+        <ElementCard elementData={elementData} viewType="page" />
       ) : (
         <p>Loading...</p>
         // <FontAwesomeIcon icon="fa-circle-notch" spin size="xl" />

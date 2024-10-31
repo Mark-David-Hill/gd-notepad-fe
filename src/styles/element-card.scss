@@ -1,5 +1,4 @@
 .game-element-wrapper {
-  width: 500px;
   height: 200px;
   border: 1px solid blue;
   background-color: rgb(198, 255, 237);
@@ -34,13 +33,63 @@
     }
   }
   .element-relationships {
-    display: none;
     img {
       max-width: 50px;
       max-height: 50px;
     }
   }
+}
+
+.game-element-wrapper.square {
+  width: 200px;
+
+  .element-content-wrapper {
+    .description-wrapper {
+      display: none;
+    }
+  }
+  .element-relationships {
+    display: none;
+  }
   .element-notes {
     display: none;
+  }
+}
+
+.game-element-wrapper.card {
+  width: 500px;
+
+  .element-relationships {
+    display: none;
+  }
+  .element-notes {
+    display: none;
+  }
+}
+
+.game-element-wrapper.row {
+  width: 90%;
+  display: flex;
+
+  .element-relationships {
+    display: none;
+  }
+  .element-notes {
+    display: none;
+  }
+}
+
+.game-element-wrapper.page {
+  width: 90%;
+  height: unset;
+  display: flex;
+  flex-direction: column;
+
+  .element-relationships {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .element-notes {
+    display: flex;
   }
 }
