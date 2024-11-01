@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import fetchWrapper from "../../lib/apiCall";
@@ -9,12 +9,14 @@ export default function GameElement(props) {
 
   const [elementData, setElementData] = useState(null);
 
-  fetchWrapper
-    .apiCall(`/element/${id}`, "GET")
-    .then((response) => {
-      setElementData(response.result);
-    })
-    .catch((error) => console.error(`couldn't retrieve game element`, error));
+  useEffect(() => {
+    fetchWrapper
+      .apiCall(`/element/${id}`, "GET")
+      .then((response) => {
+        setElementData(response.result);
+      })
+      .catch((error) => console.error(`couldn't retrieve game element`, error));
+  }, [id]);
 
   return (
     <div className="game-element-container">

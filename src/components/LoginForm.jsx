@@ -20,7 +20,6 @@ const LoginForm = ({ setAuth }) => {
 
     try {
       const response = await fetchWrapper.apiCall(`/user/auth`, "POST", body);
-      console.log("Login successful:", response);
       if (response.message === "login successful") {
         setAuth(true);
         navigate("/dashboard");
