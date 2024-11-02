@@ -7,6 +7,7 @@ import ElementsList from "./ElementsList";
 
 const ElementsDisplay = ({ elementType }) => {
   const [elementsList, setElementsList] = useState([]);
+  const [viewType, setViewType] = useState("square");
 
   useEffect(() => {
     fetchWrapper
@@ -23,8 +24,15 @@ const ElementsDisplay = ({ elementType }) => {
 
   return (
     <div className={"game-elements-wrapper"}>
+      <div className="view-select-wrapper">
+        <button onClick={() => setViewType("square")}>Square</button>
+        <button onClick={() => setViewType("card")}>Card</button>
+        <button onClick={() => setViewType("row")}>Row</button>
+        <button onClick={() => setViewType("page")}>Page</button>
+      </div>
+
       <h1>{elementType}s</h1>
-      <ElementsList elementsList={elementsList} />
+      <ElementsList elementsList={elementsList} viewType={viewType} />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import ElementCard from "./ElementCard";
 
-const ElementsList = ({ elementsList }) => {
+const ElementsList = ({ elementsList, viewType }) => {
   return (
     <div className="game-elements-list-wrapper">
       {!elementsList.length ? (
@@ -12,7 +12,7 @@ const ElementsList = ({ elementsList }) => {
               key={elementId}
               elementData={elementData}
               elementId={elementId}
-              viewType="card"
+              viewType={viewType}
             />
           );
         })
