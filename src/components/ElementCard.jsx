@@ -25,18 +25,20 @@ const ElementCard = ({ elementData, viewType = "square" }) => {
     relationshipsList && (
       <div className={"game-element-wrapper " + viewType}>
         <div className="element-content-wrapper">
-          <div className="name-img-wrapper">
-            <h2>{elementData.name}</h2>
-            <img
-              src={elementData.image_url}
-              alt={elementData.name + " image"}
-            />
-          </div>
-          <div className="description-wrapper">
-            <p>{elementData.description}</p>
-            <NavLink to={`/game-elements/${elementData.element_id}`}>
-              View More Details
-            </NavLink>
+          <div className="name-description-wrapper">
+            <div className="name-img-wrapper">
+              <h2>{elementData.name}</h2>
+              <img
+                src={elementData.image_url}
+                alt={elementData.name + " image"}
+              />
+            </div>
+            <div className="description-wrapper">
+              <p>{elementData.description}</p>
+              <NavLink to={`/game-elements/${elementData.element_id}`}>
+                View More Details
+              </NavLink>
+            </div>
           </div>
           <RelationshipsList elementData={elementData} />
           <NotesList elementData={elementData} />
