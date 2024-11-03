@@ -6,6 +6,7 @@
 
   .element-content-wrapper {
     display: flex;
+    gap: 20px;
 
     .name-img-wrapper {
       width: 200px;
@@ -70,12 +71,73 @@
 .game-element-wrapper.row {
   width: 90%;
   display: flex;
+  justify-content: space-between;
+
+  .name-img-wrapper,
+  .element-relationships,
+  .element-notes {
+    max-width: 33%;
+  }
+
+  .element-notes {
+    // justify-self: flex-end;
+
+    h3 {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 
   .element-relationships {
-    display: none;
-  }
-  .element-notes {
-    display: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    overflow-y: auto;
+
+    h3 {
+      margin: 2px;
+    }
+
+    .relationships-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      text-align: center;
+
+      .relationship-wrapper {
+        padding: 5px;
+        border: 1px solid blue;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      img {
+        max-width: 40px;
+        max-height: 40px;
+      }
+
+      h4 {
+        font-size: 10px;
+        margin: 0;
+        font-weight: 100;
+        text-wrap: wrap;
+        max-width: 50px;
+      }
+
+      p {
+        display: none;
+      }
+    }
   }
 }
 
@@ -89,6 +151,7 @@
     display: flex;
     flex-wrap: wrap;
   }
+
   .element-notes {
     display: flex;
   }

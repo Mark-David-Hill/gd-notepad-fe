@@ -38,9 +38,9 @@ const ElementCard = ({ elementData, viewType = "square" }) => {
               View More Details
             </NavLink>
           </div>
+          <RelationshipsList elementData={elementData} />
+          <NotesList elementData={elementData} />
         </div>
-        <RelationshipsList elementData={elementData} />
-        <NotesList elementData={elementData} />
       </div>
     )
   );
