@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
 
 import fetchWrapper from "../lib/apiCall";
 
@@ -24,8 +23,8 @@ const ElementCard = ({ elementData, viewType = "square" }) => {
   return (
     elementData &&
     relationshipsList && (
-      <div className={"game-element-wrapper " + viewType}>
-        <div className="element-content-wrapper">
+      <div className={"card-container " + viewType}>
+        <div className="card-content-wrapper">
           <CardTitleSection elementData={elementData} />
           <RelationshipsList elementData={elementData} />
           <NotesList elementData={elementData} />
