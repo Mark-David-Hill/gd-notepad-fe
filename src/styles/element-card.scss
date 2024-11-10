@@ -6,7 +6,6 @@
 
   .card-content-wrapper {
     display: flex;
-    // flex-wrap: wrap;
     gap: 20px;
 
     .title-section-wrapper {
@@ -97,7 +96,6 @@
   .name-img-wrapper,
   .element-relationships,
   .element-notes {
-    // max-width: 50%;
     padding: 1%;
   }
 
@@ -137,16 +135,20 @@
 
         display: flex;
         gap: 5px;
-        // flex-direction: column;
         align-items: center;
         justify-content: center;
-        // width: 80px;
-        height: 60px;
+        width: 120px;
+        height: 100px;
 
         .name-image-wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-evenly;
           border: 1px solid blue;
           background-color: white;
-          width: 80px;
+          width: 100px;
+          height: 90px;
         }
       }
 
@@ -159,7 +161,6 @@
         font-size: 14px;
         margin: 0;
         font-weight: 100;
-        text-wrap: wrap;
         max-width: 50px;
       }
 
@@ -245,7 +246,6 @@
         margin: 0;
         font-weight: 100;
         text-wrap: wrap;
-        // max-width: 50px;
       }
 
       // p {
