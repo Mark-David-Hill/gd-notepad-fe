@@ -6,7 +6,7 @@
 
   .card-content-wrapper {
     display: flex;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     gap: 20px;
 
     .title-section-wrapper {
@@ -75,13 +75,30 @@
 
 .card-container.row {
   width: 90%;
-  display: flex;
-  justify-content: space-between;
+
+  .card-content-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    max-height: 250px;
+  }
+
+  .relationships-notes-wrapper {
+    width: 50%;
+    overflow-y: auto;
+  }
+
+  .title-section-wrapper,
+  .relationships-notes-wrapper {
+    width: 50%;
+  }
 
   .name-img-wrapper,
   .element-relationships,
   .element-notes {
-    max-width: 33%;
+    // max-width: 50%;
+    padding: 1%;
   }
 
   .element-notes {
@@ -113,6 +130,7 @@
       gap: 10px;
       justify-content: center;
       text-align: center;
+      padding: 2%;
 
       .relationship-wrapper {
         padding: 5px;
@@ -122,6 +140,8 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        width: 70px;
+        height: 60px;
       }
 
       img {
@@ -167,7 +187,7 @@
   .name-img-wrapper,
   .element-relationships,
   .element-notes {
-    // max-width: 33%;
+    max-width: 33%;
   }
 
   .element-notes {

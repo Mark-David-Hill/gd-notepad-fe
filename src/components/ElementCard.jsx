@@ -26,8 +26,10 @@ const ElementCard = ({ elementData, viewType = "square" }) => {
       <div className={"card-container " + viewType}>
         <div className="card-content-wrapper">
           <CardTitleSection elementData={elementData} />
-          <RelationshipsList elementData={elementData} />
-          <NotesList elementData={elementData} />
+          <div className="relationships-notes-wrapper">
+            <RelationshipsList elementData={elementData} />
+            <NotesList elementData={elementData} />
+          </div>
         </div>
       </div>
     )
