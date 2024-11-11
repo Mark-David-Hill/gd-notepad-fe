@@ -20,6 +20,8 @@ const ElementCard = ({ elementData, viewType = "square" }) => {
       );
   }, []);
 
+  useEffect(() => {}, []);
+
   return (
     elementData &&
     relationshipsList && (
@@ -27,7 +29,10 @@ const ElementCard = ({ elementData, viewType = "square" }) => {
         <div className="card-content-wrapper">
           <CardTitleSection elementData={elementData} />
           <div className="relationships-notes-wrapper">
-            <RelationshipsList elementData={elementData} />
+            <RelationshipsList
+              elementData={elementData}
+              relationshipsList={relationshipsList}
+            />
             <NotesList elementData={elementData} />
           </div>
         </div>

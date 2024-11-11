@@ -1,12 +1,8 @@
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const CardTitleSection = ({ elementData }) => {
-  const [relationshipsList, setRelationshipsList] = useState([]);
-
   return (
-    elementData &&
-    relationshipsList && (
+    elementData && (
       <div className="title-section-wrapper">
         <div className="name-img-wrapper">
           <h2>{elementData.name}</h2>

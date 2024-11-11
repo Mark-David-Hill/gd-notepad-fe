@@ -1,21 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import RelationshipCard from "./RelationshipCard";
-import fetchWrapper from "../lib/apiCall";
 
-const RelationshipsList = ({ elementData }) => {
-  const [relationshipsList, setRelationshipsList] = useState([]);
-
-  useEffect(() => {
-    fetchWrapper
-      .apiCall(`/relationships`, "GET")
-      .then((response) => {
-        setRelationshipsList(response.results);
-      })
-      .catch((error) =>
-        console.error("Couldn't get relationships for game elements:", error)
-      );
-  }, []);
-
+const RelationshipsList = ({ elementData, relationshipsList }) => {
   const relevantRelationships = relationshipsList.filter(
     (relationship) =>
       relationship.element_1.element_id === elementData.element_id ||
