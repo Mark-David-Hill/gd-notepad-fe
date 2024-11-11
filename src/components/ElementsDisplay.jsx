@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
 
 import fetchWrapper from "../lib/apiCall";
 
@@ -7,6 +6,7 @@ import ElementsList from "./ElementsList";
 
 const ElementsDisplay = ({ elementType }) => {
   const [elementsList, setElementsList] = useState([]);
+  const [typesList, setTypesList] = useState([]);
   const [viewType, setViewType] = useState("card");
 
   useEffect(() => {
@@ -17,12 +17,18 @@ const ElementsDisplay = ({ elementType }) => {
           response.results.filter((element) => element.type.name == elementType)
         );
       })
-      .catch((error) =>
-        console.error(`couldn't display ${elementType}s`, error)
-      );
+      .catch((error) => console.error(`couldn't get ${elementType}s`, error));
+
+    fetchWrapper
+      .apiCall(`/types`, "GET")
+      .then((response) => {
+        console.log(response.results);
+        setTypesList(response.results);
+      })
+      .catch((error) => console.error(`couldn't get type data`, error));
   }, []);
 
-  return (
+  return elementsList && typesList ? (
     <div className={"game-elements-wrapper"}>
       <div className="view-select-wrapper">
         <button
@@ -46,8 +52,14 @@ const ElementsDisplay = ({ elementType }) => {
       </div>
 
       <h1>{elementType}s</h1>
-      <ElementsList elementsList={elementsList} viewType={viewType} />
+      <ElementsList
+        elementsList={elementsList}
+        typesList={typesList}
+        viewType={viewType}
+      />
     </div>
+  ) : (
+    <p>Loading...</p>
   );
 };
 

@@ -1,27 +1,13 @@
-import { useState, useEffect } from "react";
-
-import fetchWrapper from "../lib/apiCall";
-
 import RelationshipsList from "./RelationshipsList";
 import CardTitleSection from "./CardTitleSection";
 import NotesList from "./NotesList";
 
-const ElementCard = ({ elementData, viewType = "square" }) => {
-  const [relationshipsList, setRelationshipsList] = useState([]);
-
-  useEffect(() => {
-    fetchWrapper
-      .apiCall(`/relationships`, "GET")
-      .then((response) => {
-        setRelationshipsList(response.results);
-      })
-      .catch((error) =>
-        console.error(`couldn't get relationships for game elements`, error)
-      );
-  }, []);
-
-  useEffect(() => {}, []);
-
+const ElementCard = ({
+  relationshipsList,
+  elementData,
+  typesList,
+  viewType = "card",
+}) => {
   return (
     elementData &&
     relationshipsList && (
@@ -32,6 +18,7 @@ const ElementCard = ({ elementData, viewType = "square" }) => {
             <RelationshipsList
               elementData={elementData}
               relationshipsList={relationshipsList}
+              typesList={typesList}
             />
             <NotesList elementData={elementData} />
           </div>
