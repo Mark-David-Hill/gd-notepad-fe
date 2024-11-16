@@ -6,8 +6,42 @@ import ElementsList from "./ElementsList";
 
 const ElementsDisplay = ({ elementType }) => {
   const [elementsList, setElementsList] = useState([]);
+  const [elementTypeId, setElementTypeId] = useState("");
   const [typesList, setTypesList] = useState([]);
   const [viewType, setViewType] = useState("card");
+  const [formName, setFormName] = useState("");
+  const [formDescription, setFormDescription] = useState("");
+  const [formGameId, setFormGameId] = useState("");
+
+  const handleSetFormName = (e) => {
+    setFormName(e.target.value);
+  };
+
+  const handleSetFormDescription = (e) => {
+    setFormDescription(e.target.value);
+  };
+
+  const handleAddGameElement = () => {
+    if (formName && formDescription) {
+      const body = {
+        type_id: elementTypeId,
+        game_id: "da93a04a-2715-4fcd-a9e4-b800ec422f1a",
+        name: formName,
+        description: formDescription,
+        image_url:
+          "https://www.english-efl.com/wp-content/uploads/2019/12/test.jpg",
+      };
+
+      fetchWrapper
+        .apiCall(`/element`, "POST", body)
+        .then((response) => {
+          setElementsList((prev) => [response.result, ...prev]);
+          setFormName("");
+          setFormDescription("");
+        })
+        .catch((error) => console.error("couldn't add element", error));
+    }
+  };
 
   useEffect(() => {
     fetchWrapper
@@ -22,33 +56,15 @@ const ElementsDisplay = ({ elementType }) => {
     fetchWrapper
       .apiCall(`/types`, "GET")
       .then((response) => {
-        console.log(response.results);
         setTypesList(response.results);
+        setElementTypeId(
+          response.results.find((type) => type.name === elementType).type_id
+        );
+        console.log("trace");
+        console.log(response.results.find((type) => type.name === elementType));
       })
       .catch((error) => console.error(`couldn't get type data`, error));
   }, []);
-
-  const handleAddGameElement = () => {
-    console.log("click");
-    const body = {
-      type_id: "0bdff43b-697c-4cac-92a9-60c9b191fe18",
-      game_id: "da93a04a-2715-4fcd-a9e4-b800ec422f1a",
-      name: "Test",
-      description: "This sure is a description",
-      image_url:
-        "https://www.english-efl.com/wp-content/uploads/2019/12/test.jpg",
-    };
-
-    fetchWrapper
-      .apiCall(`/element`, "POST", body)
-      .then((response) => {
-        console.log(response);
-        // setElementsList(
-        //   response.results.filter((element) => element.type.name == elementType)
-        // );
-      })
-      .catch((error) => console.error("couldn't add element", error));
-  };
 
   return elementsList && typesList ? (
     <div className={"game-elements-wrapper"}>
@@ -80,7 +96,27 @@ const ElementsDisplay = ({ elementType }) => {
       </div>
 
       <h1>{elementType}s</h1>
-      <button onClick={() => handleAddGameElement()}>Add {elementType}</button>
+      <div className="add-element-form">
+        <select name="" id="">
+          <option value="">Select Game</option>
+        </select>
+        <input
+          type="text"
+          placeholder="name"
+          value={formName}
+          onChange={handleSetFormName}
+        />
+        <textarea
+          name="form-description"
+          id="form-description"
+          placeholder="description"
+          value={formDescription}
+          onChange={handleSetFormDescription}
+        ></textarea>
+        <button onClick={() => handleAddGameElement()}>
+          Add {elementType}
+        </button>
+      </div>
       <ElementsList
         elementsList={elementsList}
         typesList={typesList}
