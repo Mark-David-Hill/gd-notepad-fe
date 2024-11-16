@@ -7,8 +7,6 @@ const RelationshipsList = ({ elementData, relationshipsList, typesList }) => {
       relationship.element_2.element_id === elementData.element_id
   );
 
-  console.log("types list", typesList);
-
   const getRelatedElement = (relationship, elementData) => {
     if (relationship.element_1.element_id === elementData.element_id) {
       return relationship.element_2;

@@ -1,4 +1,3 @@
-import GamesDisplay from "../GamesDisplay";
 import Home from "./Home";
 
 export default function Dashboard() {

@@ -136,8 +136,15 @@
         align-items: center;
         justify-content: center;
 
+        h4 {
+          min-height: 30px;
+          padding: 2px;
+        }
+
         .type-wrapper {
           border: 1px solid red;
+          border-radius: 5px;
+          background-color: rgb(127, 227, 255);
           display: flex;
           flex-wrap: wrap;
           justify-content: center;

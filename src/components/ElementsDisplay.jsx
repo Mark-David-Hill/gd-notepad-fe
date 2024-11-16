@@ -49,6 +49,12 @@ const ElementsDisplay = ({ elementType }) => {
         >
           <img src="https://static.thenounproject.com/png/2250454-200.png" />
         </button>
+        <button
+          className={viewType === "page" ? "selected" : ""}
+          onClick={() => setViewType("page")}
+        >
+          <img src="https://static.thenounproject.com/png/2250454-200.png" />
+        </button>
       </div>
 
       <h1>{elementType}s</h1>
