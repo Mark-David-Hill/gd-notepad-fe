@@ -3,18 +3,30 @@ import { useState, useEffect } from "react";
 import fetchWrapper from "../lib/apiCall";
 
 import ElementsList from "./ElementsList";
+import ElementCard from "./ElementCard";
 
 const ElementsDisplay = ({ elementType }) => {
   const [elementsList, setElementsList] = useState([]);
   const [elementTypeId, setElementTypeId] = useState("");
+  const [gamesList, setGamesList] = useState([]);
   const [typesList, setTypesList] = useState([]);
   const [viewType, setViewType] = useState("card");
   const [formName, setFormName] = useState("");
+  const [formImgUrl, setFormImgUrl] = useState("");
   const [formDescription, setFormDescription] = useState("");
   const [formGameId, setFormGameId] = useState("");
 
+  const handleSetFormGameId = (e) => {
+    console.log(e.target.value);
+    setFormGameId(e.target.value);
+  };
+
   const handleSetFormName = (e) => {
     setFormName(e.target.value);
+  };
+
+  const handleSetFormImgUrl = (e) => {
+    setFormImgUrl(e.target.value);
   };
 
   const handleSetFormDescription = (e) => {
@@ -25,17 +37,18 @@ const ElementsDisplay = ({ elementType }) => {
     if (formName && formDescription) {
       const body = {
         type_id: elementTypeId,
-        game_id: "da93a04a-2715-4fcd-a9e4-b800ec422f1a",
+        game_id: formGameId,
         name: formName,
         description: formDescription,
-        image_url:
-          "https://www.english-efl.com/wp-content/uploads/2019/12/test.jpg",
+        image_url: formImgUrl,
       };
 
       fetchWrapper
         .apiCall(`/element`, "POST", body)
         .then((response) => {
-          setElementsList((prev) => [response.result, ...prev]);
+          setFormGameId("");
+          setFormImgUrl("");
+          setElementsList((prev) => [...prev, response.result]);
           setFormName("");
           setFormDescription("");
         })
@@ -54,14 +67,19 @@ const ElementsDisplay = ({ elementType }) => {
       .catch((error) => console.error(`couldn't get ${elementType}s`, error));
 
     fetchWrapper
+      .apiCall(`/games`, "GET")
+      .then((response) => {
+        setGamesList(response.results);
+      })
+      .catch((error) => console.error(`couldn't get games`, error));
+
+    fetchWrapper
       .apiCall(`/types`, "GET")
       .then((response) => {
         setTypesList(response.results);
         setElementTypeId(
           response.results.find((type) => type.name === elementType).type_id
         );
-        console.log("trace");
-        console.log(response.results.find((type) => type.name === elementType));
       })
       .catch((error) => console.error(`couldn't get type data`, error));
   }, []);
@@ -97,14 +115,26 @@ const ElementsDisplay = ({ elementType }) => {
 
       <h1>{elementType}s</h1>
       <div className="add-element-form">
-        <select name="" id="">
+        <select name="" id="" onChange={handleSetFormGameId} value={formGameId}>
           <option value="">Select Game</option>
+          {gamesList &&
+            gamesList.map((game) => (
+              <option key={game.game_id} value={game.game_id}>
+                {game.name}
+              </option>
+            ))}
         </select>
         <input
           type="text"
           placeholder="name"
           value={formName}
           onChange={handleSetFormName}
+        />
+        <input
+          type="text"
+          placeholder="image-url"
+          value={formImgUrl}
+          onChange={handleSetFormImgUrl}
         />
         <textarea
           name="form-description"
@@ -117,6 +147,19 @@ const ElementsDisplay = ({ elementType }) => {
           Add {elementType}
         </button>
       </div>
+
+      <ElementCard
+        elementData={{
+          description: formDescription,
+          name: formName,
+          image_url: formImgUrl,
+          type_id: elementTypeId,
+          notes: [],
+        }}
+        viewType="card"
+        relationshipsList={[]}
+        typesList={typesList}
+      />
       <ElementsList
         elementsList={elementsList}
         typesList={typesList}
