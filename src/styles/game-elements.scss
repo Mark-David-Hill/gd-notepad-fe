@@ -15,6 +15,29 @@
   }
 
   .game-elements-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .add-element-wrapper {
+      width: 85%;
+      display: flex;
+      padding: 20px;
+      gap: 10px;
+      justify-content: center;
+
+      .add-element-form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 40%;
+        padding: 20px;
+        border: 1px solid blue;
+        border-radius: 5px;
+      }
+    }
+
     .game-elements-list-wrapper {
       display: flex;
       flex-direction: row;
