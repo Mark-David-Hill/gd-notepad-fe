@@ -169,6 +169,28 @@ const ElementsDisplay = ({ elementType }) => {
           typesList={typesList}
         />
       </div>
+      <div className="relationships-view-wrapper">
+        <input type="checkbox" id="mechanics" name="mechanics" value="Bike" />
+        <label htmlFor="mechanics"> Mechanics</label>
+        <input type="checkbox" id="levels" name="levels" value="Car" />
+        <label htmlFor="levels"> Levels</label>
+        <input
+          type="checkbox"
+          id="level-elements"
+          name="level-elements"
+          value="Boat"
+        />
+        <label htmlFor="level-elements"> Level Elements</label>
+        <input
+          type="checkbox"
+          id="enemy-elements"
+          name="enemy-elements"
+          value="Boat"
+        />
+        <label htmlFor="enemy-elements"> Enemy Elements</label>
+        <input type="checkbox" id="power-ups" name="power-ups" value="Boat" />
+        <label htmlFor="power-ups"> Power Ups</label>
+      </div>
       <ElementsList
         elementsList={elementsList}
         typesList={typesList}
