@@ -4,7 +4,12 @@ import ElementCard from "./ElementCard";
 
 import fetchWrapper from "../lib/apiCall";
 
-const ElementsList = ({ elementsList, typesList, viewType }) => {
+const ElementsList = ({
+  elementsList,
+  typesList,
+  viewType,
+  currentCategories,
+}) => {
   const [relationshipsList, setRelationshipsList] = useState([]);
 
   useEffect(() => {
@@ -34,6 +39,7 @@ const ElementsList = ({ elementsList, typesList, viewType }) => {
               viewType={viewType}
               relationshipsList={relationshipsList}
               typesList={typesList}
+              currentCategories={currentCategories}
             />
           );
         })

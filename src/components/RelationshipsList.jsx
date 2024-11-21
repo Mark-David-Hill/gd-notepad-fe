@@ -1,6 +1,11 @@
 import RelationshipCard from "./RelationshipCard";
 
-const RelationshipsList = ({ elementData, relationshipsList, typesList }) => {
+const RelationshipsList = ({
+  elementData,
+  relationshipsList,
+  typesList,
+  currentCategories,
+}) => {
   const relevantRelationships = relationshipsList.filter(
     (relationship) =>
       relationship.element_1.element_id === elementData.element_id ||
@@ -8,12 +13,12 @@ const RelationshipsList = ({ elementData, relationshipsList, typesList }) => {
   );
 
   const getRelatedElement = (relationship, elementData) => {
-    if (relationship.element_1.element_id === elementData.element_id) {
-      return relationship.element_2;
-    } else {
-      return relationship.element_1;
-    }
+    return relationship.element_1.element_id === elementData.element_id
+      ? relationship.element_2
+      : relationship.element_1;
   };
+
+  console.log("types list", typesList);
 
   return (
     relevantRelationships.length > 0 &&
@@ -22,41 +27,41 @@ const RelationshipsList = ({ elementData, relationshipsList, typesList }) => {
         <h3>Relationships</h3>
         <div className="relationships-wrapper">
           {typesList.map((type, index) => {
-            return (
-              relevantRelationships.filter(
-                (relationship) =>
-                  getRelatedElement(relationship, elementData).type.type_id ==
-                  type.type_id
-              ).length > 0 && (
+            const filteredRelationships = relevantRelationships.filter(
+              (relationship) =>
+                getRelatedElement(relationship, elementData).type.type_id ===
+                type.type_id
+            );
+
+            if (
+              filteredRelationships.length > 0 &&
+              currentCategories.includes(`${type.name}s`)
+            ) {
+              return (
                 <div key={index} className="type-container">
                   <h4>{type.name}s</h4>
                   <div className="type-wrapper">
-                    {relevantRelationships
-                      .filter(
-                        (relationship) =>
-                          getRelatedElement(relationship, elementData).type
-                            .type_id == type.type_id
-                      )
-                      .map((relationship, index) => {
-                        const relatedElement =
-                          relationship.element_1.element_id ===
-                          elementData.element_id
-                            ? relationship.element_2
-                            : relationship.element_1;
+                    {filteredRelationships.map((relationship, relIndex) => {
+                      const relatedElement = getRelatedElement(
+                        relationship,
+                        elementData
+                      );
 
-                        return (
-                          <RelationshipCard
-                            key={index}
-                            element={relatedElement}
-                            description={relationship.description}
-                            count={relationship.count}
-                          />
-                        );
-                      })}
+                      return (
+                        <RelationshipCard
+                          key={relIndex}
+                          element={relatedElement}
+                          description={relationship.description}
+                          count={relationship.count}
+                        />
+                      );
+                    })}
                   </div>
                 </div>
-              )
-            );
+              );
+            }
+
+            return null;
           })}
         </div>
       </div>

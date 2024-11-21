@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 
 import fetchWrapper from "../lib/apiCall";
 
+import CategoryFilter from "./CategoryFilter";
 import ElementsList from "./ElementsList";
 import ElementCard from "./ElementCard";
+import Search from "./Search";
 
 const ElementsDisplay = ({ elementType }) => {
   const [elementsList, setElementsList] = useState([]);
@@ -15,6 +17,17 @@ const ElementsDisplay = ({ elementType }) => {
   const [formImgUrl, setFormImgUrl] = useState("");
   const [formDescription, setFormDescription] = useState("");
   const [formGameId, setFormGameId] = useState("");
+  // const [relationshipTypes, setRelationshipTypes] = useState();
+  const [orderBy, setOrderBy] = useState("desc");
+  const [orderCategory, setOrderCategory] = useState("id");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentCategories, setCurrentCategories] = useState([
+    "Mechanics",
+    "Levels",
+    "Level Elements",
+    "Enemy Elements",
+    "Power Ups",
+  ]);
 
   const handleSetFormGameId = (e) => {
     console.log(e.target.value);
@@ -169,32 +182,62 @@ const ElementsDisplay = ({ elementType }) => {
           typesList={typesList}
         />
       </div>
+      <div className="search-section">
+        <Search
+          setSearchTerm={setSearchTerm}
+          setOrderCategory={setOrderCategory}
+          setOrderBy={setOrderBy}
+          orderBy={orderBy}
+        />
+        <CategoryFilter
+          categoriesList={[
+            "Mechanics",
+            "Levels",
+            "Level Elements",
+            "Enemy Elements",
+            "Power Ups",
+          ]}
+          currentCategories={currentCategories}
+          setCurrentCategories={setCurrentCategories}
+        />
+      </div>
       <div className="relationships-view-wrapper">
-        <input type="checkbox" id="mechanics" name="mechanics" value="Bike" />
+        <input
+          type="checkbox"
+          id="mechanics"
+          name="mechanics"
+          value="mechanics"
+        />
         <label htmlFor="mechanics"> Mechanics</label>
-        <input type="checkbox" id="levels" name="levels" value="Car" />
+        <input type="checkbox" id="levels" name="levels" value="levels" />
         <label htmlFor="levels"> Levels</label>
         <input
           type="checkbox"
           id="level-elements"
           name="level-elements"
-          value="Boat"
+          value="level-elements"
         />
         <label htmlFor="level-elements"> Level Elements</label>
         <input
           type="checkbox"
           id="enemy-elements"
           name="enemy-elements"
-          value="Boat"
+          value="enemy-elements"
         />
         <label htmlFor="enemy-elements"> Enemy Elements</label>
-        <input type="checkbox" id="power-ups" name="power-ups" value="Boat" />
+        <input
+          type="checkbox"
+          id="power-ups"
+          name="power-ups"
+          value="power-ups"
+        />
         <label htmlFor="power-ups"> Power Ups</label>
       </div>
       <ElementsList
         elementsList={elementsList}
         typesList={typesList}
         viewType={viewType}
+        currentCategories={currentCategories}
       />
     </div>
   ) : (

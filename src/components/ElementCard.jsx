@@ -6,8 +6,11 @@ const ElementCard = ({
   relationshipsList,
   elementData,
   typesList,
+  currentCategories,
   viewType = "card",
 }) => {
+  console.log("current categories", currentCategories);
+
   return (
     elementData &&
     relationshipsList && (
@@ -19,6 +22,7 @@ const ElementCard = ({
               elementData={elementData}
               relationshipsList={relationshipsList}
               typesList={typesList}
+              currentCategories={currentCategories}
             />
             <NotesList elementData={elementData} />
           </div>
