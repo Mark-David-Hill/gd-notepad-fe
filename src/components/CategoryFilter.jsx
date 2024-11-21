@@ -1,6 +1,11 @@
 export default function CategoryFilter(props) {
-  const { categoriesList, currentCategories, setCurrentCategories, viewType } =
-    props;
+  const {
+    categoriesList,
+    currentCategories,
+    setCurrentCategories,
+    viewType = "page",
+    useCheckboxes = false,
+  } = props;
 
   const updateCategories = (selectedCategory) => {
     if (currentCategories.includes(selectedCategory)) {
@@ -15,6 +20,14 @@ export default function CategoryFilter(props) {
     }
   };
 
+  const handleSetCategory = (selectedCategory) => {
+    if (selectedCategory === "all") {
+      setCurrentCategories(categoriesList);
+    } else {
+      setCurrentCategories([selectedCategory]);
+    }
+  };
+
   return (
     <div
       className={`category-filter ${
@@ -22,18 +35,29 @@ export default function CategoryFilter(props) {
       }`}
     >
       <p>Relationship Types to Display:</p>
+      {!useCheckboxes && (
+        <button onClick={() => handleSetCategory("all")}>All Types</button>
+      )}
       {categoriesList.map((category, index) => {
         return (
           <div key={index}>
-            <input
-              type="checkbox"
-              id={`category${index}`}
-              name={`category${index}`}
-              value={category}
-              checked={currentCategories.includes(category)}
-              onChange={() => updateCategories(category)}
-            />
-            <label htmlFor={`category${index}`}>{category}</label>
+            {useCheckboxes ? (
+              <>
+                <input
+                  type="checkbox"
+                  id={`category${index}`}
+                  name={`category${index}`}
+                  value={category}
+                  checked={currentCategories.includes(category)}
+                  onChange={() => updateCategories(category)}
+                />
+                <label htmlFor={`category${index}`}>{category}</label>
+              </>
+            ) : (
+              <button onClick={() => handleSetCategory(category)}>
+                {category}
+              </button>
+            )}
           </div>
         );
       })}
