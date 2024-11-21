@@ -24,7 +24,7 @@ const RelationshipsList = ({
     relevantRelationships.length > 0 &&
     typesList.length > 0 && (
       <div className="element-relationships">
-        <h3>Relationships</h3>
+        {/* <h3>Relationships</h3> */}
         <div className="relationships-wrapper">
           {typesList.map((type, index) => {
             const filteredRelationships = relevantRelationships.filter(

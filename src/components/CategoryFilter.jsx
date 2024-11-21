@@ -1,5 +1,6 @@
 export default function CategoryFilter(props) {
-  const { categoriesList, currentCategories, setCurrentCategories } = props;
+  const { categoriesList, currentCategories, setCurrentCategories, viewType } =
+    props;
 
   const updateCategories = (selectedCategory) => {
     if (currentCategories.includes(selectedCategory)) {
@@ -15,8 +16,12 @@ export default function CategoryFilter(props) {
   };
 
   return (
-    <div className="category-filter">
-      <p>Categories:</p>
+    <div
+      className={`category-filter ${
+        viewType === "row" || viewType === "page" ? "row" : ""
+      }`}
+    >
+      <p>Relationship Types to Display:</p>
       {categoriesList.map((category, index) => {
         return (
           <div key={index}>

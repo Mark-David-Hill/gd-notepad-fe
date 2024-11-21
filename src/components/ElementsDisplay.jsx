@@ -199,39 +199,8 @@ const ElementsDisplay = ({ elementType }) => {
           ]}
           currentCategories={currentCategories}
           setCurrentCategories={setCurrentCategories}
+          viewType={viewType}
         />
-      </div>
-      <div className="relationships-view-wrapper">
-        <input
-          type="checkbox"
-          id="mechanics"
-          name="mechanics"
-          value="mechanics"
-        />
-        <label htmlFor="mechanics"> Mechanics</label>
-        <input type="checkbox" id="levels" name="levels" value="levels" />
-        <label htmlFor="levels"> Levels</label>
-        <input
-          type="checkbox"
-          id="level-elements"
-          name="level-elements"
-          value="level-elements"
-        />
-        <label htmlFor="level-elements"> Level Elements</label>
-        <input
-          type="checkbox"
-          id="enemy-elements"
-          name="enemy-elements"
-          value="enemy-elements"
-        />
-        <label htmlFor="enemy-elements"> Enemy Elements</label>
-        <input
-          type="checkbox"
-          id="power-ups"
-          name="power-ups"
-          value="power-ups"
-        />
-        <label htmlFor="power-ups"> Power Ups</label>
       </div>
       <ElementsList
         elementsList={elementsList}

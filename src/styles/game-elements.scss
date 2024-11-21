@@ -14,6 +14,15 @@
     }
   }
 
+  .category-filter {
+    display: none;
+  }
+
+  .category-filter.row {
+    display: flex;
+    align-items: center;
+  }
+
   .game-elements-wrapper {
     display: flex;
     flex-direction: column;
