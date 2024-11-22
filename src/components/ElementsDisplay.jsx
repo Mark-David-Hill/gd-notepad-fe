@@ -20,7 +20,7 @@ const ElementsDisplay = ({ elementType }) => {
   // const [relationshipTypes, setRelationshipTypes] = useState();
   const [orderBy, setOrderBy] = useState("desc");
   const [orderCategory, setOrderCategory] = useState("id");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [relationshipsSearchTerm, setRelationshipsSearchTerm] = useState("");
   const [currentCategories, setCurrentCategories] = useState([
     "Mechanics",
     "Levels",
@@ -183,10 +183,11 @@ const ElementsDisplay = ({ elementType }) => {
       </div>
       <div className="search-section">
         <Search
-          setSearchTerm={setSearchTerm}
+          setSearchTerm={setRelationshipsSearchTerm}
           setOrderCategory={setOrderCategory}
           setOrderBy={setOrderBy}
           orderBy={orderBy}
+          placeholder={"relationships search"}
         />
         <CategoryFilter
           categoriesList={[
@@ -206,6 +207,7 @@ const ElementsDisplay = ({ elementType }) => {
         typesList={typesList}
         viewType={viewType}
         currentCategories={currentCategories}
+        relationshipsSearchTerm={relationshipsSearchTerm}
       />
     </div>
   ) : (

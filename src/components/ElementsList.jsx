@@ -9,6 +9,7 @@ const ElementsList = ({
   typesList,
   viewType,
   currentCategories,
+  relationshipsSearchTerm,
 }) => {
   const [relationshipsList, setRelationshipsList] = useState([]);
 
@@ -22,8 +23,6 @@ const ElementsList = ({
         console.error(`couldn't get relationships for game elements`, error)
       );
   }, []);
-
-  useEffect(() => {}, []);
 
   return (
     <div className="game-elements-list-wrapper">
@@ -40,6 +39,7 @@ const ElementsList = ({
               relationshipsList={relationshipsList}
               typesList={typesList}
               currentCategories={currentCategories}
+              relationshipsSearchTerm={relationshipsSearchTerm}
             />
           );
         })

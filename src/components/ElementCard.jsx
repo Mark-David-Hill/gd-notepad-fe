@@ -8,6 +8,7 @@ const ElementCard = ({
   typesList,
   currentCategories,
   viewType = "card",
+  relationshipsSearchTerm = "",
 }) => {
   return (
     elementData &&
@@ -21,6 +22,7 @@ const ElementCard = ({
               relationshipsList={relationshipsList}
               typesList={typesList}
               currentCategories={currentCategories}
+              relationshipsSearchTerm={relationshipsSearchTerm}
             />
             <NotesList elementData={elementData} />
           </div>

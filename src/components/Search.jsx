@@ -1,7 +1,8 @@
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Search(props) {
-  const { setSearchTerm, setOrderCategory, setOrderBy, orderBy } = props;
+  const { setSearchTerm, setOrderCategory, setOrderBy, orderBy, placeholder } =
+    props;
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -27,11 +28,7 @@ export default function Search(props) {
           )} */}
         </button>
       </div>
-      <input
-        type="text"
-        placeholder="Search Products"
-        onChange={handleSearch}
-      />
+      <input type="text" placeholder={placeholder} onChange={handleSearch} />
     </div>
   );
 }

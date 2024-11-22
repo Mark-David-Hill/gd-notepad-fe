@@ -5,6 +5,7 @@ const RelationshipsList = ({
   relationshipsList,
   typesList,
   currentCategories,
+  relationshipsSearchTerm,
 }) => {
   const relevantRelationships = relationshipsList.filter(
     (relationship) =>
@@ -22,13 +23,16 @@ const RelationshipsList = ({
     relevantRelationships.length > 0 &&
     typesList.length > 0 && (
       <div className="element-relationships">
-        {/* <h3>Relationships</h3> */}
         <div className="relationships-wrapper">
           {typesList.map((type, index) => {
             const filteredRelationships = relevantRelationships.filter(
               (relationship) =>
-                getRelatedElement(relationship, elementData).type.type_id ===
-                type.type_id
+                (getRelatedElement(relationship, elementData).type.type_id ===
+                  type.type_id &&
+                  getRelatedElement(relationship, elementData)
+                    .name.toLowerCase()
+                    .includes(relationshipsSearchTerm.toLowerCase())) ||
+                !relationshipsSearchTerm
             );
 
             if (
