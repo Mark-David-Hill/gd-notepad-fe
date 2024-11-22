@@ -30,7 +30,6 @@ const ElementsDisplay = ({ elementType }) => {
   ]);
 
   const handleSetFormGameId = (e) => {
-    console.log(e.target.value);
     setFormGameId(e.target.value);
   };
 

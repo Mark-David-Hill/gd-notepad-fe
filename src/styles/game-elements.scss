@@ -21,6 +21,10 @@
   .category-filter.row {
     display: flex;
     align-items: center;
+
+    .selected {
+      background-color: rgb(127, 227, 255);
+    }
   }
 
   .game-elements-wrapper {

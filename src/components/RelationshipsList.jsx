@@ -18,8 +18,6 @@ const RelationshipsList = ({
       : relationship.element_1;
   };
 
-  console.log("types list", typesList);
-
   return (
     relevantRelationships.length > 0 &&
     typesList.length > 0 && (

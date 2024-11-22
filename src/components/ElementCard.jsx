@@ -9,8 +9,6 @@ const ElementCard = ({
   currentCategories,
   viewType = "card",
 }) => {
-  console.log("current categories", currentCategories);
-
   return (
     elementData &&
     relationshipsList && (

@@ -36,7 +36,14 @@ export default function CategoryFilter(props) {
     >
       <p>Relationship Types to Display:</p>
       {!useCheckboxes && (
-        <button onClick={() => handleSetCategory("all")}>All Types</button>
+        <button
+          className={`${
+            currentCategories.length === categoriesList.length ? "selected" : ""
+          }`}
+          onClick={() => handleSetCategory("all")}
+        >
+          All Types
+        </button>
       )}
       {categoriesList.map((category, index) => {
         return (
@@ -54,7 +61,16 @@ export default function CategoryFilter(props) {
                 <label htmlFor={`category${index}`}>{category}</label>
               </>
             ) : (
-              <button onClick={() => handleSetCategory(category)}>
+              <button
+                className={`${
+                  currentCategories.length === categoriesList.length
+                    ? ""
+                    : currentCategories.includes(category)
+                    ? "selected"
+                    : ""
+                }`}
+                onClick={() => handleSetCategory(category)}
+              >
                 {category}
               </button>
             )}
