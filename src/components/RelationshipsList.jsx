@@ -7,17 +7,25 @@ const RelationshipsList = ({
   currentCategories,
   relationshipsSearchTerm,
 }) => {
-  const relevantRelationships = relationshipsList.filter(
-    (relationship) =>
-      relationship.element_1.element_id === elementData.element_id ||
-      relationship.element_2.element_id === elementData.element_id
-  );
-
   const getRelatedElement = (relationship, elementData) => {
     return relationship.element_1.element_id === elementData.element_id
       ? relationship.element_2
       : relationship.element_1;
   };
+
+  const relevantRelationships = relationshipsList.filter((relationship) => {
+    const isRelevantElement =
+      relationship.element_1.element_id === elementData.element_id ||
+      relationship.element_2.element_id === elementData.element_id;
+
+    const matchesSearchTerm =
+      !relationshipsSearchTerm ||
+      getRelatedElement(relationship, elementData)
+        .name.toLowerCase()
+        .includes(relationshipsSearchTerm.toLowerCase());
+
+    return isRelevantElement && matchesSearchTerm;
+  });
 
   return (
     relevantRelationships.length > 0 &&
@@ -27,12 +35,8 @@ const RelationshipsList = ({
           {typesList.map((type, index) => {
             const filteredRelationships = relevantRelationships.filter(
               (relationship) =>
-                (getRelatedElement(relationship, elementData).type.type_id ===
-                  type.type_id &&
-                  getRelatedElement(relationship, elementData)
-                    .name.toLowerCase()
-                    .includes(relationshipsSearchTerm.toLowerCase())) ||
-                !relationshipsSearchTerm
+                getRelatedElement(relationship, elementData).type.type_id ===
+                type.type_id
             );
 
             if (
