@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import RelationshipsList from "./RelationshipsList";
 import CardTitleSection from "./CardTitleSection";
 import NotesList from "./NotesList";
@@ -10,10 +12,18 @@ const ElementCard = ({
   viewType = "card",
   relationshipsSearchTerm = "",
 }) => {
+  const [shouldDisplayElement, setShouldDisplayElement] = useState(true);
+
   return (
     elementData &&
     relationshipsList && (
-      <div className={"card-container " + viewType}>
+      <div
+        className={
+          "card-container " +
+          viewType +
+          `${!shouldDisplayElement ? " hide" : ""}`
+        }
+      >
         <div className="card-content-wrapper">
           <CardTitleSection elementData={elementData} />
           <div className="relationships-notes-wrapper">
@@ -23,6 +33,7 @@ const ElementCard = ({
               typesList={typesList}
               currentCategories={currentCategories}
               relationshipsSearchTerm={relationshipsSearchTerm}
+              setShouldDisplayElement={setShouldDisplayElement}
             />
             <NotesList elementData={elementData} />
           </div>

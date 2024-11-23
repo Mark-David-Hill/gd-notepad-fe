@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import RelationshipCard from "./RelationshipCard";
 
 const RelationshipsList = ({
@@ -6,6 +7,7 @@ const RelationshipsList = ({
   typesList,
   currentCategories,
   relationshipsSearchTerm,
+  setShouldDisplayElement,
 }) => {
   const getRelatedElement = (relationship, elementData) => {
     return relationship.element_1.element_id === elementData.element_id
@@ -13,6 +15,7 @@ const RelationshipsList = ({
       : relationship.element_1;
   };
 
+  // Filter relevant relationships
   const relevantRelationships = relationshipsList.filter((relationship) => {
     const isRelevantElement =
       relationship.element_1.element_id === elementData.element_id ||
@@ -27,6 +30,17 @@ const RelationshipsList = ({
     return isRelevantElement && matchesSearchTerm;
   });
 
+  // Update visibility based on relevant relationships
+  useEffect(() => {
+    if (relationshipsSearchTerm.trim()) {
+      console.log("trace");
+      setShouldDisplayElement(relevantRelationships.length > 0);
+    } else {
+      setShouldDisplayElement(true);
+    }
+  }, [relevantRelationships, setShouldDisplayElement]);
+
+  // Render the filtered relationships
   return (
     relevantRelationships.length > 0 &&
     typesList.length > 0 && (

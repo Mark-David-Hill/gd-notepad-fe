@@ -75,6 +75,7 @@ const ElementsDisplay = ({ elementType }) => {
         setElementsList(
           response.results.filter((element) => element.type.name == elementType)
         );
+        console.log(response);
       })
       .catch((error) => console.error(`couldn't get ${elementType}s`, error));
 
