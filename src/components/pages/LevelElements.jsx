@@ -1,4 +1,4 @@
-import ElementsDisplay from "../ElementsDisplay";
+import ElementsDisplay from "../game-elements/ElementsDisplay";
 
 const LevelElements = () => {
   return (

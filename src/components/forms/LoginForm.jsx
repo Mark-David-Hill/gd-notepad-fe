@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import fetchWrapper from "../lib/apiCall";
+import fetchWrapper from "../../lib/apiCall";
 
 const LoginForm = ({ setAuth }) => {
   const [email, setEmail] = useState("");

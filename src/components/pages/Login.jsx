@@ -1,4 +1,4 @@
-import LoginForm from "../LoginForm";
+import LoginForm from "../forms/LoginForm";
 
 export default function Login({ setAuth }) {
   return (

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 
-import fetchWrapper from "../lib/apiCall";
+import fetchWrapper from "../../lib/apiCall";
 
-import CategoryFilter from "./CategoryFilter";
+import CategoryFilter from "../search/CategoryFilter";
 import ElementsList from "./ElementsList";
 import ElementCard from "./ElementCard";
-import Search from "./Search";
+import Search from "../search/Search";
 
 const ElementsDisplay = ({ elementType }) => {
   const [elementsList, setElementsList] = useState([]);
@@ -17,7 +17,6 @@ const ElementsDisplay = ({ elementType }) => {
   const [formImgUrl, setFormImgUrl] = useState("");
   const [formDescription, setFormDescription] = useState("");
   const [formGameId, setFormGameId] = useState("");
-  // const [relationshipTypes, setRelationshipTypes] = useState();
   const [orderBy, setOrderBy] = useState("desc");
   const [orderCategory, setOrderCategory] = useState("id");
   const [relationshipsSearchTerm, setRelationshipsSearchTerm] = useState("");
@@ -75,7 +74,6 @@ const ElementsDisplay = ({ elementType }) => {
         setElementsList(
           response.results.filter((element) => element.type.name == elementType)
         );
-        console.log(response);
       })
       .catch((error) => console.error(`couldn't get ${elementType}s`, error));
 

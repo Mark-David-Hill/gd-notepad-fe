@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import ElementCard from "./ElementCard";
 
-import fetchWrapper from "../lib/apiCall";
+import fetchWrapper from "../../lib/apiCall";
 
 const ElementsList = ({
   elementsList,

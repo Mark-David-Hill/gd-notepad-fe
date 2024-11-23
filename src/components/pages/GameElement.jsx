@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import fetchWrapper from "../../lib/apiCall";
-import ElementCard from "../ElementCard";
+import ElementCard from "../game-elements/ElementCard";
 
 export default function GameElement(props) {
   const { id } = useParams();

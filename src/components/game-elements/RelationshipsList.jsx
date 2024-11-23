@@ -33,7 +33,6 @@ const RelationshipsList = ({
   // Update visibility based on relevant relationships
   useEffect(() => {
     if (relationshipsSearchTerm.trim()) {
-      console.log("trace");
       setShouldDisplayElement(relevantRelationships.length > 0);
     } else {
       setShouldDisplayElement(true);
