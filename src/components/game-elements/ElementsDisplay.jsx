@@ -30,7 +30,11 @@ const ElementsDisplay = ({ elementType }) => {
       .apiCall(`/elements`, "GET")
       .then((response) => {
         setElementsList(
-          response.results.filter((element) => element.type.name == elementType)
+          elementType === "all"
+            ? response.results
+            : response.results.filter(
+                (element) => element.type.name === elementType
+              )
         );
       })
       .catch((error) => console.error(`couldn't get ${elementType}s`, error));
@@ -46,9 +50,9 @@ const ElementsDisplay = ({ elementType }) => {
       .apiCall(`/types`, "GET")
       .then((response) => {
         setTypesList(response.results);
-        setElementTypeId(
-          response.results.find((type) => type.name === elementType).type_id
-        );
+        // setElementTypeId(
+        //   response.results.find((type) => type.name === elementType).type_id
+        // );
       })
       .catch((error) => console.error(`couldn't get type data`, error));
   }, []);
@@ -82,7 +86,7 @@ const ElementsDisplay = ({ elementType }) => {
         </button>
       </div>
 
-      <h1>{elementType}s</h1>
+      {/* <h1>{elementType}s</h1> */}
 
       <AddElementForm
         elementType={elementType}
