@@ -70,9 +70,13 @@
 
 .combo-box-container {
   border: 1px solid blue;
+  display: flex;
+  flex-direction: column;
 
   .combo-box-option {
     cursor: pointer;
+    // display: block;
+    // position: absolute;
   }
 
   .selected {

@@ -15,7 +15,6 @@ const ElementsList = ({
   const [relationshipsList, setRelationshipsList] = useState([]);
 
   useEffect(() => {
-    // console.log("elements list", elementsList);
     fetchWrapper
       .apiCall(`/relationships`, "GET")
       .then((response) => {
