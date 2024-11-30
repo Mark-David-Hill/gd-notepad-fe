@@ -4,7 +4,7 @@ import fetchWrapper from "../../lib/apiCall";
 
 import CategoryFilter from "../search/CategoryFilter";
 import ElementsList from "./ElementsList";
-import ElementCard from "./ElementCard";
+import ComboBox from "../forms/ComboBox";
 import Search from "../search/Search";
 
 import AddElementForm from "../forms/AddElementForm";
@@ -14,9 +14,11 @@ const ElementsDisplay = ({ elementType }) => {
   const [elementTypeId, setElementTypeId] = useState("");
   const [gamesList, setGamesList] = useState([]);
   const [typesList, setTypesList] = useState([]);
+  const [selectedTypes, setSelectedTypes] = useState([]);
   const [viewType, setViewType] = useState("card");
   const [orderBy, setOrderBy] = useState("desc");
   const [relationshipsSearchTerm, setRelationshipsSearchTerm] = useState("");
+  const [allTypeNames, setAllTypeNames] = useState([]);
   const [currentCategories, setCurrentCategories] = useState([
     "Mechanics",
     "Levels",
@@ -50,6 +52,14 @@ const ElementsDisplay = ({ elementType }) => {
       .apiCall(`/types`, "GET")
       .then((response) => {
         setTypesList(response.results);
+        setSelectedTypes(response.results.map((type) => type.name));
+        setAllTypeNames(response.results.map((type) => type.name));
+
+        // console.log(
+        //   "test",
+        //   response.results.map((type) => type.name)
+        // );
+
         // setElementTypeId(
         //   response.results.find((type) => type.name === elementType).type_id
         // );
@@ -103,6 +113,16 @@ const ElementsDisplay = ({ elementType }) => {
           orderBy={orderBy}
           placeholder={"relationships search"}
         />
+
+        {typesList.length > 0 && (
+          <ComboBox
+            placeholder="Select Types"
+            allOptions={allTypeNames}
+            currentOptions={selectedTypes}
+            setCurrentOptions={setSelectedTypes}
+          />
+        )}
+
         <CategoryFilter
           categoriesList={[
             "Mechanics",
@@ -121,6 +141,7 @@ const ElementsDisplay = ({ elementType }) => {
         typesList={typesList}
         viewType={viewType}
         currentCategories={currentCategories}
+        currentTypes={selectedTypes}
         relationshipsSearchTerm={relationshipsSearchTerm}
       />
     </div>

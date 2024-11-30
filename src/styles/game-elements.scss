@@ -67,3 +67,15 @@
   display: flex;
   justify-content: center;
 }
+
+.combo-box-container {
+  border: 1px solid blue;
+
+  .combo-box-option {
+    cursor: pointer;
+  }
+
+  .selected {
+    background-color: orange;
+  }
+}

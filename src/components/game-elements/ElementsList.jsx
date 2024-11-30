@@ -8,12 +8,14 @@ const ElementsList = ({
   elementsList,
   typesList,
   viewType,
+  currentTypes,
   currentCategories,
   relationshipsSearchTerm,
 }) => {
   const [relationshipsList, setRelationshipsList] = useState([]);
 
   useEffect(() => {
+    // console.log("elements list", elementsList);
     fetchWrapper
       .apiCall(`/relationships`, "GET")
       .then((response) => {
@@ -30,18 +32,24 @@ const ElementsList = ({
         <p>Loading...</p>
       ) : (
         elementsList.map((elementData, elementId) => {
-          return (
-            <ElementCard
-              key={elementId}
-              elementData={elementData}
-              elementId={elementId}
-              viewType={viewType}
-              relationshipsList={relationshipsList}
-              typesList={typesList}
-              currentCategories={currentCategories}
-              relationshipsSearchTerm={relationshipsSearchTerm}
-            />
-          );
+          {
+            if (currentTypes.includes(elementData.type.name)) {
+              return (
+                <ElementCard
+                  key={elementId}
+                  elementData={elementData}
+                  elementId={elementId}
+                  viewType={viewType}
+                  relationshipsList={relationshipsList}
+                  typesList={typesList}
+                  currentCategories={currentCategories}
+                  relationshipsSearchTerm={relationshipsSearchTerm}
+                />
+              );
+            } else {
+              return null;
+            }
+          }
         })
       )}
     </div>
