@@ -28,7 +28,7 @@ const GameElements = () => {
     <div className="game-elements-container">
       <h1>Game Elements</h1>
 
-      <select
+      {/* <select
         name="type"
         id="type"
         value={selectedType}
@@ -40,7 +40,7 @@ const GameElements = () => {
             {type.name}
           </option>
         ))}
-      </select>
+      </select> */}
 
       <ElementsDisplay
         gamesList={gamesList}

@@ -1,4 +1,6 @@
 import { useEffect, useState, useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 const ComboBox = ({
   placeholder,
@@ -37,13 +39,16 @@ const ComboBox = ({
 
   return (
     <div className="combo-box-container" ref={comboBoxRef}>
-      <input
-        type="text"
-        placeholder={`${currentOptions.length} ${placeholder} selected`}
-        value={searchText}
-        onClick={() => setIsOpen((prev) => !prev)}
-        onChange={(e) => setSearchText(e.target.value)}
-      />
+      <div className="input-icon-wrapper">
+        <input
+          type="text"
+          placeholder={`${currentOptions.length} ${placeholder} selected`}
+          value={searchText}
+          onClick={() => setIsOpen((prev) => !prev)}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+        <FontAwesomeIcon icon={faAngleDown} />
+      </div>
       {isOpen && (
         <div className="combo-box-options">
           <div
@@ -57,7 +62,10 @@ const ComboBox = ({
           </div>
           {allOptions
             .filter((option) =>
-              option.toLowerCase().includes(searchText.toLowerCase())
+              option
+                .toLowerCase()
+                .trim()
+                .includes(searchText.toLowerCase().trim())
             )
             .map((option, index) => (
               <div

@@ -109,6 +109,7 @@
   top: 100%;
   left: 0;
   right: 0;
+  width: 235px;
   max-height: 200px; /* Limit height for large option lists */
   overflow-y: auto; /* Add scroll for long lists */
   border: 1px solid #ccc;
@@ -145,4 +146,18 @@
 
 .select-all {
   background-color: #beddff;
+}
+
+svg {
+  position: relative;
+  right: 25px;
+  top: 10px;
+}
+
+.input-icon-wrapper {
+  display: flex;
+}
+
+.search-section {
+  display: flex;
 }
