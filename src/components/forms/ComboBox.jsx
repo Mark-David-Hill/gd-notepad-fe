@@ -11,11 +11,15 @@ const ComboBox = ({
   const comboBoxRef = useRef(null);
 
   const handleToggleOption = (option) => {
-    setCurrentOptions((prev) =>
-      prev.includes(option)
-        ? prev.filter((item) => item !== option)
-        : [...prev, option]
-    );
+    option === "all"
+      ? currentOptions.length === allOptions.length
+        ? setCurrentOptions([])
+        : setCurrentOptions(allOptions)
+      : setCurrentOptions((prev) =>
+          prev.includes(option)
+            ? prev.filter((item) => item !== option)
+            : [...prev, option]
+        );
   };
 
   useEffect(() => {
@@ -42,19 +46,32 @@ const ComboBox = ({
       />
       {isOpen && (
         <div className="combo-box-options">
-          {allOptions.map((option, index) => (
-            <div
-              key={index}
-              value={option}
-              className={
-                "combo-box-option " +
-                (currentOptions.includes(option) ? "selected" : "")
-              }
-              onClick={() => handleToggleOption(option)}
-            >
-              {option}
-            </div>
-          ))}
+          <div
+            key="select-all"
+            className={"combo-box-option select-all"}
+            onClick={() => handleToggleOption("all")}
+          >
+            {currentOptions.length === allOptions.length
+              ? "Deselect All"
+              : "Select All"}
+          </div>
+          {allOptions
+            .filter((option) =>
+              option.toLowerCase().includes(searchText.toLowerCase())
+            )
+            .map((option, index) => (
+              <div
+                key={index}
+                value={option}
+                className={
+                  "combo-box-option " +
+                  (currentOptions.includes(option) ? "selected" : "")
+                }
+                onClick={() => handleToggleOption(option)}
+              >
+                {option}
+              </div>
+            ))}
         </div>
       )}
     </div>
