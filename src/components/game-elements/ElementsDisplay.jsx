@@ -107,23 +107,23 @@ const ElementsDisplay = ({ elementType }) => {
       />
 
       <div className="search-section">
-        <Search
+        {/* <Search
           setSearchTerm={setRelationshipsSearchTerm}
           setOrderBy={setOrderBy}
           orderBy={orderBy}
           placeholder={"relationships search"}
-        />
+        /> */}
 
         {typesList.length > 0 && (
           <ComboBox
-            placeholder="Select Types"
+            placeholder="Types"
             allOptions={allTypeNames}
             currentOptions={selectedTypes}
             setCurrentOptions={setSelectedTypes}
           />
         )}
 
-        <CategoryFilter
+        {/* <CategoryFilter
           categoriesList={[
             "Mechanics",
             "Levels",
@@ -134,7 +134,7 @@ const ElementsDisplay = ({ elementType }) => {
           currentCategories={currentCategories}
           setCurrentCategories={setCurrentCategories}
           viewType={viewType}
-        />
+        /> */}
       </div>
       <ElementsList
         elementsList={elementsList}

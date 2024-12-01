@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const ComboBox = ({
   placeholder,
@@ -7,6 +7,8 @@ const ComboBox = ({
   setCurrentOptions,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const comboBoxRef = useRef(null);
 
   const handleToggleOption = (option) => {
     setCurrentOptions((prev) =>
@@ -17,15 +19,30 @@ const ComboBox = ({
   };
 
   useEffect(() => {
-    console.log("all options", allOptions);
+    const handleClickOutside = (event) => {
+      if (comboBoxRef.current && !comboBoxRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   return (
-    <div className="combo-box-container">
-      <p onClick={() => setIsOpen((prev) => !prev)}>{placeholder}</p>
-      {isOpen &&
-        allOptions.map((option, index) => {
-          return (
+    <div className="combo-box-container" ref={comboBoxRef}>
+      <input
+        type="text"
+        placeholder={`${currentOptions.length} ${placeholder} selected`}
+        value={searchText}
+        onClick={() => setIsOpen((prev) => !prev)}
+        onChange={(e) => setSearchText(e.target.value)}
+      />
+      {isOpen && (
+        <div className="combo-box-options">
+          {allOptions.map((option, index) => (
             <div
               key={index}
               value={option}
@@ -37,8 +54,9 @@ const ComboBox = ({
             >
               {option}
             </div>
-          );
-        })}
+          ))}
+        </div>
+      )}
     </div>
   );
 };

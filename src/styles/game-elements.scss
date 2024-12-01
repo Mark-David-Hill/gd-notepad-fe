@@ -68,18 +68,77 @@
   justify-content: center;
 }
 
+// .combo-box-container {
+//   border: 1px solid blue;
+//   display: flex;
+//   flex-direction: column;
+
+//   .combo-box-option {
+//     cursor: pointer;
+//   }
+
+//   .selected {
+//     background-color: orange;
+//   }
+// }
+
 .combo-box-container {
-  border: 1px solid blue;
-  display: flex;
-  flex-direction: column;
+  position: relative; /* Allows dropdown positioning */
+  width: 250px; /* Adjust the width based on your needs */
+  font-family: Arial, sans-serif;
+  margin: 10px;
+}
 
-  .combo-box-option {
-    cursor: pointer;
-    // display: block;
-    // position: absolute;
-  }
+.combo-box-container input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
 
-  .selected {
-    background-color: orange;
-  }
+.combo-box-container input:focus {
+  border-color: #007bff; /* Highlight border on focus */
+}
+
+.combo-box-options {
+  position: absolute; /* Dropdown is positioned relative to the input */
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 200px; /* Limit height for large option lists */
+  overflow-y: auto; /* Add scroll for long lists */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  z-index: 1000; /* Ensure dropdown is above other elements */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+}
+
+.combo-box-option {
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.combo-box-option:hover {
+  background-color: #e4e4e4;
+}
+
+.combo-box-option.selected {
+  background-color: #007bff;
+  color: white;
+}
+
+.combo-box-option.selected:hover {
+  background-color: #0056b3;
+}
+
+.combo-box-container input::placeholder {
+  color: #aaa;
+  font-style: italic;
 }
