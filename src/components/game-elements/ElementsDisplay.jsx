@@ -13,12 +13,14 @@ const ElementsDisplay = ({ elementType }) => {
   const [elementsList, setElementsList] = useState([]);
   const [elementTypeId, setElementTypeId] = useState("");
   const [gamesList, setGamesList] = useState([]);
+  const [selectedGames, setSelectedGames] = useState([]);
   const [typesList, setTypesList] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [viewType, setViewType] = useState("card");
   const [orderBy, setOrderBy] = useState("desc");
   const [relationshipsSearchTerm, setRelationshipsSearchTerm] = useState("");
   const [allTypeNames, setAllTypeNames] = useState([]);
+  const [allGameNames, setAllGameNames] = useState([]);
   const [currentCategories, setCurrentCategories] = useState([
     "Mechanics",
     "Levels",
@@ -45,6 +47,8 @@ const ElementsDisplay = ({ elementType }) => {
       .apiCall(`/games`, "GET")
       .then((response) => {
         setGamesList(response.results);
+        setSelectedGames(response.results.map((game) => game.name));
+        setAllGameNames(response.results.map((game) => game.name));
       })
       .catch((error) => console.error(`couldn't get games`, error));
 
@@ -69,9 +73,25 @@ const ElementsDisplay = ({ elementType }) => {
 
   return elementsList && typesList ? (
     <div className={"game-elements-wrapper"}>
+      <AddElementForm
+        elementType={elementType}
+        setElementsList={setElementsList}
+        elementTypeId={elementTypeId}
+        gamesList={gamesList}
+        typesList={typesList}
+      />
       {/* <h1>{elementType}s</h1> */}
 
       <div className="search-section">
+        <input className="search-box" type="text" placeholder="Search..." />
+        {typesList.length > 0 && (
+          <ComboBox
+            placeholder="Games"
+            allOptions={allGameNames}
+            currentOptions={selectedGames}
+            setCurrentOptions={setSelectedGames}
+          />
+        )}
         {typesList.length > 0 && (
           <ComboBox
             placeholder="Types"
@@ -109,14 +129,6 @@ const ElementsDisplay = ({ elementType }) => {
         </div>
       </div>
 
-      <AddElementForm
-        elementType={elementType}
-        setElementsList={setElementsList}
-        elementTypeId={elementTypeId}
-        gamesList={gamesList}
-        typesList={typesList}
-      />
-
       <div className="search-section">
         {/* <Search
           setSearchTerm={setRelationshipsSearchTerm}
@@ -144,6 +156,7 @@ const ElementsDisplay = ({ elementType }) => {
         viewType={viewType}
         currentCategories={currentCategories}
         currentTypes={selectedTypes}
+        currentGames={selectedGames}
         relationshipsSearchTerm={relationshipsSearchTerm}
       />
     </div>

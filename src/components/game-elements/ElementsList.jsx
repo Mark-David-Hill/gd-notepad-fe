@@ -9,6 +9,7 @@ const ElementsList = ({
   typesList,
   viewType,
   currentTypes,
+  currentGames,
   currentCategories,
   relationshipsSearchTerm,
 }) => {
@@ -32,7 +33,10 @@ const ElementsList = ({
       ) : (
         elementsList.map((elementData, elementId) => {
           {
-            if (currentTypes.includes(elementData.type.name)) {
+            if (
+              currentTypes.includes(elementData.type.name) &&
+              currentGames.includes(elementData.game.name)
+            ) {
               return (
                 <ElementCard
                   key={elementId}

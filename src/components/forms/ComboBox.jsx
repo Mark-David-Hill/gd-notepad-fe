@@ -42,7 +42,13 @@ const ComboBox = ({
       <div className="input-icon-wrapper">
         <input
           type="text"
-          placeholder={`${currentOptions.length} ${placeholder} selected`}
+          placeholder={
+            currentOptions.length === 0
+              ? `Select ${placeholder}`
+              : currentOptions.length === 1
+              ? currentOptions[0]
+              : `${currentOptions.length} ${placeholder} selected`
+          }
           value={searchText}
           onClick={() => setIsOpen((prev) => !prev)}
           onChange={(e) => setSearchText(e.target.value)}
