@@ -16,6 +16,7 @@ const ElementsDisplay = ({ elementType }) => {
   const [selectedGames, setSelectedGames] = useState([]);
   const [typesList, setTypesList] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [viewType, setViewType] = useState("card");
   const [orderBy, setOrderBy] = useState("desc");
   const [relationshipsSearchTerm, setRelationshipsSearchTerm] = useState("");
@@ -83,7 +84,13 @@ const ElementsDisplay = ({ elementType }) => {
       {/* <h1>{elementType}s</h1> */}
 
       <div className="search-section">
-        <input className="search-box" type="text" placeholder="Search..." />
+        <input
+          className="search-box"
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
         {typesList.length > 0 && (
           <ComboBox
             placeholder="Games"
@@ -154,6 +161,7 @@ const ElementsDisplay = ({ elementType }) => {
         elementsList={elementsList}
         typesList={typesList}
         viewType={viewType}
+        searchTerm={searchTerm}
         currentCategories={currentCategories}
         currentTypes={selectedTypes}
         currentGames={selectedGames}

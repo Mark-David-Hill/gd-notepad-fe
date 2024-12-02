@@ -8,6 +8,7 @@ const ElementsList = ({
   elementsList,
   typesList,
   viewType,
+  searchTerm,
   currentTypes,
   currentGames,
   currentCategories,
@@ -35,7 +36,11 @@ const ElementsList = ({
           {
             if (
               currentTypes.includes(elementData.type.name) &&
-              currentGames.includes(elementData.game.name)
+              currentGames.includes(elementData.game.name) &&
+              (!searchTerm ||
+                elementData?.name
+                  .toLowerCase()
+                  .includes(searchTerm.trim().toLowerCase()))
             ) {
               return (
                 <ElementCard
