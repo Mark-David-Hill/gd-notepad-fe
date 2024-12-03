@@ -28,53 +28,33 @@ export default function Navbar({ auth }) {
             </NavLink>
 
             <NavLink
-              to="/mechanics"
+              to="/types"
               className={({ isActive }) =>
                 isActive ? "active-link" : undefined
               }
               onClick={() => setMenuIsOpen(false)}
             >
-              Mechanics
+              Types
             </NavLink>
 
             <NavLink
-              to="/levels"
+              to="/game-elements"
               className={({ isActive }) =>
                 isActive ? "active-link" : undefined
               }
               onClick={() => setMenuIsOpen(false)}
             >
-              Levels
+              Game Elements
             </NavLink>
 
             <NavLink
-              to="/level-elements"
+              to="/relationships"
               className={({ isActive }) =>
                 isActive ? "active-link" : undefined
               }
               onClick={() => setMenuIsOpen(false)}
             >
-              Level Elements
-            </NavLink>
-
-            <NavLink
-              to="/enemy-elements"
-              className={({ isActive }) =>
-                isActive ? "active-link" : undefined
-              }
-              onClick={() => setMenuIsOpen(false)}
-            >
-              Enemy Elements
-            </NavLink>
-
-            <NavLink
-              to="/power-ups"
-              className={({ isActive }) =>
-                isActive ? "active-link" : undefined
-              }
-              onClick={() => setMenuIsOpen(false)}
-            >
-              Power Ups
+              Element Relationships
             </NavLink>
           </div>
         </div>
