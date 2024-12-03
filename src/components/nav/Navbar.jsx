@@ -15,48 +15,38 @@ export default function Navbar({ auth }) {
           Home
         </NavLink>
 
-        <div className="links-container">
-          <div className="main-links">
-            <NavLink
-              to="/games"
-              className={({ isActive }) =>
-                isActive ? "active-link" : undefined
-              }
-              onClick={() => setMenuIsOpen(false)}
-            >
-              Games
-            </NavLink>
+        <div className="main-links">
+          <NavLink
+            to="/games"
+            className={({ isActive }) => (isActive ? "active-link" : undefined)}
+            onClick={() => setMenuIsOpen(false)}
+          >
+            Games
+          </NavLink>
 
-            <NavLink
-              to="/types"
-              className={({ isActive }) =>
-                isActive ? "active-link" : undefined
-              }
-              onClick={() => setMenuIsOpen(false)}
-            >
-              Types
-            </NavLink>
+          <NavLink
+            to="/types"
+            className={({ isActive }) => (isActive ? "active-link" : undefined)}
+            onClick={() => setMenuIsOpen(false)}
+          >
+            Types
+          </NavLink>
 
-            <NavLink
-              to="/game-elements"
-              className={({ isActive }) =>
-                isActive ? "active-link" : undefined
-              }
-              onClick={() => setMenuIsOpen(false)}
-            >
-              Game Elements
-            </NavLink>
+          <NavLink
+            to="/game-elements"
+            className={({ isActive }) => (isActive ? "active-link" : undefined)}
+            onClick={() => setMenuIsOpen(false)}
+          >
+            Game Elements
+          </NavLink>
 
-            <NavLink
-              to="/relationships"
-              className={({ isActive }) =>
-                isActive ? "active-link" : undefined
-              }
-              onClick={() => setMenuIsOpen(false)}
-            >
-              Element Relationships
-            </NavLink>
-          </div>
+          <NavLink
+            to="/relationships"
+            className={({ isActive }) => (isActive ? "active-link" : undefined)}
+            onClick={() => setMenuIsOpen(false)}
+          >
+            Element Relationships
+          </NavLink>
         </div>
         {!auth && (
           <NavLink
