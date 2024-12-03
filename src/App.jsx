@@ -6,15 +6,10 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import LevelElements from "./components/pages/LevelElements";
-import EnemyElements from "./components/pages/EnemyElements";
 import GameElements from "./components/pages/GameElements";
 import GameElement from "./components/pages/GameElement";
 import Dashboard from "./components/pages/Dashboard";
-import Mechanics from "./components/pages/Mechanics";
-import PowerUps from "./components/pages/PowerUps";
 import NoPage from "./components/pages/NoPage";
-import Levels from "./components/pages/Levels";
 import Login from "./components/pages/Login";
 import Navbar from "./components/nav/Navbar";
 import Footer from "./components/nav/Footer";
@@ -70,11 +65,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/games" element={<Games />} />
           <Route exact path="/game-elements" element={<GameElements />} />
-          <Route path="/mechanics" element={<Mechanics />} />
-          <Route path="/levels" element={<Levels />} />
-          <Route path="/level-elements" element={<LevelElements />} />
-          <Route path="/enemy-elements" element={<EnemyElements />} />
-          <Route path="/power-ups" element={<PowerUps />} />
           <Route path="games/:id" element={<Game />} />
           <Route path="/game-elements/:id" element={<GameElement />} />
           <Route path="*" element={<NoPage />} />
