@@ -62,7 +62,7 @@ const Relationships = () => {
       <h1>Game Element Relationships</h1>
 
       <div className="elements-select-container">
-        <p>Element 1</p>
+        <p>Elements</p>
         {allElementNames.length > 0 && (
           <ComboBox
             placeholder="Elements"

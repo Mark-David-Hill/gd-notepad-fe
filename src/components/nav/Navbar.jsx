@@ -4,6 +4,13 @@ import { NavLink } from "react-router-dom";
 export default function Navbar({ auth }) {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
+  const navList = [
+    { route: "/games", label: "Games" },
+    { route: "/game-elements", label: "Game Elements" },
+    { route: "/relationships", label: "Games Element Relationships" },
+    { route: "/types", label: "Types" },
+  ];
+
   return (
     <div className="navbar-container">
       <div className="navbar-wrapper">
@@ -16,37 +23,18 @@ export default function Navbar({ auth }) {
         </NavLink>
 
         <div className="main-links">
-          <NavLink
-            to="/games"
-            className={({ isActive }) => (isActive ? "active-link" : undefined)}
-            onClick={() => setMenuIsOpen(false)}
-          >
-            Games
-          </NavLink>
-
-          <NavLink
-            to="/types"
-            className={({ isActive }) => (isActive ? "active-link" : undefined)}
-            onClick={() => setMenuIsOpen(false)}
-          >
-            Types
-          </NavLink>
-
-          <NavLink
-            to="/game-elements"
-            className={({ isActive }) => (isActive ? "active-link" : undefined)}
-            onClick={() => setMenuIsOpen(false)}
-          >
-            Game Elements
-          </NavLink>
-
-          <NavLink
-            to="/relationships"
-            className={({ isActive }) => (isActive ? "active-link" : undefined)}
-            onClick={() => setMenuIsOpen(false)}
-          >
-            Element Relationships
-          </NavLink>
+          {navList.map((item, index) => (
+            <NavLink
+              key={index}
+              to={item.route}
+              className={({ isActive }) =>
+                isActive ? "active-link" : undefined
+              }
+              onClick={() => setMenuIsOpen(false)}
+            >
+              {item.label}
+            </NavLink>
+          ))}
         </div>
         {!auth && (
           <NavLink
@@ -59,10 +47,7 @@ export default function Navbar({ auth }) {
         )}
 
         <div className="navbar-right">
-          <div className="switch-wrapper">
-            {/* Dark Mode Switch */}
-            {/* <button>{isDarkMode ? "Light" : "Dark"}</button> */}
-          </div>
+          <div className="switch-wrapper"></div>
 
           <div className="hamburger-button-wrapper">
             {/* <button onClick={() => setMenuIsOpen((prev) => !prev)}>
