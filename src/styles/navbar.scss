@@ -8,32 +8,32 @@ html {
   width: 100%;
   margin: 0;
   padding: 0;
-}
 
-.navbar-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 70px;
-  background-color: darkblue;
-  width: 100%;
-  box-sizing: border-box;
-  gap: 50px;
-}
+  .navbar-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    background-color: darkblue;
+    width: 100%;
+    box-sizing: border-box;
+    gap: 50px;
+  }
 
-.main-links {
-  display: flex;
-  justify-content: space-between;
-  gap: 5px;
-}
+  .main-links {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+  }
 
-a {
-  padding: 10px;
-  font-size: 20px;
-  color: #ffffff;
-  background-color: rgb(43, 43, 206);
-  text-decoration: none;
-  border: 1px solid orange;
-  border-radius: 5px;
-  box-sizing: border-box;
+  a {
+    padding: 10px;
+    font-size: 20px;
+    color: #ffffff;
+    background-color: rgb(43, 43, 206);
+    text-decoration: none;
+    border: 1px solid orange;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
 }

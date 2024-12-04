@@ -6,6 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 
+import Relationships from "./components/pages/Relationships";
 import GameElements from "./components/pages/GameElements";
 import GameElement from "./components/pages/GameElement";
 import Dashboard from "./components/pages/Dashboard";
@@ -67,6 +68,7 @@ function App() {
           <Route exact path="/game-elements" element={<GameElements />} />
           <Route path="games/:id" element={<Game />} />
           <Route path="/game-elements/:id" element={<GameElement />} />
+          <Route path="/relationships" element={<Relationships />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
         <Footer />
