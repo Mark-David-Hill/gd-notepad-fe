@@ -53,7 +53,10 @@ const ComboBox = ({
           onClick={() => setIsOpen((prev) => !prev)}
           onChange={(e) => setSearchText(e.target.value)}
         />
-        <FontAwesomeIcon icon={faAngleDown} />
+        <FontAwesomeIcon
+          icon={faAngleDown}
+          onClick={() => setIsOpen((prev) => !prev)}
+        />
       </div>
       {isOpen && (
         <div className="combo-box-options">
