@@ -12,6 +12,7 @@ const ElementsList = ({
   currentTypes,
   currentGames,
   currentCategories,
+  currentRelatedElements,
   relationshipsSearchTerm,
 }) => {
   const [relationshipsList, setRelationshipsList] = useState([]);
@@ -41,6 +42,8 @@ const ElementsList = ({
                 elementData?.name
                   .toLowerCase()
                   .includes(searchTerm.trim().toLowerCase()))
+              //     &&
+              // (!currentRelatedElements.length === 0 || )
             ) {
               return (
                 <ElementCard

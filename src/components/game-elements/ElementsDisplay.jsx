@@ -11,6 +11,8 @@ import AddElementForm from "../forms/AddElementForm";
 
 const ElementsDisplay = ({ elementType }) => {
   const [elementsList, setElementsList] = useState([]);
+  const [allElementNames, setAllElementNames] = useState([]);
+  const [selectedElements, setSelectedElements] = useState([]);
   const [elementTypeId, setElementTypeId] = useState("");
   const [gamesList, setGamesList] = useState([]);
   const [selectedGames, setSelectedGames] = useState([]);
@@ -41,6 +43,8 @@ const ElementsDisplay = ({ elementType }) => {
                 (element) => element.type.name === elementType
               )
         );
+
+        setAllElementNames(response.results.map((element) => element.name));
       })
       .catch((error) => console.error(`couldn't get ${elementType}s`, error));
 
@@ -91,7 +95,7 @@ const ElementsDisplay = ({ elementType }) => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        {typesList.length > 0 && (
+        {gamesList.length > 0 && (
           <ComboBox
             placeholder="Games"
             allOptions={allGameNames}
@@ -105,6 +109,14 @@ const ElementsDisplay = ({ elementType }) => {
             allOptions={allTypeNames}
             currentOptions={selectedTypes}
             setCurrentOptions={setSelectedTypes}
+          />
+        )}
+        {typesList.length > 0 && (
+          <ComboBox
+            placeholder="Related Elements"
+            allOptions={allElementNames}
+            currentOptions={selectedElements}
+            setCurrentOptions={setSelectedElements}
           />
         )}
 
@@ -165,6 +177,7 @@ const ElementsDisplay = ({ elementType }) => {
         currentCategories={currentCategories}
         currentTypes={selectedTypes}
         currentGames={selectedGames}
+        currentRelatedElements={selectedElements}
         relationshipsSearchTerm={relationshipsSearchTerm}
       />
     </div>

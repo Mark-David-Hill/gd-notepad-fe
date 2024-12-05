@@ -6,9 +6,8 @@ export default function Navbar({ auth }) {
 
   const navList = [
     { route: "/games", label: "Games" },
-    { route: "/game-elements", label: "Game Elements" },
-    { route: "/relationships", label: "Games Element Relationships" },
     { route: "/types", label: "Types" },
+    { route: "/game-elements", label: "Game Elements" },
   ];
 
   return (
