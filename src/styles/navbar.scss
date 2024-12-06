@@ -4,6 +4,19 @@ html {
   padding: 0;
 }
 
+.footer-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: darkblue;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 50px;
+  padding: 20px 0px;
+  margin-top: 50px;
+}
+
 .navbar-container {
   width: 100%;
   margin: 0;
