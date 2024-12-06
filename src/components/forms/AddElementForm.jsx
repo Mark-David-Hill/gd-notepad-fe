@@ -5,19 +5,23 @@ import fetchWrapper from "../../lib/apiCall";
 import ElementCard from "../game-elements/ElementCard";
 
 const AddElementForm = ({
-  elementType,
   setElementsList,
-  elementTypeId,
   gamesList,
   typesList,
+  setAddFormIsOpen,
 }) => {
   const [formName, setFormName] = useState("");
   const [formImgUrl, setFormImgUrl] = useState("");
   const [formDescription, setFormDescription] = useState("");
   const [formGameId, setFormGameId] = useState("");
+  const [formTypeId, setFormTypeId] = useState("");
 
   const handleSetFormGameId = (e) => {
     setFormGameId(e.target.value);
+  };
+
+  const handleSetFormTypeId = (e) => {
+    setFormTypeId(e.target.value);
   };
 
   const handleSetFormName = (e) => {
@@ -32,10 +36,18 @@ const AddElementForm = ({
     setFormDescription(e.target.value);
   };
 
+  const handleResetForm = () => {
+    setFormGameId("");
+    setFormTypeId("");
+    setFormImgUrl("");
+    setFormName("");
+    setFormDescription("");
+  };
+
   const handleAddGameElement = () => {
     if (formName && formDescription) {
       const body = {
-        type_id: elementTypeId,
+        type_id: formTypeId,
         game_id: formGameId,
         name: formName,
         description: formDescription,
@@ -45,43 +57,13 @@ const AddElementForm = ({
       fetchWrapper
         .apiCall(`/element`, "POST", body)
         .then((response) => {
-          setFormGameId("");
-          setFormImgUrl("");
           setElementsList((prev) => [...prev, response.result]);
-          setFormName("");
-          setFormDescription("");
+          handleResetForm();
+          setAddFormIsOpen(false);
         })
         .catch((error) => console.error("couldn't add element", error));
     }
   };
-
-  // useEffect(() => {
-  //   fetchWrapper
-  //     .apiCall(`/elements`, "GET")
-  //     .then((response) => {
-  //       setElementsList(
-  //         response.results.filter((element) => element.type.name == elementType)
-  //       );
-  //     })
-  //     .catch((error) => console.error(`couldn't get ${elementType}s`, error));
-
-  //   fetchWrapper
-  //     .apiCall(`/games`, "GET")
-  //     .then((response) => {
-  //       setGamesList(response.results);
-  //     })
-  //     .catch((error) => console.error(`couldn't get games`, error));
-
-  //   fetchWrapper
-  //     .apiCall(`/types`, "GET")
-  //     .then((response) => {
-  //       setTypesList(response.results);
-  //       setElementTypeId(
-  //         response.results.find((type) => type.name === elementType).type_id
-  //       );
-  //     })
-  //     .catch((error) => console.error(`couldn't get type data`, error));
-  // }, []);
 
   return typesList ? (
     <div className="add-element-wrapper">
@@ -95,12 +77,24 @@ const AddElementForm = ({
               </option>
             ))}
         </select>
+
+        <select name="" id="" onChange={handleSetFormTypeId} value={formTypeId}>
+          <option value="">Select Type</option>
+          {typesList &&
+            typesList.map((type) => (
+              <option key={type.type_id} value={type.type_id}>
+                {type.name}
+              </option>
+            ))}
+        </select>
+
         <input
           type="text"
           placeholder="name"
           value={formName}
           onChange={handleSetFormName}
         />
+
         <input
           type="text"
           placeholder="image-url"
@@ -114,9 +108,15 @@ const AddElementForm = ({
           value={formDescription}
           onChange={handleSetFormDescription}
         ></textarea>
-        <button onClick={() => handleAddGameElement()}>
-          Add {elementType}
+        <button
+          onClick={() => {
+            setAddFormIsOpen(false);
+            handleResetForm();
+          }}
+        >
+          Cancel
         </button>
+        <button onClick={() => handleAddGameElement()}>Add Element</button>
       </div>
 
       <ElementCard
@@ -126,7 +126,7 @@ const AddElementForm = ({
           image_url: formImgUrl
             ? formImgUrl
             : "https://www.svgrepo.com/show/508699/landscape-placeholder.svg",
-          type_id: elementTypeId,
+          type_id: formTypeId,
           notes: [],
         }}
         viewType="card"

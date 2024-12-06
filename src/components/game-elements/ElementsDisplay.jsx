@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 
 import fetchWrapper from "../../lib/apiCall";
 
-import CategoryFilter from "../search/CategoryFilter";
+// import CategoryFilter from "../search/CategoryFilter";
 import ElementsList from "./ElementsList";
 import ComboBox from "../forms/ComboBox";
-import Search from "../search/Search";
+// import Search from "../search/Search";
 
 import AddElementForm from "../forms/AddElementForm";
 
@@ -20,10 +20,12 @@ const ElementsDisplay = ({ elementType }) => {
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [viewType, setViewType] = useState("card");
-  const [orderBy, setOrderBy] = useState("desc");
+  // const [orderBy, setOrderBy] = useState("desc");
   const [relationshipsSearchTerm, setRelationshipsSearchTerm] = useState("");
   const [allTypeNames, setAllTypeNames] = useState([]);
   const [allGameNames, setAllGameNames] = useState([]);
+  const [addFormIsOpen, setAddFormIsOpen] = useState(false);
+
   const [currentCategories, setCurrentCategories] = useState([
     "Mechanics",
     "Levels",
@@ -63,29 +65,24 @@ const ElementsDisplay = ({ elementType }) => {
         setTypesList(response.results);
         setSelectedTypes(response.results.map((type) => type.name));
         setAllTypeNames(response.results.map((type) => type.name));
-
-        // console.log(
-        //   "test",
-        //   response.results.map((type) => type.name)
-        // );
-
-        // setElementTypeId(
-        //   response.results.find((type) => type.name === elementType).type_id
-        // );
       })
       .catch((error) => console.error(`couldn't get type data`, error));
   }, []);
 
   return elementsList && typesList ? (
     <div className={"game-elements-wrapper"}>
-      <AddElementForm
-        elementType={elementType}
-        setElementsList={setElementsList}
-        elementTypeId={elementTypeId}
-        gamesList={gamesList}
-        typesList={typesList}
-      />
-      {/* <h1>{elementType}s</h1> */}
+      {!addFormIsOpen && (
+        <button onClick={() => setAddFormIsOpen(true)}>Add Game Element</button>
+      )}
+      {addFormIsOpen && (
+        <AddElementForm
+          setElementsList={setElementsList}
+          elementTypeId={elementTypeId}
+          gamesList={gamesList}
+          typesList={typesList}
+          setAddFormIsOpen={setAddFormIsOpen}
+        />
+      )}
 
       <div className="search-section">
         <input
@@ -148,27 +145,6 @@ const ElementsDisplay = ({ elementType }) => {
         </div>
       </div>
 
-      <div className="search-section">
-        {/* <Search
-          setSearchTerm={setRelationshipsSearchTerm}
-          setOrderBy={setOrderBy}
-          orderBy={orderBy}
-          placeholder={"relationships search"}
-        /> */}
-
-        {/* <CategoryFilter
-          categoriesList={[
-            "Mechanics",
-            "Levels",
-            "Level Elements",
-            "Enemy Elements",
-            "Power Ups",
-          ]}
-          currentCategories={currentCategories}
-          setCurrentCategories={setCurrentCategories}
-          viewType={viewType}
-        /> */}
-      </div>
       <ElementsList
         elementsList={elementsList}
         typesList={typesList}
