@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useContext } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -16,51 +16,36 @@ import Footer from "./components/nav/Footer";
 import Games from "./components/pages/Games";
 import Home from "./components/pages/Home";
 import Game from "./components/pages/Game";
-import fetchWrapper from "./lib/apiCall";
 
-const isAuthenticated = async () => {
-  try {
-    const response = await fetchWrapper.apiCall(`/user/check-login`, "GET");
-    return true;
-  } catch (error) {
-    console.error("Login failed:", error);
-    return false;
-  }
-};
+import { AuthContext } from "./components/context/AuthContextProvider";
 
 function App() {
-  const [auth, setAuth] = useState(null);
+  const { isAuthenticated } = useContext(AuthContext);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const result = await isAuthenticated();
-      setAuth(result);
-    };
-    checkAuth();
-  }, []);
+    console.log(isAuthenticated);
+  }, [isAuthenticated]);
 
-  if (auth === null) {
+  if (isAuthenticated === null) {
     return <div>Loading...</div>;
   }
 
   return (
     <Router>
       <div className="app-container">
-        <Navbar auth={auth} />
+        <Navbar />
         <Routes>
           <Route
             path="/login"
-            element={
-              auth ? <Navigate to="/dashboard" /> : <Login setAuth={setAuth} />
-            }
+            element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login />}
           />
           <Route
             path="/"
-            element={auth ? <Navigate to="/dashboard" /> : <Home />}
+            element={isAuthenticated ? <Navigate to="/dashboard" /> : <Home />}
           />
           <Route
             path="/dashboard"
-            element={auth ? <Dashboard /> : <Navigate to="/login" />}
+            element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
           />
           <Route path="/" element={<Home />} />
           <Route path="/games" element={<Games />} />

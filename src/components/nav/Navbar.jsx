@@ -1,7 +1,11 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useState, useContext } from "react";
 
-export default function Navbar({ auth }) {
+import { NavLink } from "react-router-dom";
+import { AuthContext } from "../context/AuthContextProvider";
+
+export default function Navbar() {
+  const { isAuthenticated } = useContext(AuthContext);
+
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   const navList = [
@@ -14,7 +18,7 @@ export default function Navbar({ auth }) {
     <div className="navbar-container">
       <div className="navbar-wrapper">
         <NavLink
-          to={auth ? "/dashboard" : "/"}
+          to={isAuthenticated ? "/dashboard" : "/"}
           className={({ isActive }) => (isActive ? "active-link" : undefined)}
           onClick={() => setMenuIsOpen(false)}
         >
@@ -35,7 +39,7 @@ export default function Navbar({ auth }) {
             </NavLink>
           ))}
         </div>
-        {!auth && (
+        {!isAuthenticated && (
           <NavLink
             to="/login"
             className={({ isActive }) => (isActive ? "active-link" : undefined)}

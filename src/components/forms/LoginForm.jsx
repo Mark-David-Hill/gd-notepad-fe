@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import fetchWrapper from "../../lib/apiCall";
 
-const LoginForm = ({ setAuth }) => {
+import { AuthContext } from "../context/AuthContextProvider";
+
+const LoginForm = () => {
+  const { setIsAuthenticated } = useContext(AuthContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -21,7 +25,7 @@ const LoginForm = ({ setAuth }) => {
     try {
       const response = await fetchWrapper.apiCall(`/user/auth`, "POST", body);
       if (response.message === "login successful") {
-        setAuth(true);
+        setIsAuthenticated(true);
         navigate("/dashboard");
       } else {
         console.error("Login failed:", response.message);
@@ -32,7 +36,7 @@ const LoginForm = ({ setAuth }) => {
   }
 
   const handleLogin = (e) => {
-    e.preventDefault(); // Prevent form submission from reloading the page
+    e.preventDefault();
     if (email && password) {
       loginUser(email, password);
     }
