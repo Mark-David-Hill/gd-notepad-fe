@@ -145,6 +145,27 @@ const ElementsDisplay = ({ elementType }) => {
         </div>
       </div>
 
+      <div className="search-section">
+        {/* <Search
+          setSearchTerm={setRelationshipsSearchTerm}
+          setOrderBy={setOrderBy}
+          orderBy={orderBy}
+          placeholder={"relationships search"}
+        /> */}
+
+        {/* <CategoryFilter
+          categoriesList={[
+            "Mechanics",
+            "Levels",
+            "Level Elements",
+            "Enemy Elements",
+            "Power Ups",
+          ]}
+          currentCategories={currentCategories}
+          setCurrentCategories={setCurrentCategories}
+          viewType={viewType}
+        /> */}
+      </div>
       <ElementsList
         elementsList={elementsList}
         typesList={typesList}

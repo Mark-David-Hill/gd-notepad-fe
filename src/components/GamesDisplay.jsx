@@ -1,25 +1,18 @@
-import { useState, useEffect } from "react";
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
-import fetchWrapper from "../lib/apiCall";
+import { GamesContext } from "./context/GamesContextProvider";
 
 const GamesDisplay = () => {
-  const [gamesList, setGamesList] = useState(null);
-
-  useEffect(() => {
-    fetchWrapper
-      .apiCall(`/games`, "GET")
-      .then((response) => setGamesList(response.results))
-      .catch((error) => console.error("couldn't display games", error));
-  }, []);
+  const { games } = useContext(GamesContext);
 
   return (
     <div className="games-display-container">
       <div className="games-display-wrapper">
-        {!gamesList ? (
+        {!games ? (
           <p>Loading</p>
         ) : (
-          gamesList.map((gameData, gameId) => {
+          games.map((gameData, gameId) => {
             return (
               <div key={gameId}>
                 <h2>{gameData.name}</h2>
