@@ -12,7 +12,7 @@ const ElementsList = ({
   currentTypes,
   currentGames,
   currentCategories,
-  currentRelatedElements,
+  // currentRelatedElements,
   relationshipsSearchTerm,
 }) => {
   const [relationshipsList, setRelationshipsList] = useState([]);

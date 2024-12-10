@@ -22,10 +22,6 @@ import { AuthContext } from "./components/context/AuthContextProvider";
 function App() {
   const { isAuthenticated } = useContext(AuthContext);
 
-  useEffect(() => {
-    console.log(isAuthenticated);
-  }, [isAuthenticated]);
-
   if (isAuthenticated === null) {
     return <div>Loading...</div>;
   }

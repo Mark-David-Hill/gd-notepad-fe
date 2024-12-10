@@ -1,29 +1,19 @@
-import { useState, useEffect } from "react";
-
-import fetchWrapper from "../../lib/apiCall";
-
-// import CategoryFilter from "../search/CategoryFilter";
-import ElementsList from "./ElementsList";
-import ComboBox from "../forms/ComboBox";
-// import Search from "../search/Search";
+import { useState, useEffect, useContext } from "react";
 
 import AddElementForm from "../forms/AddElementForm";
+import ElementsList from "./ElementsList";
+import ComboBox from "../forms/ComboBox";
 
-const ElementsDisplay = ({ elementType }) => {
-  const [elementsList, setElementsList] = useState([]);
-  const [allElementNames, setAllElementNames] = useState([]);
+import { GamesContext } from "../context/GamesContextProvider";
+
+const ElementsDisplay = () => {
+  const { gameElements, setGameElements, games, types } =
+    useContext(GamesContext);
   const [selectedElements, setSelectedElements] = useState([]);
-  const [elementTypeId, setElementTypeId] = useState("");
-  const [gamesList, setGamesList] = useState([]);
   const [selectedGames, setSelectedGames] = useState([]);
-  const [typesList, setTypesList] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [viewType, setViewType] = useState("card");
-  // const [orderBy, setOrderBy] = useState("desc");
-  const [relationshipsSearchTerm, setRelationshipsSearchTerm] = useState("");
-  const [allTypeNames, setAllTypeNames] = useState([]);
-  const [allGameNames, setAllGameNames] = useState([]);
   const [addFormIsOpen, setAddFormIsOpen] = useState(false);
 
   const [currentCategories, setCurrentCategories] = useState([
@@ -35,51 +25,25 @@ const ElementsDisplay = ({ elementType }) => {
   ]);
 
   useEffect(() => {
-    fetchWrapper
-      .apiCall(`/elements`, "GET")
-      .then((response) => {
-        setElementsList(
-          elementType === "all"
-            ? response.results
-            : response.results.filter(
-                (element) => element.type.name === elementType
-              )
-        );
+    if (games) {
+      setSelectedGames(games.map((game) => game.name));
+    }
 
-        setAllElementNames(response.results.map((element) => element.name));
-      })
-      .catch((error) => console.error(`couldn't get ${elementType}s`, error));
+    if (types) {
+      setSelectedTypes(types.map((type) => type.name));
+    }
+  }, [games]);
 
-    fetchWrapper
-      .apiCall(`/games`, "GET")
-      .then((response) => {
-        setGamesList(response.results);
-        setSelectedGames(response.results.map((game) => game.name));
-        setAllGameNames(response.results.map((game) => game.name));
-      })
-      .catch((error) => console.error(`couldn't get games`, error));
-
-    fetchWrapper
-      .apiCall(`/types`, "GET")
-      .then((response) => {
-        setTypesList(response.results);
-        setSelectedTypes(response.results.map((type) => type.name));
-        setAllTypeNames(response.results.map((type) => type.name));
-      })
-      .catch((error) => console.error(`couldn't get type data`, error));
-  }, []);
-
-  return elementsList && typesList ? (
+  return gameElements.length > 0 && types ? (
     <div className={"game-elements-wrapper"}>
       {!addFormIsOpen && (
         <button onClick={() => setAddFormIsOpen(true)}>Add Game Element</button>
       )}
       {addFormIsOpen && (
         <AddElementForm
-          setElementsList={setElementsList}
-          elementTypeId={elementTypeId}
-          gamesList={gamesList}
-          typesList={typesList}
+          setElementsList={setGameElements}
+          gamesList={games}
+          typesList={types}
           setAddFormIsOpen={setAddFormIsOpen}
         />
       )}
@@ -92,26 +56,26 @@ const ElementsDisplay = ({ elementType }) => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        {gamesList.length > 0 && (
+        {games.length > 0 && (
           <ComboBox
             placeholder="Games"
-            allOptions={allGameNames}
+            allOptions={games.map((game) => game.name)}
             currentOptions={selectedGames}
             setCurrentOptions={setSelectedGames}
           />
         )}
-        {typesList.length > 0 && (
+        {types.length > 0 && (
           <ComboBox
             placeholder="Types"
-            allOptions={allTypeNames}
+            allOptions={types.map((type) => type.name)}
             currentOptions={selectedTypes}
             setCurrentOptions={setSelectedTypes}
           />
         )}
-        {typesList.length > 0 && (
+        {types.length > 0 && (
           <ComboBox
             placeholder="Related Elements"
-            allOptions={allElementNames}
+            allOptions={gameElements.map((element) => element.name)}
             currentOptions={selectedElements}
             setCurrentOptions={setSelectedElements}
           />
@@ -145,38 +109,18 @@ const ElementsDisplay = ({ elementType }) => {
         </div>
       </div>
 
-      <div className="search-section">
-        {/* <Search
-          setSearchTerm={setRelationshipsSearchTerm}
-          setOrderBy={setOrderBy}
-          orderBy={orderBy}
-          placeholder={"relationships search"}
-        /> */}
-
-        {/* <CategoryFilter
-          categoriesList={[
-            "Mechanics",
-            "Levels",
-            "Level Elements",
-            "Enemy Elements",
-            "Power Ups",
-          ]}
-          currentCategories={currentCategories}
-          setCurrentCategories={setCurrentCategories}
+      {gameElements.length > 0 && games.length > 0 && types.length > 0 && (
+        <ElementsList
+          elementsList={gameElements}
+          typesList={types}
           viewType={viewType}
-        /> */}
-      </div>
-      <ElementsList
-        elementsList={elementsList}
-        typesList={typesList}
-        viewType={viewType}
-        searchTerm={searchTerm}
-        currentCategories={currentCategories}
-        currentTypes={selectedTypes}
-        currentGames={selectedGames}
-        currentRelatedElements={selectedElements}
-        relationshipsSearchTerm={relationshipsSearchTerm}
-      />
+          searchTerm={searchTerm}
+          currentCategories={currentCategories}
+          currentTypes={selectedTypes}
+          currentGames={selectedGames}
+          currentRelatedElements={selectedElements}
+        />
+      )}
     </div>
   ) : (
     <p>Loading...</p>

@@ -11,7 +11,6 @@ export default function AuthContextProvider({ children }) {
   const checkAuthentication = async () => {
     try {
       const response = await fetchWrapper.apiCall(`/user/check-login`, "GET");
-      console.log("auth info?", response.result);
       setAuthInfo(response.result);
       return true;
     } catch (error) {
