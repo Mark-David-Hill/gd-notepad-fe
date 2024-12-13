@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 
-import AddElementForm from "../forms/AddElementForm";
+// import AddElementForm from "../forms/AddElementForm";
 import ElementsList from "./ElementsList";
 import ComboBox from "../forms/ComboBox";
 
@@ -14,7 +14,7 @@ const ElementsDisplay = () => {
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [viewType, setViewType] = useState("card");
-  const [addFormIsOpen, setAddFormIsOpen] = useState(false);
+  // const [addFormIsOpen, setAddFormIsOpen] = useState(false);
 
   const [currentCategories, setCurrentCategories] = useState([
     "Mechanics",
@@ -36,7 +36,7 @@ const ElementsDisplay = () => {
 
   return gameElements.length > 0 && types ? (
     <div className={"game-elements-wrapper"}>
-      {!addFormIsOpen && (
+      {/* {!addFormIsOpen && (
         <button onClick={() => setAddFormIsOpen(true)}>Add Game Element</button>
       )}
       {addFormIsOpen && (
@@ -46,7 +46,7 @@ const ElementsDisplay = () => {
           typesList={types}
           setAddFormIsOpen={setAddFormIsOpen}
         />
-      )}
+      )} */}
 
       <div className="search-section">
         <input

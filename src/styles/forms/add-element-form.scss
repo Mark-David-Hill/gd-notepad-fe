@@ -1,0 +1,19 @@
+.add-element-wrapper {
+  width: 85%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  gap: 10px;
+  justify-content: center;
+
+  .add-element-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40%;
+    padding: 20px;
+    border: 1px solid blue;
+    border-radius: 5px;
+  }
+}
