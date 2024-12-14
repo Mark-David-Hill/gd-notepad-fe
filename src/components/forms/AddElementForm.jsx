@@ -4,37 +4,13 @@ import fetchWrapper from "../../lib/apiCall";
 
 import ElementCard from "../game-elements/ElementCard";
 
-const AddElementForm = ({
-  setElementsList,
-  gamesList,
-  typesList,
-  setAddFormIsOpen,
-}) => {
+const AddElementForm = ({ setElementsList, gamesList, typesList }) => {
+  const [addFormIsOpen, setAddFormIsOpen] = useState(false);
   const [formName, setFormName] = useState("");
   const [formImgUrl, setFormImgUrl] = useState("");
   const [formDescription, setFormDescription] = useState("");
   const [formGameId, setFormGameId] = useState("");
   const [formTypeId, setFormTypeId] = useState("");
-
-  const handleSetFormGameId = (e) => {
-    setFormGameId(e.target.value);
-  };
-
-  const handleSetFormTypeId = (e) => {
-    setFormTypeId(e.target.value);
-  };
-
-  const handleSetFormName = (e) => {
-    setFormName(e.target.value);
-  };
-
-  const handleSetFormImgUrl = (e) => {
-    setFormImgUrl(e.target.value);
-  };
-
-  const handleSetFormDescription = (e) => {
-    setFormDescription(e.target.value);
-  };
 
   const handleResetForm = () => {
     setFormGameId("");
@@ -65,10 +41,20 @@ const AddElementForm = ({
     }
   };
 
-  return typesList ? (
+  if (!typesList || !typesList.length) {
+    return <p>Loading...</p>;
+  }
+
+  return !addFormIsOpen ? (
+    <button onClick={() => setAddFormIsOpen(true)}>Add Game Element</button>
+  ) : (
     <div className="add-element-wrapper">
       <div className="add-element-form">
-        <select name="" id="" onChange={handleSetFormGameId} value={formGameId}>
+        <select
+          name="form-game"
+          onChange={(e) => setFormGameId(e.target.value)}
+          value={formGameId}
+        >
           <option value="">Select Game</option>
           {gamesList &&
             gamesList.map((game) => (
@@ -78,7 +64,11 @@ const AddElementForm = ({
             ))}
         </select>
 
-        <select name="" id="" onChange={handleSetFormTypeId} value={formTypeId}>
+        <select
+          name="form-type"
+          onChange={(e) => setFormTypeId(e.target.value)}
+          value={formTypeId}
+        >
           <option value="">Select Type</option>
           {typesList &&
             typesList.map((type) => (
@@ -90,24 +80,22 @@ const AddElementForm = ({
 
         <input
           type="text"
-          placeholder="name"
+          placeholder="Name"
           value={formName}
-          onChange={handleSetFormName}
+          onChange={(e) => setFormName(e.target.value)}
         />
-
         <input
           type="text"
-          placeholder="image-url"
+          placeholder="Image URL"
           value={formImgUrl}
-          onChange={handleSetFormImgUrl}
+          onChange={(e) => setFormImgUrl(e.target.value)}
         />
         <textarea
-          name="form-description"
-          id="form-description"
-          placeholder="description"
+          placeholder="Description"
           value={formDescription}
-          onChange={handleSetFormDescription}
+          onChange={(e) => setFormDescription(e.target.value)}
         ></textarea>
+
         <button
           onClick={() => {
             setAddFormIsOpen(false);
@@ -116,16 +104,15 @@ const AddElementForm = ({
         >
           Cancel
         </button>
-        <button onClick={() => handleAddGameElement()}>Add Element</button>
+        <button onClick={handleAddGameElement}>Add Element</button>
       </div>
-
       <ElementCard
         elementData={{
           description: formDescription,
           name: formName,
-          image_url: formImgUrl
-            ? formImgUrl
-            : "https://www.svgrepo.com/show/508699/landscape-placeholder.svg",
+          image_url:
+            formImgUrl ||
+            "https://www.svgrepo.com/show/508699/landscape-placeholder.svg",
           type_id: formTypeId,
           notes: [],
         }}
@@ -134,8 +121,6 @@ const AddElementForm = ({
         typesList={typesList}
       />
     </div>
-  ) : (
-    <p>Loading...</p>
   );
 };
 

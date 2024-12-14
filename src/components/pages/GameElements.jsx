@@ -6,8 +6,6 @@ import AddElementForm from "../forms/AddElementForm";
 import { GamesContext } from "../context/GamesContextProvider";
 
 const GameElements = () => {
-  const [addFormIsOpen, setAddFormIsOpen] = useState(false);
-
   const { gameElements, setGameElements, games, types } =
     useContext(GamesContext);
 
@@ -15,17 +13,11 @@ const GameElements = () => {
     <div className="game-elements-container">
       <h1>Game Elements</h1>
 
-      {!addFormIsOpen && (
-        <button onClick={() => setAddFormIsOpen(true)}>Add Game Element</button>
-      )}
-      {addFormIsOpen && (
-        <AddElementForm
-          setElementsList={setGameElements}
-          gamesList={games}
-          typesList={types}
-          setAddFormIsOpen={setAddFormIsOpen}
-        />
-      )}
+      <AddElementForm
+        setElementsList={setGameElements}
+        gamesList={games}
+        typesList={types}
+      />
 
       <ElementsDisplay />
     </div>
