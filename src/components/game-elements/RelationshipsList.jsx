@@ -5,7 +5,6 @@ const RelationshipsList = ({
   elementData,
   relationshipsList,
   typesList,
-  currentCategories,
   relationshipsSearchTerm,
   setShouldDisplayElement,
 }) => {
@@ -15,7 +14,6 @@ const RelationshipsList = ({
       : relationship.element_1;
   };
 
-  // Filter relevant relationships
   const relevantRelationships = relationshipsList.filter((relationship) => {
     const isRelevantElement =
       relationship.element_1.element_id === elementData.element_id ||
@@ -30,7 +28,6 @@ const RelationshipsList = ({
     return isRelevantElement && matchesSearchTerm;
   });
 
-  // Update visibility based on relevant relationships
   useEffect(() => {
     if (relationshipsSearchTerm.trim()) {
       setShouldDisplayElement(relevantRelationships.length > 0);
@@ -39,7 +36,6 @@ const RelationshipsList = ({
     }
   }, [relevantRelationships, setShouldDisplayElement]);
 
-  // Render the filtered relationships
   return (
     relevantRelationships.length > 0 &&
     typesList.length > 0 && (
@@ -52,10 +48,7 @@ const RelationshipsList = ({
                 type.type_id
             );
 
-            if (
-              filteredRelationships.length > 0 &&
-              currentCategories.includes(`${type.name}s`)
-            ) {
+            if (filteredRelationships.length > 0) {
               return (
                 <div key={index} className="type-container">
                   <h4>{type.name}s</h4>

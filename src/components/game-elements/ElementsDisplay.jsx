@@ -1,28 +1,17 @@
 import { useState, useEffect, useContext } from "react";
 
-// import AddElementForm from "../forms/AddElementForm";
 import ElementsList from "./ElementsList";
 import ComboBox from "../forms/ComboBox";
 
 import { GamesContext } from "../context/GamesContextProvider";
 
 const ElementsDisplay = () => {
-  const { gameElements, setGameElements, games, types } =
-    useContext(GamesContext);
+  const { gameElements, games, types } = useContext(GamesContext);
   const [selectedElements, setSelectedElements] = useState([]);
   const [selectedGames, setSelectedGames] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [viewType, setViewType] = useState("card");
-  // const [addFormIsOpen, setAddFormIsOpen] = useState(false);
-
-  const [currentCategories, setCurrentCategories] = useState([
-    "Mechanics",
-    "Levels",
-    "Level Elements",
-    "Enemy Elements",
-    "Power Ups",
-  ]);
 
   useEffect(() => {
     if (games) {
@@ -36,18 +25,6 @@ const ElementsDisplay = () => {
 
   return gameElements.length > 0 && types ? (
     <div className={"game-elements-wrapper"}>
-      {/* {!addFormIsOpen && (
-        <button onClick={() => setAddFormIsOpen(true)}>Add Game Element</button>
-      )}
-      {addFormIsOpen && (
-        <AddElementForm
-          setElementsList={setGameElements}
-          gamesList={games}
-          typesList={types}
-          setAddFormIsOpen={setAddFormIsOpen}
-        />
-      )} */}
-
       <div className="search-section">
         <input
           className="search-box"
@@ -115,7 +92,6 @@ const ElementsDisplay = () => {
           typesList={types}
           viewType={viewType}
           searchTerm={searchTerm}
-          currentCategories={currentCategories}
           currentTypes={selectedTypes}
           currentGames={selectedGames}
           currentRelatedElements={selectedElements}

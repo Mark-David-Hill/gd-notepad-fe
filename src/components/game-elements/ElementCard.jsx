@@ -8,7 +8,6 @@ const ElementCard = ({
   relationshipsList,
   elementData,
   typesList,
-  currentCategories,
   viewType = "card",
   relationshipsSearchTerm = "",
 }) => {
@@ -31,7 +30,6 @@ const ElementCard = ({
               elementData={elementData}
               relationshipsList={relationshipsList}
               typesList={typesList}
-              currentCategories={currentCategories}
               relationshipsSearchTerm={relationshipsSearchTerm}
               setShouldDisplayElement={setShouldDisplayElement}
             />
