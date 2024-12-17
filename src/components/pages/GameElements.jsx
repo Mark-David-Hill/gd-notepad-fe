@@ -17,14 +17,9 @@ const GameElements = () => {
     useContext(GamesContext);
 
   useEffect(() => {
-    if (games) {
-      setSelectedGames(games.map((game) => game.name));
-    }
-
-    if (types) {
-      setSelectedTypes(types.map((type) => type.name));
-    }
-  }, [games]);
+    if (games?.length) setSelectedGames(games.map((game) => game.name));
+    if (types?.length) setSelectedTypes(types.map((type) => type.name));
+  }, [games, types]);
 
   return (
     <div className="game-elements-container">
