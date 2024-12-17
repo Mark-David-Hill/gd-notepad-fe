@@ -45,17 +45,15 @@ const GameElements = () => {
       />
 
       <div className={"game-elements-wrapper"}>
-        {gameElements.length > 0 && games.length > 0 && types.length > 0 && (
-          <ElementsList
-            elementsList={gameElements}
-            typesList={types}
-            viewType={viewType}
-            searchTerm={searchTerm}
-            currentTypes={selectedTypes}
-            currentGames={selectedGames}
-            currentRelatedElements={selectedElements}
-          />
-        )}
+        <ElementsList
+          elementsList={gameElements}
+          typesList={types}
+          viewType={viewType}
+          searchTerm={searchTerm}
+          currentTypes={selectedTypes}
+          currentGames={selectedGames}
+          currentRelatedElements={selectedElements}
+        />
       </div>
     </div>
   );
