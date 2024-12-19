@@ -12,34 +12,42 @@ const ComboBox = ({
   const [searchText, setSearchText] = useState("");
   const comboBoxRef = useRef(null);
 
+  const toggleDropdown = () => setIsOpen((prev) => !prev);
+
   const handleToggleOption = (option) => {
-    option === "all"
-      ? currentOptions.length === allOptions.length
-        ? setCurrentOptions([])
-        : setCurrentOptions(allOptions)
-      : setCurrentOptions((prev) =>
-          prev.includes(option)
-            ? prev.filter((item) => item !== option)
-            : [...prev, option]
-        );
+    if (option === "all") {
+      setCurrentOptions(
+        currentOptions.length === allOptions.length ? [] : allOptions
+      );
+    } else {
+      setCurrentOptions((prev) =>
+        prev.includes(option)
+          ? prev.filter((item) => item !== option)
+          : [...prev, option]
+      );
+    }
+  };
+
+  const filteredOptions = allOptions.filter((option) =>
+    option.toLowerCase().includes(searchText.toLowerCase().trim())
+  );
+
+  const handleOutsideClick = (event) => {
+    if (comboBoxRef.current && !comboBoxRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (comboBoxRef.current && !comboBoxRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleOutsideClick);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
 
   return (
     <div className="combo-box-container" ref={comboBoxRef}>
-      <div className="input-icon-wrapper">
+      <div className="input-icon-wrapper" onClick={toggleDropdown}>
         <input
           type="text"
           placeholder={
@@ -50,45 +58,31 @@ const ComboBox = ({
               : `${currentOptions.length} ${placeholder} selected`
           }
           value={searchText}
-          onClick={() => setIsOpen((prev) => !prev)}
           onChange={(e) => setSearchText(e.target.value)}
         />
-        <FontAwesomeIcon
-          icon={faAngleDown}
-          onClick={() => setIsOpen((prev) => !prev)}
-        />
+        <FontAwesomeIcon icon={faAngleDown} />
       </div>
       {isOpen && (
         <div className="combo-box-options">
           <div
-            key="select-all"
-            className={"combo-box-option select-all"}
+            className={`combo-box-option select-all`}
             onClick={() => handleToggleOption("all")}
           >
             {currentOptions.length === allOptions.length
               ? "Deselect All"
               : "Select All"}
           </div>
-          {allOptions
-            .filter((option) =>
-              option
-                .toLowerCase()
-                .trim()
-                .includes(searchText.toLowerCase().trim())
-            )
-            .map((option, index) => (
-              <div
-                key={index}
-                value={option}
-                className={
-                  "combo-box-option " +
-                  (currentOptions.includes(option) ? "selected" : "")
-                }
-                onClick={() => handleToggleOption(option)}
-              >
-                {option}
-              </div>
-            ))}
+          {filteredOptions.map((option, index) => (
+            <div
+              key={index}
+              className={`combo-box-option ${
+                currentOptions.includes(option) ? "selected" : ""
+              }`}
+              onClick={() => handleToggleOption(option)}
+            >
+              {option}
+            </div>
+          ))}
         </div>
       )}
     </div>
