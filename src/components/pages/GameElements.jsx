@@ -47,6 +47,7 @@ const GameElements = () => {
       <div className={"game-elements-wrapper"}>
         <ElementsList
           elementsList={gameElements}
+          currentRelationships={selectedElements}
           typesList={types}
           viewType={viewType}
           searchTerm={searchTerm}

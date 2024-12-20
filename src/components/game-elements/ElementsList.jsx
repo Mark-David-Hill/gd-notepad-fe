@@ -6,6 +6,7 @@ import fetchWrapper from "../../lib/apiCall";
 
 const ElementsList = ({
   elementsList,
+  currentRelationships,
   typesList,
   viewType,
   searchTerm,
@@ -26,6 +27,37 @@ const ElementsList = ({
       );
   }, []);
 
+  const includedInCurrentRelationships = (elementData) => {
+    if (currentRelationships.length === 0) {
+      return true;
+    }
+
+    const relationshipsThatIncludeCurrentElement = relationshipsList.filter(
+      (relationship) =>
+        relationship.element_1.name === elementData.name ||
+        relationship.element_2.name === elementData.name
+    );
+
+    const relationshipsToCheckAgainstCurrentRelationships = [
+      ...new Set(
+        relationshipsThatIncludeCurrentElement.flatMap((relationship) => [
+          relationship.element_1.name,
+          relationship.element_2.name,
+        ])
+      ),
+    ];
+
+    return currentRelationships.every((relationshipName) =>
+      relationshipsToCheckAgainstCurrentRelationships.includes(relationshipName)
+    );
+  };
+
+  useEffect(() => {
+    console.log("elements list", elementsList);
+    console.log("relationships list", relationshipsList);
+    console.log("current relationships", currentRelationships);
+  }, [elementsList, relationshipsList, currentRelationships]);
+
   return (
     <div className="game-elements-list-wrapper">
       {!elementsList.length && relationshipsList ? (
@@ -36,6 +68,7 @@ const ElementsList = ({
             if (
               currentTypes.includes(elementData.type.name) &&
               currentGames.includes(elementData.game.name) &&
+              includedInCurrentRelationships(elementData) &&
               (!searchTerm ||
                 elementData?.name
                   .toLowerCase()
