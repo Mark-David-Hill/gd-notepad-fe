@@ -7,7 +7,7 @@ import AddElementForm from "../forms/AddElementForm";
 import { GamesContext } from "../context/GamesContextProvider";
 
 const GameElements = () => {
-  const [viewType, setViewType] = useState("card");
+  const [viewType, setViewType] = useState("square");
   const [selectedElements, setSelectedElements] = useState([]);
   const [selectedGames, setSelectedGames] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);

@@ -1,13 +1,6 @@
-import { useEffect } from "react";
 import RelationshipCard from "./RelationshipCard";
 
-const RelationshipsList = ({
-  elementData,
-  relationshipsList,
-  typesList,
-  relationshipsSearchTerm,
-  setShouldDisplayElement,
-}) => {
+const RelationshipsList = ({ elementData, relationshipsList, typesList }) => {
   const getRelatedElement = (relationship, elementData) => {
     return relationship.element_1.element_id === elementData.element_id
       ? relationship.element_2
@@ -19,22 +12,8 @@ const RelationshipsList = ({
       relationship.element_1.element_id === elementData.element_id ||
       relationship.element_2.element_id === elementData.element_id;
 
-    const matchesSearchTerm =
-      !relationshipsSearchTerm ||
-      getRelatedElement(relationship, elementData)
-        .name.toLowerCase()
-        .includes(relationshipsSearchTerm.toLowerCase());
-
-    return isRelevantElement && matchesSearchTerm;
+    return isRelevantElement;
   });
-
-  useEffect(() => {
-    if (relationshipsSearchTerm.trim()) {
-      setShouldDisplayElement(relevantRelationships.length > 0);
-    } else {
-      setShouldDisplayElement(true);
-    }
-  }, [relevantRelationships, setShouldDisplayElement]);
 
   return (
     relevantRelationships.length > 0 &&
