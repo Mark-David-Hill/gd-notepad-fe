@@ -51,12 +51,6 @@ const ElementsList = ({
     );
   };
 
-  useEffect(() => {
-    console.log("elements list", elementsList);
-    console.log("relationships list", relationshipsList);
-    console.log("current relationships", currentRelationships);
-  }, [elementsList, relationshipsList, currentRelationships]);
-
   return (
     <div className="game-elements-list-wrapper">
       {!elementsList.length && relationshipsList ? (
