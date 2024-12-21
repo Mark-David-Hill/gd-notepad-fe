@@ -9,7 +9,6 @@ const ElementCard = ({
   elementData,
   typesList,
   viewType = "card",
-  relationshipsSearchTerm = "",
 }) => {
   const [shouldDisplayElement, setShouldDisplayElement] = useState(true);
 
@@ -30,7 +29,6 @@ const ElementCard = ({
               elementData={elementData}
               relationshipsList={relationshipsList}
               typesList={typesList}
-              relationshipsSearchTerm={relationshipsSearchTerm}
               setShouldDisplayElement={setShouldDisplayElement}
             />
             <NotesList elementData={elementData} />

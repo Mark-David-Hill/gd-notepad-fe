@@ -12,7 +12,6 @@ const ElementsList = ({
   searchTerm,
   currentTypes,
   currentGames,
-  relationshipsSearchTerm,
 }) => {
   const [relationshipsList, setRelationshipsList] = useState([]);
 
@@ -82,7 +81,6 @@ const ElementsList = ({
                   viewType={viewType}
                   relationshipsList={relationshipsList}
                   typesList={typesList}
-                  relationshipsSearchTerm={relationshipsSearchTerm}
                 />
               );
             } else {
