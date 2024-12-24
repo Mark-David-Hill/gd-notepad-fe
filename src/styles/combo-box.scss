@@ -1,77 +1,98 @@
 .combo-box-container {
-  position: relative; /* Allows dropdown positioning */
-  width: 250px; /* Adjust the width based on your needs */
+  position: relative;
+  width: 250px;
   font-family: Arial, sans-serif;
   margin: 10px;
-}
 
-.combo-box-container input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  width: 100%;
-  box-sizing: border-box;
-  outline: none;
-  transition: border-color 0.2s ease;
-}
+  &:focus {
+    outline: none;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+  }
 
-.combo-box-container input:focus {
-  border-color: #007bff; /* Highlight border on focus */
-}
+  input {
+    border: 1px solid transparent;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s ease;
 
-.combo-box-options {
-  position: absolute; /* Dropdown is positioned relative to the input */
-  top: 100%;
-  left: 0;
-  right: 0;
-  width: 235px;
-  max-height: 200px; /* Limit height for large option lists */
-  overflow-y: auto; /* Add scroll for long lists */
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: white;
-  z-index: 1000; /* Ensure dropdown is above other elements */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
-}
+    &::placeholder {
+      color: #aaa;
+      font-style: italic;
+    }
 
-.combo-box-option {
-  padding: 10px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
+    &:focus {
+      border-color: #007bff;
+    }
+  }
 
-.combo-box-option:hover {
-  background-color: #e4e4e4;
-}
+  .input-icon-wrapper {
+    display: flex;
 
-.combo-box-option.selected {
-  background-color: #007bff;
-  color: white;
-}
+    svg {
+      position: relative;
+      right: 25px;
+      top: 10px;
+      pointer-events: none;
+    }
+  }
 
-.combo-box-option.selected:hover {
-  background-color: #0056b3;
-}
+  .combo-box-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 235px;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
-.combo-box-container input::placeholder {
-  color: #aaa;
-  font-style: italic;
-}
+    .combo-box-option {
+      border: 1px solid transparent;
+      padding: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
 
-.select-all {
-  background-color: #beddff;
-}
+      &:hover {
+        background-color: #e4e4e4;
+      }
 
-svg {
-  position: relative;
-  right: 25px;
-  top: 10px;
-}
+      &.selected {
+        background-color: #007bff;
+        color: white;
 
-.input-icon-wrapper {
-  display: flex;
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+
+      &.focused {
+        background-color: #e4e4e4;
+        border: 1px solid #002d5d;
+        outline: none;
+      }
+
+      &.selected.focused {
+        background-color: #0056b3;
+        border: 1px solid #002d5d;
+        outline: none;
+      }
+    }
+
+    .select-all {
+      background-color: #beddff;
+    }
+  }
 }
 
 .search-section {
@@ -80,14 +101,14 @@ svg {
   align-items: center;
   flex-wrap: wrap;
   padding: 5px 200px;
-}
 
-.search-box {
-  width: 250px; /* Adjust the width based on your needs */
-  font-family: Arial, sans-serif;
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
+  .search-box {
+    width: 250px;
+    font-family: Arial, sans-serif;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
 }
