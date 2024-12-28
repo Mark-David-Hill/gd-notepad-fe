@@ -131,8 +131,9 @@ const ComboBox = ({
       onBlur={handleBlur}
       onKeyDown={handleKeyDown}
     >
-      <div className="input-icon-wrapper" onClick={() => toggleDropdown(true)}>
+      <div className="input-wrapper">
         <input
+          onClick={() => toggleDropdown(true)}
           type="text"
           placeholder={
             currentOptions.length === 0
