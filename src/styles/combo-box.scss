@@ -39,7 +39,7 @@
   svg {
     position: absolute;
     right: 10px;
-    pointer-events: none;
+    cursor: pointer;
     font-size: 16px;
     color: #555;
   }
@@ -80,6 +80,19 @@
         background-color: #e4e4e4;
         border: 1px solid #002d5d;
         outline: none;
+
+        &.selected {
+          background-color: #459fff;
+        }
+      }
+    }
+
+    .combo-box-option.no-results {
+      color: #888;
+      font-style: italic;
+
+      &:hover {
+        background-color: white;
       }
     }
 
