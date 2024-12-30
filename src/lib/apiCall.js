@@ -1,4 +1,4 @@
-const apiCall = (endpoint, method, body = null, headers = null) =>
+const apiCall = (endpoint, method, body = null) =>
   new Promise((resolve, reject) => {
     const payload = {};
 

@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import fetchWrapper from "../../lib/apiCall";
