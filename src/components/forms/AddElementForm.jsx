@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import fetchWrapper from "../../lib/apiCall";
 
-import ElementCard from "../item-cards/ElementCard";
+import ItemCard from "../item-cards/ItemCard";
 
 const AddElementForm = ({ setElementsList, gamesList, typesList }) => {
   const [addFormIsOpen, setAddFormIsOpen] = useState(false);
@@ -106,8 +106,8 @@ const AddElementForm = ({ setElementsList, gamesList, typesList }) => {
         </button>
         <button onClick={handleAddGameElement}>Add Element</button>
       </div>
-      <ElementCard
-        elementData={{
+      <ItemCard
+        itemData={{
           description: formDescription,
           name: formName,
           image_url:
@@ -116,8 +116,8 @@ const AddElementForm = ({ setElementsList, gamesList, typesList }) => {
           type_id: formTypeId,
           notes: [],
         }}
-        viewType="card"
-        typesList={typesList}
+        itemType="element"
+        fetchRoute="elements"
       />
     </div>
   );

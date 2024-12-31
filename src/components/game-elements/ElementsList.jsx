@@ -1,13 +1,12 @@
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 
-import ElementCard from "../item-cards/ElementCard";
+import ItemCard from "../item-cards/ItemCard";
 
 import { GamesContext } from "../context/GamesContextProvider";
 
 const ElementsList = ({
   elementsList,
   currentRelationships,
-  typesList,
   viewType,
   searchTerm,
   currentTypes,
@@ -57,13 +56,13 @@ const ElementsList = ({
                   .includes(searchTerm.trim().toLowerCase()))
             ) {
               return (
-                <ElementCard
+                <ItemCard
                   key={elementId}
-                  elementData={elementData}
-                  elementId={elementId}
+                  itemData={elementData}
+                  itemType="element"
+                  fetchRoute="elements"
+                  pageRoute="game-elements"
                   viewType={viewType}
-                  relationships={relationships}
-                  typesList={typesList}
                 />
               );
             } else {

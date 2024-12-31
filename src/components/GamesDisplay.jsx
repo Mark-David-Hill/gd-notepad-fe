@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import GameCard from "./item-cards/GameCard";
+import ItemCard from "./item-cards/ItemCard";
 
 import { GamesContext } from "./context/GamesContextProvider";
 
@@ -14,7 +14,15 @@ const GamesDisplay = () => {
           <p>Loading</p>
         ) : (
           games.map((gameData, gameId) => {
-            return <GameCard key={gameId} gameData={gameData} />;
+            return (
+              <ItemCard
+                key={gameId}
+                itemData={gameData}
+                itemType="game"
+                fetchRoute="games"
+                pageRoute="games"
+              />
+            );
           })
         )}
       </div>

@@ -48,7 +48,6 @@ const GameElements = () => {
         <ElementsList
           elementsList={gameElements}
           currentRelationships={selectedElements}
-          typesList={types}
           viewType={viewType}
           searchTerm={searchTerm}
           currentTypes={selectedTypes}

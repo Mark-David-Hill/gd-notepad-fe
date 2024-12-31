@@ -1,6 +1,12 @@
+import { useContext } from "react";
+
 import RelationshipCard from "./RelationshipCard";
 
-const RelationshipsList = ({ elementData, relationships, typesList }) => {
+import { GamesContext } from "../context/GamesContextProvider";
+
+const RelationshipsList = ({ elementData }) => {
+  const { relationships, types } = useContext(GamesContext);
+
   const getRelatedElement = (relationship, elementData) => {
     return relationship.element_1.element_id === elementData.element_id
       ? relationship.element_2
@@ -17,10 +23,10 @@ const RelationshipsList = ({ elementData, relationships, typesList }) => {
 
   return (
     relevantRelationships.length > 0 &&
-    typesList.length > 0 && (
+    types.length > 0 && (
       <div className="element-relationships">
         <div className="relationships-wrapper">
-          {typesList.map((type, index) => {
+          {types.map((type, index) => {
             const filteredRelationships = relevantRelationships.filter(
               (relationship) =>
                 getRelatedElement(relationship, elementData).type.type_id ===

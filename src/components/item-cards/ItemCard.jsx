@@ -1,33 +1,29 @@
-import { useState } from "react";
-
 import RelationshipsList from "./RelationshipsList";
 import CardTitleSection from "./CardTitleSection";
 import NotesList from "./NotesList";
 
-const ItemCard = ({ elementData, typesList, viewType = "card" }) => {
-  const [shouldDisplayElement, setShouldDisplayElement] = useState(true);
-
-  const { games, types } = useContext(GamesContext);
-
+const ItemCard = ({
+  itemData,
+  itemType,
+  fetchRoute,
+  pageRoute,
+  viewType = "card",
+}) => {
   return (
-    elementData && (
-      <div
-        className={
-          "card-container " +
-          viewType +
-          `${!shouldDisplayElement ? " hide" : ""}`
-        }
-      >
+    itemData && (
+      <div className={"card-container " + viewType}>
         <div className="card-content-wrapper">
-          <CardTitleSection elementData={elementData} />
-          <div className="relationships-notes-wrapper">
-            <RelationshipsList
-              elementData={elementData}
-              typesList={typesList}
-              setShouldDisplayElement={setShouldDisplayElement}
-            />
-            <NotesList elementData={elementData} />
-          </div>
+          <CardTitleSection
+            itemData={itemData}
+            itemType={itemType}
+            pageRoute={pageRoute}
+          />
+          {itemType === "element" && itemData?.element_id && (
+            <div className="relationships-notes-wrapper">
+              <RelationshipsList elementData={itemData} />
+              <NotesList elementData={itemData} />
+            </div>
+          )}
         </div>
       </div>
     )

@@ -1,16 +1,16 @@
 import { NavLink } from "react-router-dom";
 
-const CardTitleSection = ({ elementData }) => {
+const CardTitleSection = ({ itemData, itemType, pageRoute }) => {
   return (
-    elementData && (
+    itemData && (
       <div className="title-section-wrapper">
         <div className="name-img-wrapper">
-          <h2>{elementData.name}</h2>
-          <img src={elementData.image_url} alt={elementData.name + " image"} />
+          <h2>{itemData.name}</h2>
+          <img src={itemData.image_url} alt={itemData.name + " image"} />
         </div>
         <div className="description-wrapper">
-          <p>{elementData.description}</p>
-          <NavLink to={`/game-elements/${elementData.element_id}`}>
+          <p>{itemData.description}</p>
+          <NavLink to={`/${pageRoute}/${itemData[`${itemType}_id`]}`}>
             View More Details
           </NavLink>
         </div>
