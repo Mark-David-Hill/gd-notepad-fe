@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+
+import GameCard from "./game-elements/GameCard";
 
 import { GamesContext } from "./context/GamesContextProvider";
 
@@ -13,20 +14,7 @@ const GamesDisplay = () => {
           <p>Loading</p>
         ) : (
           games.map((gameData, gameId) => {
-            return (
-              <div key={gameId}>
-                <h2>{gameData.name}</h2>
-                <p>{gameData.description}</p>
-                <img
-                  src={gameData.image_url}
-                  alt={gameData.name + " image"}
-                  style={{ width: "200px" }}
-                />
-                <NavLink to={`/games/${gameData.game_id}`}>
-                  View More Details
-                </NavLink>
-              </div>
-            );
+            return <GameCard key={gameId} gameData={gameData} />;
           })
         )}
       </div>
