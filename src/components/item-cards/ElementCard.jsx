@@ -5,7 +5,7 @@ import CardTitleSection from "./CardTitleSection";
 import NotesList from "./NotesList";
 
 const ElementCard = ({
-  relationshipsList,
+  relationships,
   elementData,
   typesList,
   viewType = "card",
@@ -14,7 +14,7 @@ const ElementCard = ({
 
   return (
     elementData &&
-    relationshipsList && (
+    relationships && (
       <div
         className={
           "card-container " +
@@ -27,7 +27,7 @@ const ElementCard = ({
           <div className="relationships-notes-wrapper">
             <RelationshipsList
               elementData={elementData}
-              relationshipsList={relationshipsList}
+              relationships={relationships}
               typesList={typesList}
               setShouldDisplayElement={setShouldDisplayElement}
             />

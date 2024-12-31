@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
-import ElementCard from "./ElementCard";
+import ElementCard from "../item-cards/ElementCard";
 
-import fetchWrapper from "../../lib/apiCall";
+import { GamesContext } from "../context/GamesContextProvider";
 
 const ElementsList = ({
   elementsList,
@@ -13,25 +13,14 @@ const ElementsList = ({
   currentTypes,
   currentGames,
 }) => {
-  const [relationshipsList, setRelationshipsList] = useState([]);
-
-  useEffect(() => {
-    fetchWrapper
-      .apiCall(`/relationships`, "GET")
-      .then((response) => {
-        setRelationshipsList(response.results);
-      })
-      .catch((error) =>
-        console.error(`couldn't get relationships for game elements`, error)
-      );
-  }, []);
+  const { relationships } = useContext(GamesContext);
 
   const includedInCurrentRelationships = (elementData) => {
     if (currentRelationships.length === 0) {
       return true;
     }
 
-    const relationshipsThatIncludeCurrentElement = relationshipsList.filter(
+    const relationshipsThatIncludeCurrentElement = relationships.filter(
       (relationship) =>
         relationship.element_1.name === elementData.name ||
         relationship.element_2.name === elementData.name
@@ -53,7 +42,7 @@ const ElementsList = ({
 
   return (
     <div className="game-elements-list-wrapper">
-      {!elementsList.length && relationshipsList ? (
+      {!elementsList.length && relationships ? (
         <p>Loading...</p>
       ) : (
         elementsList.map((elementData, elementId) => {
@@ -73,7 +62,7 @@ const ElementsList = ({
                   elementData={elementData}
                   elementId={elementId}
                   viewType={viewType}
-                  relationshipsList={relationshipsList}
+                  relationships={relationships}
                   typesList={typesList}
                 />
               );

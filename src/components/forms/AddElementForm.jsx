@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import fetchWrapper from "../../lib/apiCall";
 
-import ElementCard from "../game-elements/ElementCard";
+import ElementCard from "../item-cards/ElementCard";
 
 const AddElementForm = ({ setElementsList, gamesList, typesList }) => {
   const [addFormIsOpen, setAddFormIsOpen] = useState(false);
@@ -117,7 +117,6 @@ const AddElementForm = ({ setElementsList, gamesList, typesList }) => {
           notes: [],
         }}
         viewType="card"
-        relationshipsList={[]}
         typesList={typesList}
       />
     </div>

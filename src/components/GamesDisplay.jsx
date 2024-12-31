@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import GameCard from "./game-elements/GameCard";
+import GameCard from "./item-cards/GameCard";
 
 import { GamesContext } from "./context/GamesContextProvider";
 

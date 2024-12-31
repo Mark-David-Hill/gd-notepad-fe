@@ -1,13 +1,13 @@
 import RelationshipCard from "./RelationshipCard";
 
-const RelationshipsList = ({ elementData, relationshipsList, typesList }) => {
+const RelationshipsList = ({ elementData, relationships, typesList }) => {
   const getRelatedElement = (relationship, elementData) => {
     return relationship.element_1.element_id === elementData.element_id
       ? relationship.element_2
       : relationship.element_1;
   };
 
-  const relevantRelationships = relationshipsList.filter((relationship) => {
+  const relevantRelationships = relationships.filter((relationship) => {
     const isRelevantElement =
       relationship.element_1.element_id === elementData.element_id ||
       relationship.element_2.element_id === elementData.element_id;
