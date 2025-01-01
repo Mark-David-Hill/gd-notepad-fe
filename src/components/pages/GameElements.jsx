@@ -22,7 +22,7 @@ const GameElements = () => {
   }, [games, types]);
 
   return (
-    <div className="game-elements-container">
+    <div className="items-container">
       <h1>Game Elements</h1>
 
       <SearchSection
@@ -44,7 +44,7 @@ const GameElements = () => {
         typesList={types}
       />
 
-      <div className={"game-elements-wrapper"}>
+      <div className={"items-wrapper"}>
         <ElementsList
           elementsList={gameElements}
           currentRelationships={selectedElements}

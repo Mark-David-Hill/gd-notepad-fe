@@ -2,9 +2,11 @@ import GamesDisplay from "../GamesDisplay";
 
 const Games = () => {
   return (
-    <div className="games">
+    <div className="items-container">
       <h1>Games</h1>
-      <GamesDisplay />
+      <div className={"items-wrapper"}>
+        <GamesDisplay />
+      </div>
     </div>
   );
 };

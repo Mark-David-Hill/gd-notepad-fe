@@ -1,4 +1,4 @@
-.game-elements-container {
+.items-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,12 +31,13 @@
     }
   }
 
-  .game-elements-wrapper {
+  .items-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    .game-elements-list-wrapper {
+    .game-elements-list-wrapper,
+    .games-display-wrapper {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
