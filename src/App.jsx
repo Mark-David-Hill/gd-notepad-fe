@@ -14,6 +14,7 @@ import Login from "./components/pages/Login";
 import Navbar from "./components/nav/Navbar";
 import Footer from "./components/nav/Footer";
 import Games from "./components/pages/Games";
+import Types from "./components/pages/Types";
 import Home from "./components/pages/Home";
 import Game from "./components/pages/Game";
 
@@ -45,6 +46,7 @@ function App() {
           />
           <Route path="/" element={<Home />} />
           <Route path="/games" element={<Games />} />
+          <Route path="/types" element={<Types />} />
           <Route exact path="/game-elements" element={<GameElements />} />
           <Route path="games/:id" element={<Game />} />
           <Route path="/game-elements/:id" element={<GameElement />} />
