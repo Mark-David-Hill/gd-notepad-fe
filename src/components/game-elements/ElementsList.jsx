@@ -21,15 +21,15 @@ const ElementsList = ({
 
     const relationshipsThatIncludeCurrentElement = relationships.filter(
       (relationship) =>
-        relationship.element_1.name === elementData.name ||
-        relationship.element_2.name === elementData.name
+        relationship.item_1.name === elementData.name ||
+        relationship.item_2.name === elementData.name
     );
 
     const relationshipsToCheckAgainstCurrentRelationships = [
       ...new Set(
         relationshipsThatIncludeCurrentElement.flatMap((relationship) => [
-          relationship.element_1.name,
-          relationship.element_2.name,
+          relationship.item_1.name,
+          relationship.item_2.name,
         ])
       ),
     ];
@@ -59,8 +59,8 @@ const ElementsList = ({
                 <ItemCard
                   key={elementId}
                   itemData={elementData}
-                  itemType="element"
-                  fetchRoute="elements"
+                  itemType="item"
+                  fetchRoute="items"
                   pageRoute="game-elements"
                   viewType={viewType}
                 />

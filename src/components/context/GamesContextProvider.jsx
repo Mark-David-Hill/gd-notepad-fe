@@ -23,11 +23,11 @@ export default function GamesContextProvider({ children }) {
 
   useEffect(() => {
     fetchWrapper
-      .apiCall(`/elements`, "GET")
+      .apiCall(`/items`, "GET")
       .then((response) => {
         setGameElements(response.results);
       })
-      .catch((error) => console.error(`couldn't get elements`, error));
+      .catch((error) => console.error(`couldn't get items`, error));
 
     fetchWrapper
       .apiCall(`/collections`, "GET")

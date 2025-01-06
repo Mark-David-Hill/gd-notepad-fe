@@ -18,10 +18,10 @@ const ItemCard = ({
             itemType={itemType}
             pageRoute={pageRoute}
           />
-          {itemType === "element" && itemData?.element_id && (
+          {itemType === "item" && itemData?.item_id && (
             <div className="relationships-notes-wrapper">
-              <RelationshipsList elementData={itemData} />
-              <NotesList elementData={itemData} />
+              <RelationshipsList itemData={itemData} />
+              <NotesList itemData={itemData} />
             </div>
           )}
         </div>

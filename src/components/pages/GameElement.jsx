@@ -12,7 +12,7 @@ export default function GameElement() {
 
   useEffect(() => {
     fetchWrapper
-      .apiCall(`/element/${id}`, "GET")
+      .apiCall(`/item/${id}`, "GET")
       .then((response) => {
         setElementData(response.result);
       })

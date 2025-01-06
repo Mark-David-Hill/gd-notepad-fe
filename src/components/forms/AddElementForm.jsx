@@ -31,7 +31,7 @@ const AddElementForm = ({ setElementsList, collectionsList, typesList }) => {
       };
 
       fetchWrapper
-        .apiCall(`/element`, "POST", body)
+        .apiCall(`/item`, "POST", body)
         .then((response) => {
           setElementsList((prev) => [...prev, response.result]);
           handleResetForm();

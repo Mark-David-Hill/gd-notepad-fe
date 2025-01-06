@@ -4,19 +4,19 @@ import RelationshipCard from "./RelationshipCard";
 
 import { GamesContext } from "../context/GamesContextProvider";
 
-const RelationshipsList = ({ elementData }) => {
+const RelationshipsList = ({ itemData }) => {
   const { relationships, types } = useContext(GamesContext);
 
-  const getRelatedElement = (relationship, elementData) => {
-    return relationship.element_1.element_id === elementData.element_id
-      ? relationship.element_2
-      : relationship.element_1;
+  const getRelatedElement = (relationship, itemData) => {
+    return relationship.item_1.item_1 === itemData.item_1
+      ? relationship.item_2
+      : relationship.item_1;
   };
 
   const relevantRelationships = relationships.filter((relationship) => {
     const isRelevantElement =
-      relationship.element_1.element_id === elementData.element_id ||
-      relationship.element_2.element_id === elementData.element_id;
+      relationship.item_1.item_1 === itemData.item_1 ||
+      relationship.item_2.item_1 === itemData.item_1;
 
     return isRelevantElement;
   });
@@ -29,7 +29,7 @@ const RelationshipsList = ({ elementData }) => {
           {types.map((type, index) => {
             const filteredRelationships = relevantRelationships.filter(
               (relationship) =>
-                getRelatedElement(relationship, elementData).type.type_id ===
+                getRelatedElement(relationship, itemData).type.type_id ===
                 type.type_id
             );
 
@@ -41,7 +41,7 @@ const RelationshipsList = ({ elementData }) => {
                     {filteredRelationships.map((relationship, relIndex) => {
                       const relatedElement = getRelatedElement(
                         relationship,
-                        elementData
+                        itemData
                       );
 
                       return (
