@@ -6,24 +6,24 @@ import fetchWrapper from "../../lib/apiCall";
 export default function Game() {
   const { id } = useParams();
 
-  const [gameData, setGameData] = useState(null);
+  const [collectionData, setCollectionData] = useState(null);
 
   fetchWrapper
-    .apiCall(`/game/${id}`, "GET")
+    .apiCall(`/collection/${id}`, "GET")
     .then((response) => {
-      setGameData(response.result);
+      setCollectionData(response.result);
     })
-    .catch((error) => console.error(`couldn't retrieve game element`, error));
+    .catch((error) => console.error(`couldn't retrieve collection`, error));
 
   return (
     <div className="game-container">
-      {gameData ? (
+      {collectionData ? (
         <div className="game-wrapper">
-          <h2>{gameData.name}</h2>
-          <p>{gameData.description}</p>
+          <h2>{collectionData.name}</h2>
+          <p>{collectionData.description}</p>
           <img
-            src={gameData.image_url}
-            alt={gameData.name + " image"}
+            src={collectionData.image_url}
+            alt={collectionData.name + " image"}
             style={{ width: "200px" }}
           />
         </div>

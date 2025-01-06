@@ -5,14 +5,14 @@ import fetchWrapper from "../../lib/apiCall";
 export const GamesContext = createContext();
 
 export default function GamesContextProvider({ children }) {
-  const [games, setGames] = useState([]);
+  const [collections, setCollections] = useState([]);
   const [types, setTypes] = useState([]);
   const [gameElements, setGameElements] = useState([]);
   const [relationships, setRelationships] = useState([]);
 
   const gameDataState = {
-    games,
-    setGames,
+    collections,
+    setCollections,
     types,
     setTypes,
     gameElements,
@@ -30,11 +30,11 @@ export default function GamesContextProvider({ children }) {
       .catch((error) => console.error(`couldn't get elements`, error));
 
     fetchWrapper
-      .apiCall(`/games`, "GET")
+      .apiCall(`/collections`, "GET")
       .then((response) => {
-        setGames(response.results);
+        setCollections(response.results);
       })
-      .catch((error) => console.error(`couldn't get games`, error));
+      .catch((error) => console.error(`couldn't get collections`, error));
 
     fetchWrapper
       .apiCall(`/types`, "GET")

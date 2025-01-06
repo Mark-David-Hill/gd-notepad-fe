@@ -4,16 +4,16 @@ import fetchWrapper from "../../lib/apiCall";
 
 import ItemCard from "../item-cards/ItemCard";
 
-const AddElementForm = ({ setElementsList, gamesList, typesList }) => {
+const AddElementForm = ({ setElementsList, collectionsList, typesList }) => {
   const [addFormIsOpen, setAddFormIsOpen] = useState(false);
   const [formName, setFormName] = useState("");
   const [formImgUrl, setFormImgUrl] = useState("");
   const [formDescription, setFormDescription] = useState("");
-  const [formGameId, setFormGameId] = useState("");
+  const [formCollectionId, setFormCollectionId] = useState("");
   const [formTypeId, setFormTypeId] = useState("");
 
   const handleResetForm = () => {
-    setFormGameId("");
+    setFormCollectionId("");
     setFormTypeId("");
     setFormImgUrl("");
     setFormName("");
@@ -24,7 +24,7 @@ const AddElementForm = ({ setElementsList, gamesList, typesList }) => {
     if (formName && formDescription) {
       const body = {
         type_id: formTypeId,
-        game_id: formGameId,
+        collection_id: formCollectionId,
         name: formName,
         description: formDescription,
         image_url: formImgUrl,
@@ -51,15 +51,18 @@ const AddElementForm = ({ setElementsList, gamesList, typesList }) => {
     <div className="add-element-wrapper">
       <div className="add-element-form">
         <select
-          name="form-game"
-          onChange={(e) => setFormGameId(e.target.value)}
-          value={formGameId}
+          name="form-collection"
+          onChange={(e) => setFormCollectionId(e.target.value)}
+          value={formCollectionId}
         >
-          <option value="">Select Game</option>
-          {gamesList &&
-            gamesList.map((game) => (
-              <option key={game.game_id} value={game.game_id}>
-                {game.name}
+          <option value="">Select Collection</option>
+          {collectionsList &&
+            collectionsList.map((collection) => (
+              <option
+                key={collection.collection_id}
+                value={collection.collection_id}
+              >
+                {collection.name}
               </option>
             ))}
         </select>

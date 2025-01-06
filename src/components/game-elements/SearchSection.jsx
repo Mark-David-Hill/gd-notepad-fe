@@ -10,24 +10,24 @@ const SearchSection = ({
   setViewType,
   selectedElements,
   setSelectedElements,
-  selectedGames,
-  setSelectedGames,
+  selectedCollections,
+  setSelectedCollections,
   selectedTypes,
   setSelectedTypes,
   searchTerm,
   setSearchTerm,
 }) => {
-  const { gameElements, games, types } = useContext(GamesContext);
+  const { gameElements, collections, types } = useContext(GamesContext);
 
   useEffect(() => {
-    if (games) {
-      setSelectedGames(games.map((game) => game.name));
+    if (collections) {
+      setSelectedCollections(collections.map((collection) => collection.name));
     }
 
     if (types) {
       setSelectedTypes(types.map((type) => type.name));
     }
-  }, [games]);
+  }, [collections]);
 
   return gameElements.length > 0 && types ? (
     <div className="search-section">
@@ -38,12 +38,12 @@ const SearchSection = ({
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      {games.length > 0 && (
+      {collections.length > 0 && (
         <ComboBox
-          placeholder="Games"
-          allOptions={games.map((game) => game.name)}
-          currentOptions={selectedGames}
-          setCurrentOptions={setSelectedGames}
+          placeholder="Collections"
+          allOptions={collections.map((collection) => collection.name)}
+          currentOptions={selectedCollections}
+          setCurrentOptions={setSelectedCollections}
         />
       )}
       {types.length > 0 && (

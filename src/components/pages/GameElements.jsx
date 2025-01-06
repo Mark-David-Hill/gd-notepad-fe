@@ -9,17 +9,18 @@ import { GamesContext } from "../context/GamesContextProvider";
 const GameElements = () => {
   const [viewType, setViewType] = useState("square");
   const [selectedElements, setSelectedElements] = useState([]);
-  const [selectedGames, setSelectedGames] = useState([]);
+  const [selectedCollections, setSelectedCollections] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { gameElements, setGameElements, games, types } =
+  const { gameElements, setGameElements, collections, types } =
     useContext(GamesContext);
 
   useEffect(() => {
-    if (games?.length) setSelectedGames(games.map((game) => game.name));
+    if (collections?.length)
+      setSelectedCollections(collections.map((collection) => collection.name));
     if (types?.length) setSelectedTypes(types.map((type) => type.name));
-  }, [games, types]);
+  }, [collections, types]);
 
   return (
     <div className="items-container">
@@ -32,15 +33,15 @@ const GameElements = () => {
         setViewType={setViewType}
         selectedElements={selectedElements}
         setSelectedElements={setSelectedElements}
-        selectedGames={selectedGames}
-        setSelectedGames={setSelectedGames}
+        selectedCollections={selectedCollections}
+        setSelectedCollections={setSelectedCollections}
         selectedTypes={selectedTypes}
         setSelectedTypes={setSelectedTypes}
       />
 
       <AddElementForm
         setElementsList={setGameElements}
-        gamesList={games}
+        collectionsList={collections}
         typesList={types}
       />
 
@@ -51,7 +52,7 @@ const GameElements = () => {
           viewType={viewType}
           searchTerm={searchTerm}
           currentTypes={selectedTypes}
-          currentGames={selectedGames}
+          currentCollections={selectedCollections}
           currentRelatedElements={selectedElements}
         />
       </div>

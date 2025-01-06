@@ -5,22 +5,22 @@ import ItemCard from "./item-cards/ItemCard";
 import { GamesContext } from "./context/GamesContextProvider";
 
 const GamesDisplay = () => {
-  const { games } = useContext(GamesContext);
+  const { collections } = useContext(GamesContext);
 
   return (
     <div className="games-display-container">
       <div className="games-display-wrapper">
-        {!games ? (
+        {!collections ? (
           <p>Loading</p>
         ) : (
-          games.map((gameData, gameId) => {
+          collections.map((collectionData, collectionId) => {
             return (
               <ItemCard
-                key={gameId}
-                itemData={gameData}
-                itemType="game"
-                fetchRoute="games"
-                pageRoute="games"
+                key={collectionId}
+                itemData={collectionData}
+                itemType="collection"
+                fetchRoute="collections"
+                pageRoute="collections"
               />
             );
           })
