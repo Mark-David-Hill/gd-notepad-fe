@@ -8,15 +8,15 @@ const RelationshipsList = ({ itemData }) => {
   const { relationships, types } = useContext(GamesContext);
 
   const getRelatedElement = (relationship, itemData) => {
-    return relationship.item_1.item_1 === itemData.item_1
+    return relationship.item_1.item_id === itemData.item_id
       ? relationship.item_2
       : relationship.item_1;
   };
 
   const relevantRelationships = relationships.filter((relationship) => {
     const isRelevantElement =
-      relationship.item_1.item_1 === itemData.item_1 ||
-      relationship.item_2.item_1 === itemData.item_1;
+      relationship.item_1.item_id === itemData.item_id ||
+      relationship.item_2.item_id === itemData.item_id;
 
     return isRelevantElement;
   });
