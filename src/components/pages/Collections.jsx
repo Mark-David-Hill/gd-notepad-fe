@@ -1,9 +1,9 @@
 import GamesDisplay from "../GamesDisplay";
 
-const Games = () => {
+const Collections = () => {
   return (
     <div className="items-container">
-      <h1>Games</h1>
+      <h1>Collections</h1>
       <div className={"items-wrapper"}>
         <GamesDisplay />
       </div>
@@ -11,4 +11,4 @@ const Games = () => {
   );
 };
 
-export default Games;
+export default Collections;

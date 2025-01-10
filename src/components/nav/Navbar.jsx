@@ -9,7 +9,7 @@ export default function Navbar() {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   const navList = [
-    { route: "/games", label: "Games" },
+    { route: "/collections", label: "Collections" },
     { route: "/types", label: "Types" },
     { route: "/game-elements", label: "Game Elements" },
   ];

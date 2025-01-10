@@ -5,7 +5,7 @@ export default function Home() {
     <div className="login-container">
       <h1>Home</h1>
       <NavLink
-        to="/games"
+        to="/collections"
         className={({ isActive }) => (isActive ? "active-link" : undefined)}
         onClick={() => setMenuIsOpen(false)}
       >
