@@ -10,9 +10,11 @@ const CardTitleSection = ({ itemData, itemType, pageRoute }) => {
         </div>
         <div className="description-wrapper">
           <p>{itemData.description}</p>
-          <NavLink to={`/${pageRoute}/${itemData[`${itemType}_id`]}`}>
-            View More Details
-          </NavLink>
+          {pageRoute && (
+            <NavLink to={`/${pageRoute}/${itemData[`${itemType}_id`]}`}>
+              View More Details
+            </NavLink>
+          )}
         </div>
       </div>
     )
