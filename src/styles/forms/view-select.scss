@@ -1,0 +1,14 @@
+.view-select-wrapper {
+  display: flex;
+  gap: 5px;
+  margin: 10px;
+
+  button.selected {
+    background-color: rgb(196, 255, 231);
+  }
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
+}
