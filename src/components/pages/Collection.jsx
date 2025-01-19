@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 
 import CollectionTabSelect from "../forms/CollectionTabSelect";
@@ -9,6 +9,8 @@ import ItemCard from "../item-cards/ItemCard";
 
 import fetchWrapper from "../../lib/apiCall";
 
+import { GamesContext } from "../context/GamesContextProvider";
+
 export default function Collection() {
   const [viewType, setViewType] = useState("square");
   const [selectedElements, setSelectedElements] = useState([]);
@@ -16,6 +18,8 @@ export default function Collection() {
   const [searchTerm, setSearchTerm] = useState("");
   const [collectionData, setCollectionData] = useState(null);
   const [currentTab, setCurrentTab] = useState("overview");
+
+  const { gameElements, types, relationships } = useContext(GamesContext);
 
   const { id } = useParams();
 
@@ -42,14 +46,31 @@ export default function Collection() {
           <h1>{collectionData.name}</h1>
 
           {currentTab === "overview" ? (
-            <div className="game-element-container">
-              <ItemCard
-                itemData={collectionData}
-                itemType="collection"
-                fetchRoute="collections"
-                // pageRoute="game-elements"
-                // viewType="page"
-              />
+            <div className="overview-wrapper">
+              <div className="game-element-container">
+                <ItemCard
+                  itemData={collectionData}
+                  itemType="collection"
+                  fetchRoute="collections"
+                  // pageRoute="game-elements"
+                  // viewType="page"
+                />
+              </div>
+              <h2>Types</h2>
+              <div className="types-wrapper">
+                {types
+                  .filter((type, index) => index < 3)
+                  .map((type) => (
+                    <ItemCard itemData={type} itemType={"type"} />
+                  ))}
+              </div>
+              <div className="items-wrapper">
+                {gameElements
+                  .filter((item, index) => index < 3)
+                  .map((item) => (
+                    <ItemCard itemData={item} itemType={"element"} />
+                  ))}
+              </div>
             </div>
           ) : currentTab === "items" ? (
             <div className="items-container">
