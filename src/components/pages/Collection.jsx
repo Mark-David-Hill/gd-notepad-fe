@@ -15,11 +15,13 @@ export default function Collection() {
   const [viewType, setViewType] = useState("square");
   const [selectedElements, setSelectedElements] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
+  const [types, setTypes] = useState([]);
+  const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [collectionData, setCollectionData] = useState(null);
   const [currentTab, setCurrentTab] = useState("overview");
 
-  const { gameElements, types, relationships } = useContext(GamesContext);
+  const { relationships } = useContext(GamesContext);
 
   const { id } = useParams();
 
@@ -31,6 +33,20 @@ export default function Collection() {
           setCollectionData(response.result);
         })
         .catch((error) => console.error(`couldn't retrieve collection`, error));
+
+      fetchWrapper
+        .apiCall(`/types/collection/${id}`, "GET")
+        .then((response) => {
+          setTypes(response.results);
+        })
+        .catch((error) => console.error("couldn't get types", error));
+
+      fetchWrapper
+        .apiCall(`/items/collection/${id}`, "GET")
+        .then((response) => {
+          setItems(response.results);
+        })
+        .catch((error) => console.error("couldn't get items", error));
     }
   }, [id]);
 
@@ -61,14 +77,25 @@ export default function Collection() {
                 {types
                   .filter((type, index) => index < 3)
                   .map((type) => (
-                    <ItemCard itemData={type} itemType={"type"} />
+                    <ItemCard
+                      key={type.type_id}
+                      itemData={type}
+                      itemType={"type"}
+                      viewType="square"
+                    />
                   ))}
               </div>
+              <h2>Items</h2>
               <div className="items-wrapper">
-                {gameElements
+                {items
                   .filter((item, index) => index < 3)
                   .map((item) => (
-                    <ItemCard itemData={item} itemType={"element"} />
+                    <ItemCard
+                      key={item.item_id}
+                      itemData={item}
+                      itemType={"element"}
+                      viewType="square"
+                    />
                   ))}
               </div>
             </div>
