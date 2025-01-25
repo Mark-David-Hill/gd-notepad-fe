@@ -25,7 +25,6 @@ export default function GameElement() {
         <ItemCard
           itemData={elementData}
           itemType="element"
-          fetchRoute="elements"
           pageRoute="game-elements"
           viewType="page"
         />

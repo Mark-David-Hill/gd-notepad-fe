@@ -2,13 +2,7 @@ import RelationshipsList from "./RelationshipsList";
 import CardTitleSection from "./CardTitleSection";
 import NotesList from "./NotesList";
 
-const ItemCard = ({
-  itemData,
-  itemType,
-  fetchRoute,
-  pageRoute,
-  viewType = "card",
-}) => {
+const ItemCard = ({ itemData, itemType, pageRoute, viewType = "card" }) => {
   function lightenHexColor(hex, percent) {
     // Remove the hash if it exists
     hex = hex.replace("#", "");
@@ -45,9 +39,9 @@ const ItemCard = ({
           }`,
           backgroundColor: `${
             itemData?.type?.color
-              ? lightenHexColor(itemData.type.color, 80)
+              ? lightenHexColor(itemData.type.color, 90)
               : itemData?.color
-              ? lightenHexColor(itemData.color, 80)
+              ? lightenHexColor(itemData.color, 90)
               : "rgb(198, 255, 237)"
           }`,
         }}

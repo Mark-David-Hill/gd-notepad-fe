@@ -60,7 +60,6 @@ const ElementsList = ({
                   key={elementId}
                   itemData={elementData}
                   itemType="item"
-                  fetchRoute="items"
                   pageRoute="game-elements"
                   viewType={viewType}
                 />

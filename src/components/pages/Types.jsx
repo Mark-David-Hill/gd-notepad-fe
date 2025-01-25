@@ -22,7 +22,6 @@ const Types = () => {
                     key={typeId}
                     itemData={typeData}
                     itemType="type"
-                    fetchRoute="types"
                     pageRoute="types"
                   />
                 );

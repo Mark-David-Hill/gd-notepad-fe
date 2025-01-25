@@ -120,7 +120,6 @@ const AddElementForm = ({ setElementsList, collectionsList, typesList }) => {
           notes: [],
         }}
         itemType="element"
-        fetchRoute="elements"
       />
     </div>
   );

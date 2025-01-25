@@ -19,7 +19,6 @@ const GamesDisplay = () => {
                 key={collectionId}
                 itemData={collectionData}
                 itemType="collection"
-                fetchRoute="collections"
                 pageRoute="collections"
               />
             );

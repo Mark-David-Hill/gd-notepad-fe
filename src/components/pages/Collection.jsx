@@ -64,13 +64,7 @@ export default function Collection() {
           {currentTab === "overview" ? (
             <div className="overview-wrapper">
               <div className="game-element-container">
-                <ItemCard
-                  itemData={collectionData}
-                  itemType="collection"
-                  fetchRoute="collections"
-                  // pageRoute="game-elements"
-                  // viewType="page"
-                />
+                <ItemCard itemData={collectionData} itemType="collection" />
               </div>
               <h2>Types</h2>
               <div className="types-wrapper">
