@@ -23,6 +23,7 @@ const Types = () => {
                     itemData={typeData}
                     itemType="type"
                     pageRoute="types"
+                    colorScheme={typeData.color_scheme}
                   />
                 );
               })

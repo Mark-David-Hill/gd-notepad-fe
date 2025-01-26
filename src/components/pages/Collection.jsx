@@ -76,6 +76,7 @@ export default function Collection() {
                       itemData={type}
                       itemType={"type"}
                       viewType="square"
+                      colorScheme={type.color_scheme}
                     />
                   ))}
               </div>
@@ -89,6 +90,7 @@ export default function Collection() {
                       itemData={item}
                       itemType={"element"}
                       viewType="square"
+                      colorScheme={item.type.color_scheme}
                     />
                   ))}
               </div>

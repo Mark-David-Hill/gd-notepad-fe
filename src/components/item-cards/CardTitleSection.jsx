@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-const CardTitleSection = ({ itemData, itemType, pageRoute }) => {
+const CardTitleSection = ({ itemData, itemType, pageRoute, colorScheme }) => {
   return (
     itemData && (
       <div className="title-section-wrapper">
@@ -8,16 +8,10 @@ const CardTitleSection = ({ itemData, itemType, pageRoute }) => {
           <div
             className="title-wrapper"
             style={{
-              backgroundColor: `${
-                itemData?.type?.color
-                  ? itemData.type.color
-                  : itemData?.color
-                  ? itemData.color
-                  : ""
-              }`,
+              backgroundColor: `${colorScheme.primary_color}`,
             }}
           >
-            <h2>{itemData.name}</h2>
+            <h2 style={{ color: colorScheme.text_color }}>{itemData.name}</h2>
           </div>
           <div className="image-wrapper">
             <img src={itemData.image_url} alt={itemData.name + " image"} />

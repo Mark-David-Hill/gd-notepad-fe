@@ -62,6 +62,7 @@ const ElementsList = ({
                   itemType="item"
                   pageRoute="game-elements"
                   viewType={viewType}
+                  colorScheme={elementData.type.color_scheme}
                 />
               );
             } else {
