@@ -8,10 +8,16 @@ const CardTitleSection = ({ itemData, itemType, pageRoute, colorScheme }) => {
           <div
             className="title-wrapper"
             style={{
-              backgroundColor: `${colorScheme.primary_color}`,
+              backgroundColor: `${
+                colorScheme ? colorScheme.primary_color : "white"
+              }`,
             }}
           >
-            <h2 style={{ color: colorScheme.text_color }}>{itemData.name}</h2>
+            <h2
+              style={{ color: colorScheme ? colorScheme.text_color : "black" }}
+            >
+              {itemData.name}
+            </h2>
           </div>
           <div className="image-wrapper">
             <img src={itemData.image_url} alt={itemData.name + " image"} />

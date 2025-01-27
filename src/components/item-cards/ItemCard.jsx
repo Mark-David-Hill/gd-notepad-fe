@@ -18,7 +18,7 @@ const ItemCard = ({
             colorScheme ? colorScheme.secondary_color : "black"
           }`,
           backgroundColor: `${
-            colorScheme ? colorScheme.backgroundColor : "rgb(198, 255, 237)"
+            colorScheme ? colorScheme.background_color : "rgb(198, 255, 237)"
           }`,
         }}
       >
