@@ -66,33 +66,38 @@ export default function Collection() {
               <div className="game-element-container">
                 <ItemCard itemData={collectionData} itemType="collection" />
               </div>
-              <h2>Types</h2>
-              <div className="types-wrapper">
-                {types
-                  .filter((type, index) => index < 3)
-                  .map((type) => (
-                    <ItemCard
-                      key={type.type_id}
-                      itemData={type}
-                      itemType={"type"}
-                      viewType="square"
-                      colorScheme={type.color_scheme}
-                    />
-                  ))}
+              <div className="items-container">
+                <h2>Types</h2>
+                <div className="items-wrapper">
+                  {types
+                    .filter((type, index) => index < 3)
+                    .map((type) => (
+                      <ItemCard
+                        key={type.type_id}
+                        itemData={type}
+                        itemType={"type"}
+                        viewType="square"
+                        colorScheme={type.color_scheme}
+                      />
+                    ))}
+                </div>
               </div>
-              <h2>Items</h2>
-              <div className="items-wrapper">
-                {items
-                  .filter((item, index) => index < 3)
-                  .map((item) => (
-                    <ItemCard
-                      key={item.item_id}
-                      itemData={item}
-                      itemType={"element"}
-                      viewType="square"
-                      colorScheme={item.type.color_scheme}
-                    />
-                  ))}
+
+              <div className="items-container">
+                <h2>Items</h2>
+                <div className="items-wrapper">
+                  {items
+                    .filter((item, index) => index < 3)
+                    .map((item) => (
+                      <ItemCard
+                        key={item.item_id}
+                        itemData={item}
+                        itemType={"element"}
+                        viewType="square"
+                        colorScheme={item.type.color_scheme}
+                      />
+                    ))}
+                </div>
               </div>
             </div>
           ) : currentTab === "items" ? (
@@ -113,6 +118,7 @@ export default function Collection() {
                 collectionsList={collections}
                 typesList={types}
               />
+              
 
               <div className={"items-wrapper"}>
                 <ElementsList
@@ -125,9 +131,39 @@ export default function Collection() {
                   currentRelatedElements={selectedElements}
                 />
               </div> */}
+
+              <div className="items-container">
+                <h2>Items</h2>
+                <div className="items-wrapper">
+                  {items.map((item) => (
+                    <ItemCard
+                      key={item.item_id}
+                      itemData={item}
+                      itemType={"element"}
+                      viewType="square"
+                      colorScheme={item.type.color_scheme}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
           ) : (
-            currentTab === "types" && <h1>Types</h1>
+            currentTab === "types" && (
+              <div className="items-container">
+                <h2>Types</h2>
+                <div className="items-wrapper">
+                  {types.map((type) => (
+                    <ItemCard
+                      key={type.type_id}
+                      itemData={type}
+                      itemType={"type"}
+                      viewType="square"
+                      colorScheme={type.color_scheme}
+                    />
+                  ))}
+                </div>
+              </div>
+            )
           )}
         </div>
       ) : (

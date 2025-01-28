@@ -20,6 +20,23 @@ html {
         h1 {
           text-align: center;
         }
+
+        .items-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          padding: 20px;
+        }
+
+        .items-wrapper {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: center;
+          gap: 30px;
+        }
       }
     }
   }
