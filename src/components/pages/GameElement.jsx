@@ -28,6 +28,7 @@ export default function GameElement() {
           pageRoute="game-elements"
           viewType="page"
           colorScheme={elementData.type.colorScheme}
+          typeImageUrl={elementData.type.image_url}
         />
       ) : (
         <p>Loading...</p>

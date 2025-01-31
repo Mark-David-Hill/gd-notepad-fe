@@ -95,6 +95,7 @@ export default function Collection() {
                         itemType={"element"}
                         viewType="square"
                         colorScheme={item.type.color_scheme}
+                        typeImageUrl={item.type.image_url}
                       />
                     ))}
                 </div>
@@ -103,6 +104,8 @@ export default function Collection() {
           ) : currentTab === "items" ? (
             <div className="items-container">
               <SearchSection
+                collectionId={collectionData?.collection_id}
+                types={types}
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
                 viewType={viewType}
@@ -142,6 +145,7 @@ export default function Collection() {
                       itemType={"element"}
                       viewType="square"
                       colorScheme={item.type.color_scheme}
+                      typeImageUrl={item.type.image_url}
                     />
                   ))}
                 </div>
@@ -159,6 +163,7 @@ export default function Collection() {
                       itemType={"type"}
                       viewType="square"
                       colorScheme={type.color_scheme}
+                      typeImageUrl={type.image_url}
                     />
                   ))}
                 </div>

@@ -6,6 +6,8 @@ import ComboBox from "../forms/ComboBox";
 import { GamesContext } from "../context/GamesContextProvider";
 
 const SearchSection = ({
+  collection_id,
+  types,
   viewType,
   setViewType,
   selectedElements,
@@ -15,7 +17,7 @@ const SearchSection = ({
   searchTerm,
   setSearchTerm,
 }) => {
-  const { gameElements, collections, types } = useContext(GamesContext);
+  const { gameElements, collections } = useContext(GamesContext);
 
   useEffect(() => {
     if (types) {

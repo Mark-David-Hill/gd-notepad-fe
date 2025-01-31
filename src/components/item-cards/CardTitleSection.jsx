@@ -1,6 +1,16 @@
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
-const CardTitleSection = ({ itemData, itemType, pageRoute, colorScheme }) => {
+import fetchWrapper from "../../lib/apiCall";
+
+const CardTitleSection = ({
+  itemData,
+  itemType,
+  pageRoute,
+  colorScheme,
+  typeImageUrl,
+}) => {
+  console.log(typeImageUrl);
   return (
     itemData && (
       <div className="title-section-wrapper">
@@ -20,7 +30,10 @@ const CardTitleSection = ({ itemData, itemType, pageRoute, colorScheme }) => {
             </h2>
           </div>
           <div className="image-wrapper">
-            <img src={itemData.image_url} alt={itemData.name + " image"} />
+            <img
+              src={itemData.image_url ? itemData.image_url : typeImageUrl}
+              alt={itemData.name + " image"}
+            />
           </div>
         </div>
         <div className="description-wrapper">

@@ -7,6 +7,7 @@ const ItemCard = ({
   itemType,
   pageRoute,
   colorScheme,
+  typeImageUrl,
   viewType = "card",
 }) => {
   return (
@@ -28,6 +29,7 @@ const ItemCard = ({
             itemType={itemType}
             pageRoute={pageRoute}
             colorScheme={colorScheme}
+            typeImageUrl={typeImageUrl}
           />
           {itemType === "item" && itemData?.item_id && (
             <div className="relationships-notes-wrapper">
