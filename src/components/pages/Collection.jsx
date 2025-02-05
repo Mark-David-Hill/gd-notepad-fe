@@ -134,20 +134,19 @@ export default function Collection() {
                   currentRelatedElements={selectedElements}
                 />
               </div> */}
-
               <div className="items-container">
                 <h2>Items</h2>
-                <div className="items-wrapper">
-                  {items.map((item) => (
-                    <ItemCard
-                      key={item.item_id}
-                      itemData={item}
-                      itemType={"element"}
-                      viewType="square"
-                      colorScheme={item.type.color_scheme}
-                      typeImageUrl={item.type.image_url}
-                    />
-                  ))}
+
+                <div className={"items-wrapper"}>
+                  <ElementsList
+                    elementsList={items}
+                    currentRelationships={selectedElements}
+                    viewType={viewType}
+                    searchTerm={searchTerm}
+                    currentTypes={selectedTypes}
+                    currentCollections={[collectionData]}
+                    currentRelatedElements={selectedElements}
+                  />
                 </div>
               </div>
             </div>
@@ -156,7 +155,7 @@ export default function Collection() {
               <div className="items-container">
                 <h2>Types</h2>
                 <div className="items-wrapper">
-                  {types.map((type) => (
+                  {types.filter.map((type) => (
                     <ItemCard
                       key={type.type_id}
                       itemData={type}

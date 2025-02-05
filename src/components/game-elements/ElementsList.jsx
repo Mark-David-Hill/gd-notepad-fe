@@ -10,7 +10,6 @@ const ElementsList = ({
   viewType,
   searchTerm,
   currentTypes,
-  currentCollections,
 }) => {
   const { relationships } = useContext(GamesContext);
 
@@ -48,7 +47,6 @@ const ElementsList = ({
           {
             if (
               currentTypes.includes(elementData.type.name) &&
-              currentCollections.includes(elementData.collection.name) &&
               includedInCurrentRelationships(elementData) &&
               (!searchTerm ||
                 elementData?.name

@@ -10,7 +10,6 @@ const CardTitleSection = ({
   colorScheme,
   typeImageUrl,
 }) => {
-  console.log(typeImageUrl);
   return (
     itemData && (
       <div className="title-section-wrapper">
