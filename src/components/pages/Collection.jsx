@@ -155,7 +155,7 @@ export default function Collection() {
               <div className="items-container">
                 <h2>Types</h2>
                 <div className="items-wrapper">
-                  {types.filter.map((type) => (
+                  {types.map((type) => (
                     <ItemCard
                       key={type.type_id}
                       itemData={type}
