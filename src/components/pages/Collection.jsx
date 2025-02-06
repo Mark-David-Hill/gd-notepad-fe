@@ -116,24 +116,12 @@ export default function Collection() {
                 setSelectedTypes={setSelectedTypes}
               />
 
-              {/* <AddElementForm
-                setElementsList={setGameElements}
-                collectionsList={collections}
-                typesList={types}
+              <AddElementForm
+                setItems={setItems}
+                collectionId={collectionData.collection_id}
+                types={types}
               />
-              
 
-              <div className={"items-wrapper"}>
-                <ElementsList
-                  elementsList={gameElements}
-                  currentRelationships={selectedElements}
-                  viewType={viewType}
-                  searchTerm={searchTerm}
-                  currentTypes={selectedTypes}
-                  currentCollections={selectedCollections}
-                  currentRelatedElements={selectedElements}
-                />
-              </div> */}
               <div className="items-container">
                 <h2>Items</h2>
 

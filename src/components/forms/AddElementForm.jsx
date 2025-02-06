@@ -4,16 +4,14 @@ import fetchWrapper from "../../lib/apiCall";
 
 import ItemCard from "../item-cards/ItemCard";
 
-const AddElementForm = ({ setElementsList, collectionsList, typesList }) => {
+const AddElementForm = ({ types, collectionId, setItems }) => {
   const [addFormIsOpen, setAddFormIsOpen] = useState(false);
   const [formName, setFormName] = useState("");
   const [formImgUrl, setFormImgUrl] = useState("");
   const [formDescription, setFormDescription] = useState("");
-  const [formCollectionId, setFormCollectionId] = useState("");
   const [formTypeId, setFormTypeId] = useState("");
 
   const handleResetForm = () => {
-    setFormCollectionId("");
     setFormTypeId("");
     setFormImgUrl("");
     setFormName("");
@@ -24,7 +22,7 @@ const AddElementForm = ({ setElementsList, collectionsList, typesList }) => {
     if (formName && formDescription) {
       const body = {
         type_id: formTypeId,
-        collection_id: formCollectionId,
+        collection_id: collectionId,
         name: formName,
         description: formDescription,
         image_url: formImgUrl,
@@ -33,7 +31,7 @@ const AddElementForm = ({ setElementsList, collectionsList, typesList }) => {
       fetchWrapper
         .apiCall(`/item`, "POST", body)
         .then((response) => {
-          setElementsList((prev) => [...prev, response.result]);
+          setItems((prev) => [...prev, response.result]);
           handleResetForm();
           setAddFormIsOpen(false);
         })
@@ -41,7 +39,7 @@ const AddElementForm = ({ setElementsList, collectionsList, typesList }) => {
     }
   };
 
-  if (!typesList || !typesList.length) {
+  if (!types || !types.length) {
     return <p>Loading...</p>;
   }
 
@@ -51,30 +49,13 @@ const AddElementForm = ({ setElementsList, collectionsList, typesList }) => {
     <div className="add-element-wrapper">
       <div className="add-element-form">
         <select
-          name="form-collection"
-          onChange={(e) => setFormCollectionId(e.target.value)}
-          value={formCollectionId}
-        >
-          <option value="">Select Collection</option>
-          {collectionsList &&
-            collectionsList.map((collection) => (
-              <option
-                key={collection.collection_id}
-                value={collection.collection_id}
-              >
-                {collection.name}
-              </option>
-            ))}
-        </select>
-
-        <select
           name="form-type"
           onChange={(e) => setFormTypeId(e.target.value)}
           value={formTypeId}
         >
           <option value="">Select Type</option>
-          {typesList &&
-            typesList.map((type) => (
+          {types &&
+            types.map((type) => (
               <option key={type.type_id} value={type.type_id}>
                 {type.name}
               </option>
