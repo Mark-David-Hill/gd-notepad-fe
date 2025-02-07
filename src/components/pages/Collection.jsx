@@ -114,6 +114,7 @@ export default function Collection() {
                 setSelectedElements={setSelectedElements}
                 selectedTypes={selectedTypes}
                 setSelectedTypes={setSelectedTypes}
+                allItems={items}
               />
 
               <AddElementForm

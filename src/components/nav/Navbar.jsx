@@ -11,7 +11,6 @@ export default function Navbar() {
   const navList = [
     { route: "/collections", label: "Collections" },
     { route: "/types", label: "Types" },
-    { route: "/game-elements", label: "Game Elements" },
   ];
 
   return (

@@ -16,8 +16,9 @@ const SearchSection = ({
   setSelectedTypes,
   searchTerm,
   setSearchTerm,
+  allItems,
 }) => {
-  const { gameElements, collections } = useContext(GamesContext);
+  const { collections } = useContext(GamesContext);
 
   useEffect(() => {
     if (types) {
@@ -25,7 +26,7 @@ const SearchSection = ({
     }
   }, [collections]);
 
-  return gameElements.length > 0 && types ? (
+  return allItems.length > 0 && types ? (
     <div className="search-section">
       <input
         className="search-box"
@@ -47,7 +48,7 @@ const SearchSection = ({
       {types.length > 0 && (
         <ComboBox
           placeholder="Related Elements"
-          allOptions={gameElements.map((element) => element.name)}
+          allOptions={allItems.map((element) => element.name)}
           currentOptions={selectedElements}
           setCurrentOptions={setSelectedElements}
         />

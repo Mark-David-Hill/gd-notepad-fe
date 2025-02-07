@@ -6,7 +6,6 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import GameElements from "./components/pages/GameElements";
 import GameElement from "./components/pages/GameElement";
 import Collections from "./components/pages/Collections";
 import Dashboard from "./components/pages/Dashboard";
@@ -47,7 +46,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/collections" element={<Collections />} />
           <Route path="/types" element={<Types />} />
-          <Route exact path="/game-elements" element={<GameElements />} />
           <Route path="collections/:id" element={<Collection />} />
           <Route path="/game-elements/:id" element={<GameElement />} />
           <Route path="*" element={<NoPage />} />
