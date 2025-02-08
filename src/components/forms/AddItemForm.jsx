@@ -4,7 +4,7 @@ import fetchWrapper from "../../lib/apiCall";
 
 import ItemCard from "../item-cards/ItemCard";
 
-const AddElementForm = ({ types, collectionId, setItems }) => {
+const AddItemForm = ({ types, collectionId, setItems }) => {
   const [addFormIsOpen, setAddFormIsOpen] = useState(false);
   const [formName, setFormName] = useState("");
   const [formImgUrl, setFormImgUrl] = useState("");
@@ -106,4 +106,4 @@ const AddElementForm = ({ types, collectionId, setItems }) => {
   );
 };
 
-export default AddElementForm;
+export default AddItemForm;

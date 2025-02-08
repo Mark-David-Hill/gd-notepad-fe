@@ -1,4 +1,4 @@
-import GamesDisplay from "../GamesDisplay";
+import GamesDisplay from "../../GamesDisplay";
 
 const Collections = () => {
   return (

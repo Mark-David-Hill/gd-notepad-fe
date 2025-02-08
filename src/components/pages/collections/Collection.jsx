@@ -1,15 +1,16 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 
-import CollectionTabSelect from "../forms/CollectionTabSelect";
-import SearchSection from "../game-elements/SearchSection";
-import ElementsList from "../game-elements/ElementsList";
-import AddElementForm from "../forms/AddElementForm";
-import ItemCard from "../item-cards/ItemCard";
+import CollectionTabSelect from "../../forms/CollectionTabSelect";
+import SearchSection from "../../game-elements/SearchSection";
+import ElementsList from "../../game-elements/ElementsList";
+import CollectionOverview from "./CollectionOverview";
+import AddItemForm from "../../forms/AddItemForm";
+import ItemCard from "../../item-cards/ItemCard";
 
-import fetchWrapper from "../../lib/apiCall";
+import fetchWrapper from "../../../lib/apiCall";
 
-import { GamesContext } from "../context/GamesContextProvider";
+import { GamesContext } from "../../context/GamesContextProvider";
 
 export default function Collection() {
   const [viewType, setViewType] = useState("square");
@@ -62,45 +63,11 @@ export default function Collection() {
           <h1>{collectionData.name}</h1>
 
           {currentTab === "overview" ? (
-            <div className="overview-wrapper">
-              <div className="game-element-container">
-                <ItemCard itemData={collectionData} itemType="collection" />
-              </div>
-              <div className="items-container">
-                <h2>Types</h2>
-                <div className="items-wrapper">
-                  {types
-                    .filter((type, index) => index < 3)
-                    .map((type) => (
-                      <ItemCard
-                        key={type.type_id}
-                        itemData={type}
-                        itemType={"type"}
-                        viewType="square"
-                        colorScheme={type.color_scheme}
-                      />
-                    ))}
-                </div>
-              </div>
-
-              <div className="items-container">
-                <h2>Items</h2>
-                <div className="items-wrapper">
-                  {items
-                    .filter((item, index) => index < 3)
-                    .map((item) => (
-                      <ItemCard
-                        key={item.item_id}
-                        itemData={item}
-                        itemType={"element"}
-                        viewType="square"
-                        colorScheme={item.type.color_scheme}
-                        typeImageUrl={item.type.image_url}
-                      />
-                    ))}
-                </div>
-              </div>
-            </div>
+            <CollectionOverview
+              collectionData={collectionData}
+              types={types}
+              items={items}
+            />
           ) : currentTab === "items" ? (
             <div className="items-container">
               <SearchSection
@@ -117,7 +84,7 @@ export default function Collection() {
                 allItems={items}
               />
 
-              <AddElementForm
+              <AddItemForm
                 setItems={setItems}
                 collectionId={collectionData.collection_id}
                 types={types}

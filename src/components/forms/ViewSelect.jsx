@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 const ViewSelect = ({ viewType, setViewType }) => {
   return (
     <div className="view-select-wrapper">

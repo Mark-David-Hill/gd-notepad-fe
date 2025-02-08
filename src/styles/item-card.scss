@@ -17,10 +17,6 @@
     }
 
     .name-img-wrapper {
-      .title-wrapper {
-        width: 100%;
-      }
-
       width: 200px;
       display: flex;
       flex-direction: column;
@@ -28,6 +24,10 @@
       justify-content: center;
       text-wrap: wrap;
       text-align: center;
+
+      .title-wrapper {
+        width: 100%;
+      }
 
       img {
         margin-top: 20%;

@@ -8,10 +8,7 @@ export default function Navbar() {
 
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
-  const navList = [
-    { route: "/collections", label: "Collections" },
-    { route: "/types", label: "Types" },
-  ];
+  const navList = [{ route: "/collections", label: "Collections" }];
 
   return (
     <div className="navbar-container">
