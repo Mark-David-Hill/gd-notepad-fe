@@ -6,10 +6,10 @@ import {
   Navigate,
 } from "react-router-dom";
 
+import Collections from "./components/pages/collections/Collections";
+import Collection from "./components/pages/collections/Collection";
 import GameElement from "./components/pages/GameElement";
-import Collections from "./components/pages/Collections";
 import Dashboard from "./components/pages/Dashboard";
-import Collection from "./components/pages/Collection";
 import NoPage from "./components/pages/NoPage";
 import Login from "./components/pages/Login";
 import Navbar from "./components/nav/Navbar";
