@@ -7,17 +7,19 @@ const CollectionTabSelect = ({ currentTab, setCurrentTab }) => {
       >
         Overview
       </button>
-      <button
-        className={currentTab === "items" ? "selected" : ""}
-        onClick={() => setCurrentTab("items")}
-      >
-        Items
-      </button>
+
       <button
         className={currentTab === "types" ? "selected" : ""}
         onClick={() => setCurrentTab("types")}
       >
         Types
+      </button>
+
+      <button
+        className={currentTab === "items" ? "selected" : ""}
+        onClick={() => setCurrentTab("items")}
+      >
+        Items
       </button>
     </div>
   );

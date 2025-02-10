@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 
-import CollectionTabSelect from "../../forms/CollectionTabSelect";
+import CollectionTabSelect from "./CollectionTabSelect";
 import SearchSection from "../../game-elements/SearchSection";
 import ElementsList from "../../game-elements/ElementsList";
 import CollectionOverview from "./CollectionOverview";
