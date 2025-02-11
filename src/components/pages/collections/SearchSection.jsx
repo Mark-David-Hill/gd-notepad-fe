@@ -1,9 +1,9 @@
 import { useEffect, useContext } from "react";
 
-import ViewSelect from "../forms/ViewSelect";
-import ComboBox from "../forms/ComboBox";
+import ViewSelect from "../../forms/ViewSelect";
+import ComboBox from "../../forms/ComboBox";
 
-import { GamesContext } from "../context/GamesContextProvider";
+import { GamesContext } from "../../context/GamesContextProvider";
 
 const SearchSection = ({
   collection_id,

@@ -1,10 +1,10 @@
 import { useContext } from "react";
 
-import ItemCard from "../item-cards/ItemCard";
+import ItemCard from "../../item-cards/ItemCard";
 
-import { GamesContext } from "../context/GamesContextProvider";
+import { GamesContext } from "../../context/GamesContextProvider";
 
-const ElementsList = ({
+const ItemsList = ({
   elementsList,
   currentRelationships,
   viewType,
@@ -74,4 +74,4 @@ const ElementsList = ({
   );
 };
 
-export default ElementsList;
+export default ItemsList;

@@ -18,7 +18,7 @@ const AddItemForm = ({ types, collectionId, setItems }) => {
     setFormDescription("");
   };
 
-  const handleAddGameElement = () => {
+  const handleAddItem = () => {
     if (formName && formDescription) {
       const body = {
         type_id: formTypeId,
@@ -35,7 +35,7 @@ const AddItemForm = ({ types, collectionId, setItems }) => {
           handleResetForm();
           setAddFormIsOpen(false);
         })
-        .catch((error) => console.error("couldn't add element", error));
+        .catch((error) => console.error("couldn't add item", error));
     }
   };
 
@@ -44,10 +44,10 @@ const AddItemForm = ({ types, collectionId, setItems }) => {
   }
 
   return !addFormIsOpen ? (
-    <button onClick={() => setAddFormIsOpen(true)}>Add Game Element</button>
+    <button onClick={() => setAddFormIsOpen(true)}>Add Item</button>
   ) : (
-    <div className="add-element-wrapper">
-      <div className="add-element-form">
+    <div className="add-item-wrapper">
+      <div className="add-item-form">
         <select
           name="form-type"
           onChange={(e) => setFormTypeId(e.target.value)}
@@ -88,7 +88,7 @@ const AddItemForm = ({ types, collectionId, setItems }) => {
         >
           Cancel
         </button>
-        <button onClick={handleAddGameElement}>Add Element</button>
+        <button onClick={handleAddItem}>Add Item</button>
       </div>
       <ItemCard
         itemData={{
@@ -100,7 +100,7 @@ const AddItemForm = ({ types, collectionId, setItems }) => {
           type_id: formTypeId,
           notes: [],
         }}
-        itemType="element"
+        itemType="item"
       />
     </div>
   );
