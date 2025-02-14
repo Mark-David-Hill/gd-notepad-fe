@@ -2,7 +2,7 @@ import { getColor } from "../../util/getColor";
 
 const SquareView = ({ itemData, colorScheme, typeImageUrl }) => {
   return (
-    <div className="square-container">
+    <div className="square-view-container">
       <div
         className="title-wrapper"
         style={{
@@ -15,7 +15,7 @@ const SquareView = ({ itemData, colorScheme, typeImageUrl }) => {
       </div>
       <div className="image-wrapper">
         <img
-          src={itemData.imageUrl || typeImageUrl}
+          src={itemData.image_url || typeImageUrl}
           alt={`${itemData.name} image`}
         />
       </div>
