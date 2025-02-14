@@ -1,8 +1,8 @@
 import { useContext } from "react";
 
-import ItemCard from "../../item-cards/ItemCard";
+import ItemCard from "./ItemCard";
 
-import { GamesContext } from "../../context/GamesContextProvider";
+import { GamesContext } from "../context/GamesContextProvider";
 
 const ItemsList = ({
   elementsList,
