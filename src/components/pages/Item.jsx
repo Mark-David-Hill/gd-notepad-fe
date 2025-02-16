@@ -5,7 +5,7 @@ import ItemCard from "../item-cards/ItemCard";
 
 import fetchWrapper from "../../lib/apiCall";
 
-export default function GameElement() {
+export default function Item() {
   const { id } = useParams();
 
   const [elementData, setElementData] = useState(null);

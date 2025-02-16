@@ -8,13 +8,13 @@ import {
 
 import Collections from "./components/pages/collections/Collections";
 import Collection from "./components/pages/collections/Collection";
-import GameElement from "./components/pages/GameElement";
 import Dashboard from "./components/pages/Dashboard";
 import NoPage from "./components/pages/NoPage";
 import Login from "./components/pages/Login";
 import Navbar from "./components/nav/Navbar";
 import Footer from "./components/nav/Footer";
 import Types from "./components/pages/Types";
+import Item from "./components/pages/Item";
 import Home from "./components/pages/Home";
 
 import { AuthContext } from "./components/context/AuthContextProvider";
@@ -47,7 +47,7 @@ function App() {
           <Route path="/collections" element={<Collections />} />
           <Route path="/types" element={<Types />} />
           <Route path="collections/:id" element={<Collection />} />
-          <Route path="/game-elements/:id" element={<GameElement />} />
+          <Route path="/item/:id" element={<Item />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
         <Footer />

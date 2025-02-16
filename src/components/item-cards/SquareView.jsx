@@ -1,8 +1,22 @@
+import { useNavigate } from "react-router-dom";
+
 import { getColor } from "../../util/getColor";
 
-const SquareView = ({ itemData, colorScheme, typeImageUrl }) => {
+const SquareView = ({
+  itemData,
+  pageRoute,
+  itemType,
+  colorScheme,
+  typeImageUrl,
+}) => {
+  const navigate = useNavigate();
   return (
-    <div className="square-view-container">
+    <div
+      className="square-view-container"
+      onClick={() => {
+        navigate(`/${pageRoute}/${itemData[`${itemType}_id`]}`);
+      }}
+    >
       <div
         className="title-wrapper"
         style={{

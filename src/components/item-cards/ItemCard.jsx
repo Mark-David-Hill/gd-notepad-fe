@@ -33,6 +33,8 @@ const ItemCard = ({
       {viewType === "square" ? (
         <SquareView
           itemData={itemData}
+          pageRoute="item"
+          itemType="item"
           colorScheme={colorScheme}
           typeImageUrl={typeImageUrl}
         />
