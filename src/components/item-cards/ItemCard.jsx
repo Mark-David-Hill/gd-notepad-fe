@@ -33,16 +33,16 @@ const ItemCard = ({
       {viewType === "square" ? (
         <SquareView
           itemData={itemData}
-          pageRoute="item"
-          itemType="item"
+          pageRoute={pageRoute}
+          itemType={itemType}
           colorScheme={colorScheme}
           typeImageUrl={typeImageUrl}
         />
       ) : viewType === "card" ? (
         <CardView
           itemData={itemData}
-          itemType={itemType}
           pageRoute={pageRoute}
+          itemType={itemType}
           colorScheme={colorScheme}
           typeImageUrl={typeImageUrl}
         />

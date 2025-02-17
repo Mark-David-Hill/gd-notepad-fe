@@ -19,8 +19,8 @@
       align-items: center;
 
       h2 {
+        width: 100%;
         text-align: center;
-        width: 200px;
         height: 55px;
         margin: 0px;
         padding: 0px;
@@ -47,6 +47,22 @@
 
   .square-view-container {
     cursor: pointer;
+  }
+
+  .card-view-container {
+    .card-content-wrapper {
+      display: flex;
+      height: 200px;
+      align-items: center;
+
+      .image-wrapper {
+        padding: 30px;
+      }
+
+      .text-wrapper {
+        padding: 20px;
+      }
+    }
   }
 
   .square-container {
