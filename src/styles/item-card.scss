@@ -8,7 +8,6 @@
     align-items: center;
     justify-content: space-between;
     border: 1px solid blue;
-    background-color: rgb(198, 255, 237);
     border-radius: 5px;
 
     .title-wrapper {
@@ -61,6 +60,30 @@
 
       .text-wrapper {
         padding: 20px;
+      }
+    }
+  }
+
+  .row-wrapper {
+    padding-left: 30px;
+    display: flex;
+    height: 200px;
+
+    .image-wrapper {
+      padding: 30px;
+    }
+
+    .text-wrapper {
+      padding: 20px;
+    }
+
+    .notes-relationships-container {
+      display: flex;
+      flex-direction: column;
+      overflow-y: scroll;
+
+      img {
+        min-width: 0px;
       }
     }
   }
