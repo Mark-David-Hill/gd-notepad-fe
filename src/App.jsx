@@ -37,16 +37,17 @@ function App() {
           />
           <Route
             path="/"
-            element={isAuthenticated ? <Navigate to="/dashboard" /> : <Home />}
+            element={
+              isAuthenticated ? <Navigate to="/dashboard" /> : <Collections />
+            }
           />
           <Route
             path="/dashboard"
             element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
           />
-          <Route path="/" element={<Home />} />
-          <Route path="/collections" element={<Collections />} />
+          <Route path="/" element={<Collections />} />
           <Route path="/types" element={<Types />} />
-          <Route path="collections/:id" element={<Collection />} />
+          <Route path="collection/:id" element={<Collection />} />
           <Route path="/item/:id" element={<Item />} />
           <Route path="*" element={<NoPage />} />
         </Routes>

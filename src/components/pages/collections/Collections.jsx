@@ -22,7 +22,7 @@ const Collections = () => {
                     key={collectionId}
                     itemData={collectionData}
                     itemType="collection"
-                    pageRoute="collections"
+                    pageRoute="collection"
                   />
                 );
               })

@@ -23,20 +23,20 @@ html {
   padding: 0;
 
   .navbar-wrapper {
+    width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     height: 70px;
     background-color: darkblue;
-    width: 100%;
     box-sizing: border-box;
-    gap: 50px;
+    padding: 0px 20px;
   }
 
   .main-links {
-    display: flex;
-    justify-content: space-between;
-    gap: 5px;
+    // display: flex;
+    // justify-content: space-between;
+    // gap: 5px;
   }
 
   a {

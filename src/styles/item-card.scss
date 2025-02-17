@@ -1,4 +1,6 @@
 .item-card-container {
+  border-radius: 5px;
+
   .square-view-container,
   .card-view-container,
   .row-view-container {
@@ -7,10 +9,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    border: 1px solid blue;
     border-radius: 5px;
 
     .title-wrapper {
+      border-radius: 5px 5px 0 0;
       width: 100%;
       text-wrap: wrap;
       display: flex;
