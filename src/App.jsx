@@ -8,14 +8,12 @@ import {
 
 import Collections from "./components/pages/collections/Collections";
 import Collection from "./components/pages/collections/Collection";
-import Dashboard from "./components/pages/Dashboard";
 import NoPage from "./components/pages/NoPage";
 import Login from "./components/pages/Login";
 import Navbar from "./components/nav/Navbar";
 import Footer from "./components/nav/Footer";
 import Types from "./components/pages/Types";
 import Item from "./components/pages/Item";
-import Home from "./components/pages/Home";
 
 import { AuthContext } from "./components/context/AuthContextProvider";
 
@@ -43,7 +41,9 @@ function App() {
           />
           <Route
             path="/dashboard"
-            element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
+            element={
+              isAuthenticated ? <Collections /> : <Navigate to="/login" />
+            }
           />
           <Route path="/" element={<Collections />} />
           <Route path="/types" element={<Types />} />
