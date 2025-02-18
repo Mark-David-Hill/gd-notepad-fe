@@ -1,14 +1,21 @@
-import { useState, useContext } from "react";
+import { useState, useEffect } from "react";
 
 import AddCollectionForm from "../../forms/AddCollectionForm";
 import ItemCard from "../../item-cards/ItemCard";
 
-import { GamesContext } from "../../context/GamesContextProvider";
+import fetchWrapper from "../../../lib/apiCall";
 
 const Collections = () => {
-  const [collections2, setCollections] = useState([]);
+  const [collections, setCollections] = useState([]);
 
-  const { collections } = useContext(GamesContext);
+  useEffect(() => {
+    fetchWrapper
+      .apiCall(`/collections`, "GET")
+      .then((response) => {
+        setCollections(response.results);
+      })
+      .catch((error) => console.error(`couldn't retrieve collection`, error));
+  }, []);
 
   return (
     <div className="items-container">
