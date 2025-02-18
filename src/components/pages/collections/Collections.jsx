@@ -1,16 +1,20 @@
-import { useContext } from "react";
+import { useState, useContext } from "react";
 
+import AddCollectionForm from "../../forms/AddCollectionForm";
 import ItemCard from "../../item-cards/ItemCard";
 
 import { GamesContext } from "../../context/GamesContextProvider";
 
 const Collections = () => {
+  const [collections2, setCollections] = useState([]);
+
   const { collections } = useContext(GamesContext);
 
   return (
     <div className="items-container">
       <h1>Collections</h1>
       <div className={"items-wrapper"}>
+        <AddCollectionForm setCollections={setCollections} />
         <div className="games-display-container">
           <div className="games-display-wrapper">
             {!collections ? (
