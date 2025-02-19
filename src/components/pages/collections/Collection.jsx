@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
+import AddColorSchemeForm from "../../forms/AddColorSchemeForm";
 import CollectionTabSelect from "./CollectionTabSelect";
 import ElementsList from "../../item-cards/ItemsList";
 import CollectionOverview from "./CollectionOverview";
@@ -106,11 +107,13 @@ export default function Collection() {
           ) : (
             currentTab === "types" && (
               <div className="items-container">
+                <AddTypeForm collectionId={id} setTypes={setTypes} />
+
+                <AddColorSchemeForm />
+
                 <h2>Types</h2>
 
                 <div className="items-wrapper">
-                  <AddTypeForm collectionId={id} setTypes={setTypes} />
-
                   {types.map((type) => (
                     <ItemCard
                       key={type.type_id}
