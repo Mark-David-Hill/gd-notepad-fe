@@ -1,16 +1,15 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import CollectionTabSelect from "./CollectionTabSelect";
-import SearchSection from "./SearchSection";
 import ElementsList from "../../item-cards/ItemsList";
 import CollectionOverview from "./CollectionOverview";
 import AddItemForm from "../../forms/AddItemForm";
+import AddTypeForm from "../../forms/AddTypeForm";
 import ItemCard from "../../item-cards/ItemCard";
+import SearchSection from "./SearchSection";
 
 import fetchWrapper from "../../../lib/apiCall";
-
-import { GamesContext } from "../../context/GamesContextProvider";
 
 export default function Collection() {
   const [viewType, setViewType] = useState("square");
@@ -21,8 +20,6 @@ export default function Collection() {
   const [searchTerm, setSearchTerm] = useState("");
   const [collectionData, setCollectionData] = useState(null);
   const [currentTab, setCurrentTab] = useState("overview");
-
-  const { relationships } = useContext(GamesContext);
 
   const { id } = useParams();
 
@@ -110,7 +107,10 @@ export default function Collection() {
             currentTab === "types" && (
               <div className="items-container">
                 <h2>Types</h2>
+
                 <div className="items-wrapper">
+                  <AddTypeForm collectionId={id} setTypes={setTypes} />
+
                   {types.map((type) => (
                     <ItemCard
                       key={type.type_id}

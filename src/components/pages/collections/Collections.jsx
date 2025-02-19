@@ -14,7 +14,7 @@ const Collections = () => {
       .then((response) => {
         setCollections(response.results);
       })
-      .catch((error) => console.error(`couldn't retrieve collection`, error));
+      .catch((error) => console.error(`couldn't retrieve collections`, error));
   }, []);
 
   return (
