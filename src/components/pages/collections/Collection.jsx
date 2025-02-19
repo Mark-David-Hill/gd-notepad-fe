@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 
 import AddColorSchemeForm from "../../forms/AddColorSchemeForm";
@@ -12,6 +12,8 @@ import SearchSection from "./SearchSection";
 
 import fetchWrapper from "../../../lib/apiCall";
 
+import { AuthContext } from "../../context/AuthContextProvider";
+
 export default function Collection() {
   const [viewType, setViewType] = useState("square");
   const [selectedElements, setSelectedElements] = useState([]);
@@ -23,6 +25,7 @@ export default function Collection() {
   const [currentTab, setCurrentTab] = useState("overview");
 
   const { id } = useParams();
+  const { authInfo } = useContext(AuthContext);
 
   useEffect(() => {
     if (id) {
@@ -109,7 +112,7 @@ export default function Collection() {
               <div className="items-container">
                 <AddTypeForm collectionId={id} setTypes={setTypes} />
 
-                <AddColorSchemeForm />
+                {authInfo?.role === "super-admin" && <AddColorSchemeForm />}
 
                 <h2>Types</h2>
 
