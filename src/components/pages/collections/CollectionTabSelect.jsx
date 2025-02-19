@@ -2,10 +2,10 @@ const CollectionTabSelect = ({ currentTab, setCurrentTab }) => {
   return (
     <div className="view-select-wrapper">
       <button
-        className={currentTab === "overview" ? "selected" : ""}
-        onClick={() => setCurrentTab("overview")}
+        className={currentTab === "items" ? "selected" : ""}
+        onClick={() => setCurrentTab("items")}
       >
-        Overview
+        Items
       </button>
 
       <button
@@ -13,13 +13,6 @@ const CollectionTabSelect = ({ currentTab, setCurrentTab }) => {
         onClick={() => setCurrentTab("types")}
       >
         Types
-      </button>
-
-      <button
-        className={currentTab === "items" ? "selected" : ""}
-        onClick={() => setCurrentTab("items")}
-      >
-        Items
       </button>
     </div>
   );

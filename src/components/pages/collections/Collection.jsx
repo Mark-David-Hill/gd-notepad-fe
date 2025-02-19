@@ -22,7 +22,7 @@ export default function Collection() {
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [collectionData, setCollectionData] = useState(null);
-  const [currentTab, setCurrentTab] = useState("overview");
+  const [currentTab, setCurrentTab] = useState("items");
 
   const { id } = useParams();
   const { authInfo } = useContext(AuthContext);
@@ -59,17 +59,17 @@ export default function Collection() {
         setCurrentTab={setCurrentTab}
       />
 
-      {collectionData ? (
+      {collectionData && items ? (
         <div className="game-wrapper">
-          <h1>{collectionData.name}</h1>
+          {/* <h1>{collectionData.name}</h1> */}
 
-          {currentTab === "overview" ? (
-            <CollectionOverview
-              collectionData={collectionData}
-              types={types}
-              items={items}
-            />
-          ) : currentTab === "items" ? (
+          <CollectionOverview
+            collectionData={collectionData}
+            types={types}
+            items={items}
+          />
+
+          {currentTab === "items" && items.length > 0 ? (
             <div className="items-container">
               <SearchSection
                 collectionId={collectionData?.collection_id}
@@ -85,11 +85,13 @@ export default function Collection() {
                 allItems={items}
               />
 
-              <AddItemForm
-                setItems={setItems}
-                collectionId={collectionData.collection_id}
-                types={types}
-              />
+              {authInfo && (
+                <AddItemForm
+                  setItems={setItems}
+                  collectionId={collectionData.collection_id}
+                  types={types}
+                />
+              )}
 
               <div className="items-container">
                 <h2>Items</h2>
@@ -110,7 +112,9 @@ export default function Collection() {
           ) : (
             currentTab === "types" && (
               <div className="items-container">
-                <AddTypeForm collectionId={id} setTypes={setTypes} />
+                {authInfo && (
+                  <AddTypeForm collectionId={id} setTypes={setTypes} />
+                )}
 
                 {authInfo?.role === "super-admin" && <AddColorSchemeForm />}
 

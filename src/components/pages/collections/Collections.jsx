@@ -1,12 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import AddCollectionForm from "../../forms/AddCollectionForm";
 import ItemCard from "../../item-cards/ItemCard";
 
 import fetchWrapper from "../../../lib/apiCall";
 
+import { AuthContext } from "../../context/AuthContextProvider";
+
 const Collections = () => {
   const [collections, setCollections] = useState([]);
+
+  const { authInfo } = useContext(AuthContext);
 
   useEffect(() => {
     fetchWrapper
@@ -21,7 +25,7 @@ const Collections = () => {
     <div className="items-container">
       <h1>Collections</h1>
       <div className={"items-wrapper"}>
-        <AddCollectionForm setCollections={setCollections} />
+        {authInfo && <AddCollectionForm setCollections={setCollections} />}
         <div className="games-display-container">
           <div className="games-display-wrapper">
             {!collections ? (
