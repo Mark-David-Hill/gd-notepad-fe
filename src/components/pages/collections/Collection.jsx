@@ -60,7 +60,7 @@ export default function Collection() {
       />
 
       {collectionData && items ? (
-        <div className="game-wrapper">
+        <div className="collection-wrapper">
           {/* <h1>{collectionData.name}</h1> */}
 
           <CollectionOverview

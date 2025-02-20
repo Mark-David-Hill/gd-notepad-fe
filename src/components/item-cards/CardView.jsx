@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
 import { getColor } from "../../util/getColor";
+
+import { AuthContext } from "../context/AuthContextProvider";
 
 const CardView = ({
   itemData,
@@ -9,6 +12,8 @@ const CardView = ({
   colorScheme,
   typeImageUrl,
 }) => {
+  const { authInfo } = useContext(AuthContext);
+
   return (
     <div className="card-view-container">
       <div className="title-wrapper">
@@ -34,6 +39,12 @@ const CardView = ({
             <NavLink to={`/${pageRoute}/${itemData[`${itemType}_id`]}`}>
               View More Details
             </NavLink>
+          )}
+          {authInfo && (
+            <div className="edit-delete-section">
+              <button>Edit</button>
+              <button>Delete</button>
+            </div>
           )}
         </div>
       </div>
