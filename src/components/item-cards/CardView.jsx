@@ -1,18 +1,34 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
+import fetchWrapper from "../../lib/apiCall";
+
 import { getColor } from "../../util/getColor";
 
 import { AuthContext } from "../context/AuthContextProvider";
 
 const CardView = ({
   itemData,
+  setItems,
   itemType,
   pageRoute,
   colorScheme,
   typeImageUrl,
 }) => {
   const { authInfo } = useContext(AuthContext);
+
+  const handleDelete = () => {
+    fetchWrapper
+      .apiCall(`/${itemType}/delete/${itemData[`${itemType}_id`]}`, "DELETE")
+      .then((response) => {
+        setItems((prev) =>
+          prev.filter(
+            (item) => item[`${itemType}_id`] !== itemData[`${itemType}_id`]
+          )
+        );
+      })
+      .catch((error) => console.error(`could not delete ${itemType}`, error));
+  };
 
   return (
     <div className="card-view-container">
@@ -40,12 +56,12 @@ const CardView = ({
               View More Details
             </NavLink>
           )}
-          {authInfo && (
-            <div className="edit-delete-section">
-              <button>Edit</button>
-              <button>Delete</button>
-            </div>
-          )}
+          {/* {authInfo && ( */}
+          <div className="edit-delete-section">
+            <button>Edit</button>
+            <button onClick={handleDelete}>Delete</button>
+          </div>
+          {/* )} */}
         </div>
       </div>
     </div>

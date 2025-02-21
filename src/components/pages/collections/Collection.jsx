@@ -99,6 +99,7 @@ export default function Collection() {
                 <div className={"items-wrapper"}>
                   <ElementsList
                     elementsList={items}
+                    setItems={setItems}
                     currentRelationships={selectedElements}
                     viewType={viewType}
                     searchTerm={searchTerm}
@@ -125,6 +126,7 @@ export default function Collection() {
                     <ItemCard
                       key={type.type_id}
                       itemData={type}
+                      setItems={setTypes}
                       itemType={"type"}
                       viewType="square"
                       colorScheme={type.color_scheme}

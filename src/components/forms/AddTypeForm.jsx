@@ -34,7 +34,6 @@ const AddTypeForm = ({ collectionId, setTypes }) => {
       fetchWrapper
         .apiCall(`/type`, "POST", body)
         .then((response) => {
-          console.log(response);
           setTypes((prev) => [...prev, response.result]);
           handleResetForm();
           setAddFormIsOpen(false);

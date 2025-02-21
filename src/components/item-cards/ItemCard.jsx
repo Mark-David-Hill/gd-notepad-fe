@@ -6,6 +6,7 @@ import { getColor } from "../../util/getColor";
 
 const ItemCard = ({
   itemData,
+  setItems,
   itemType,
   pageRoute,
   colorScheme,
@@ -41,6 +42,7 @@ const ItemCard = ({
       ) : viewType === "card" ? (
         <CardView
           itemData={itemData}
+          setItems={setItems}
           pageRoute={pageRoute}
           itemType={itemType}
           colorScheme={colorScheme}
@@ -49,6 +51,7 @@ const ItemCard = ({
       ) : (
         <RowView
           itemData={itemData}
+          setItems={setItems}
           itemType={itemType}
           pageRoute={pageRoute}
           colorScheme={colorScheme}

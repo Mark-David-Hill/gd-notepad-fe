@@ -6,6 +6,7 @@ import { GamesContext } from "../context/GamesContextProvider";
 
 const ItemsList = ({
   elementsList,
+  setItems,
   currentRelationships,
   viewType,
   searchTerm,
@@ -57,6 +58,7 @@ const ItemsList = ({
                 <ItemCard
                   key={elementId}
                   itemData={elementData}
+                  setItems={setItems}
                   itemType="item"
                   pageRoute="item"
                   viewType={viewType}
