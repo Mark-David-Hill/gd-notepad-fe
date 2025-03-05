@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { NavLink } from "react-router-dom";
 
 import fetchWrapper from "../../lib/apiCall";
@@ -15,6 +15,8 @@ const CardView = ({
   colorScheme,
   typeImageUrl,
 }) => {
+  const [isEditing, setIsEditing] = useState(false);
+
   const { authInfo } = useContext(AuthContext);
 
   const handleDelete = () => {
@@ -50,7 +52,11 @@ const CardView = ({
           />
         </div>
         <div className="text-wrapper">
-          <p>{itemData.description}</p>
+          {isEditing ? (
+            <input type="text" value={itemData.description} />
+          ) : (
+            <p>{itemData.description}</p>
+          )}
           {pageRoute && (
             <NavLink to={`/${pageRoute}/${itemData[`${itemType}_id`]}`}>
               View More Details
@@ -58,7 +64,9 @@ const CardView = ({
           )}
           {/* {authInfo && ( */}
           <div className="edit-delete-section">
-            <button>Edit</button>
+            <button onClick={() => setIsEditing((prev) => !prev)}>
+              {isEditing ? "Cancel" : "Edit"}
+            </button>
             <button onClick={handleDelete}>Delete</button>
           </div>
           {/* )} */}
