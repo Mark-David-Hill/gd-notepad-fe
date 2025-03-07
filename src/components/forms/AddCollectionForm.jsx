@@ -1,8 +1,7 @@
 import { useState } from "react";
 
-import fetchWrapper from "../../lib/apiCall";
-
 import ItemCard from "../item-cards/ItemCard";
+import fetchWrapper from "../../lib/apiCall";
 
 const AddCollectionForm = ({ setCollections }) => {
   const [addFormIsOpen, setAddFormIsOpen] = useState(false);
@@ -16,7 +15,7 @@ const AddCollectionForm = ({ setCollections }) => {
     setFormDescription("");
   };
 
-  const handleAddItem = () => {
+  const handleAddCollection = () => {
     if (formName && formDescription) {
       const body = {
         name: formName,
@@ -66,7 +65,7 @@ const AddCollectionForm = ({ setCollections }) => {
         >
           Cancel
         </button>
-        <button onClick={handleAddItem}>Add Item</button>
+        <button onClick={handleAddCollection}>Add Collection</button>
       </div>
       <ItemCard
         itemData={{
