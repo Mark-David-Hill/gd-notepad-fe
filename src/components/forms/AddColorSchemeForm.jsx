@@ -18,7 +18,7 @@ const AddColorSchemeForm = ({ setColorSchemes }) => {
     setFormDescription("");
   };
 
-  const handleAddItem = () => {
+  const handleAddColorScheme = () => {
     if (
       formName &&
       formPrimaryColor &&
@@ -92,7 +92,7 @@ const AddColorSchemeForm = ({ setColorSchemes }) => {
         >
           Cancel
         </button>
-        <button onClick={handleAddItem}>Add Color Scheme</button>
+        <button onClick={handleAddColorScheme}>Add Color Scheme</button>
       </div>
       <ItemCard
         colorScheme={{
@@ -105,7 +105,7 @@ const AddColorSchemeForm = ({ setColorSchemes }) => {
         itemData={{
           name: formName,
         }}
-        itemType="collection"
+        itemType="color-scheme"
       />
     </div>
   );
