@@ -7,7 +7,6 @@ export const GamesContext = createContext();
 export default function GamesContextProvider({ children }) {
   const [collections, setCollections] = useState([]);
   const [types, setTypes] = useState([]);
-  const [gameElements, setGameElements] = useState([]);
   const [relationships, setRelationships] = useState([]);
 
   const gameDataState = {
@@ -15,20 +14,11 @@ export default function GamesContextProvider({ children }) {
     setCollections,
     types,
     setTypes,
-    gameElements,
-    setGameElements,
     relationships,
     setRelationships,
   };
 
   useEffect(() => {
-    fetchWrapper
-      .apiCall(`/items`, "GET")
-      .then((response) => {
-        setGameElements(response.results);
-      })
-      .catch((error) => console.error(`couldn't get items`, error));
-
     fetchWrapper
       .apiCall(`/collections`, "GET")
       .then((response) => {

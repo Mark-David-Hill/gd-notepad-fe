@@ -15,7 +15,7 @@ export default function Navbar() {
 
     try {
       const response = await fetchWrapper.apiCall(`/user/logout`, "POST", {});
-      console.log(response);
+
       if (response.message === "Logout successful") {
         setIsAuthenticated(false);
         // navigate("/dashboard");
