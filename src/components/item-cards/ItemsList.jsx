@@ -1,18 +1,32 @@
-import { useContext } from "react";
+import { useState, useEffect } from "react";
 
 import ItemCard from "./ItemCard";
 
-import { GamesContext } from "../context/GamesContextProvider";
+import fetchWrapper from "../../lib/apiCall";
 
 const ItemsList = ({
-  elementsList,
+  collectionId,
+  itemsList,
   setItems,
   currentRelationships,
   viewType,
   searchTerm,
   currentTypes,
 }) => {
-  const { relationships } = useContext(GamesContext);
+  const [relationships, setRelationships] = useState([]);
+
+  useEffect(() => {
+    console.log(`/relationships/collection/${collectionId}`);
+    fetchWrapper
+      .apiCall(`/relationships/collection/${collectionId}`, "GET")
+      .then((response) => {
+        console.log(response);
+        setRelationships(response.results);
+      })
+      .catch((error) =>
+        console.error(`couldn't retrieve relationships`, error)
+      );
+  }, []);
 
   const includedInCurrentRelationships = (elementData) => {
     if (currentRelationships.length === 0) {
@@ -41,10 +55,10 @@ const ItemsList = ({
 
   return (
     <div className="game-elements-list-wrapper">
-      {!elementsList.length && relationships ? (
+      {!itemsList.length && relationships ? (
         <p>Loading...</p>
       ) : (
-        elementsList.map((elementData, elementId) => {
+        itemsList.map((elementData, elementId) => {
           {
             if (
               currentTypes.includes(elementData.type.name) &&

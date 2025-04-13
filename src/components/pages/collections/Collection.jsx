@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import AddColorSchemeForm from "../../forms/AddColorSchemeForm";
 import CollectionTabSelect from "./CollectionTabSelect";
-import ElementsList from "../../item-cards/ItemsList";
+import ItemsList from "../../item-cards/ItemsList";
 import CollectionOverview from "./CollectionOverview";
 import AddItemForm from "../../forms/AddItemForm";
 import AddTypeForm from "../../forms/AddTypeForm";
@@ -97,8 +97,9 @@ export default function Collection() {
                 <h2>Items</h2>
 
                 <div className={"items-wrapper"}>
-                  <ElementsList
-                    elementsList={items}
+                  <ItemsList
+                    collectionId={collectionData?.collection_id}
+                    itemsList={items}
                     setItems={setItems}
                     currentRelationships={selectedElements}
                     viewType={viewType}
