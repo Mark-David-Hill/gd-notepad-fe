@@ -1,12 +1,9 @@
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 
 import ViewSelect from "../../forms/ViewSelect";
 import ComboBox from "../../forms/ComboBox";
 
-import { GamesContext } from "../../context/GamesContextProvider";
-
 const SearchSection = ({
-  collection_id,
   types,
   viewType,
   setViewType,
@@ -18,13 +15,11 @@ const SearchSection = ({
   setSearchTerm,
   allItems,
 }) => {
-  const { collections } = useContext(GamesContext);
-
   useEffect(() => {
     if (types) {
       setSelectedTypes(types.map((type) => type.name));
     }
-  }, [collections]);
+  }, []);
 
   return allItems.length > 0 && types ? (
     <div className="search-section">
