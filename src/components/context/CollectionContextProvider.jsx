@@ -2,9 +2,9 @@ import { useState, createContext, useEffect } from "react";
 
 import fetchWrapper from "../../lib/apiCall";
 
-export const GamesContext = createContext();
+export const CollectionContext = createContext();
 
-export default function GamesContextProvider({ children }) {
+export default function CollectionContextProvider({ children }) {
   const [types, setTypes] = useState([]);
   const [relationships, setRelationships] = useState([]);
 
@@ -32,8 +32,8 @@ export default function GamesContextProvider({ children }) {
   }, []);
 
   return (
-    <GamesContext.Provider value={gameDataState}>
+    <CollectionContext.Provider value={gameDataState}>
       {children}
-    </GamesContext.Provider>
+    </CollectionContext.Provider>
   );
 }

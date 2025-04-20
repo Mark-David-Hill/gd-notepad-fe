@@ -2,10 +2,10 @@ import { useContext } from "react";
 
 import RelationshipCard from "./RelationshipCard";
 
-import { GamesContext } from "../context/GamesContextProvider";
+import { CollectionContext } from "../context/CollectionContextProvider";
 
 const RelationshipsList = ({ itemData }) => {
-  const { relationships, types } = useContext(GamesContext);
+  const { relationships, types } = useContext(CollectionContext);
 
   const getRelatedElement = (relationship, itemData) => {
     return relationship.item_1.item_id === itemData.item_id
