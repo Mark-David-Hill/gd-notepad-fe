@@ -22,20 +22,33 @@ export default function CollectionContextProvider({ children }) {
   };
 
   useEffect(() => {
-    fetchWrapper
-      .apiCall(`/types`, "GET")
-      .then((response) => {
-        setTypes(response.results);
-      })
-      .catch((error) => console.error(`couldn't get types`, error));
+    if (
+      currentCollectionId &&
+      (!currentCollection ||
+        currentCollectionId !== currentCollection.collection_id)
+    ) {
+      fetchWrapper
+        .apiCall(`/collection/${currentCollectionId}`, "GET")
+        .then((response) => {
+          setCurrentCollection(response.result);
+        })
+        .catch((error) => console.error(`couldn't retrieve collection`, error));
 
-    fetchWrapper
-      .apiCall(`/relationships`, "GET")
-      .then((response) => {
-        setRelationships(response.results);
-      })
-      .catch((error) => console.error(`couldn't get relationships`, error));
-  }, []);
+      fetchWrapper
+        .apiCall(`/types/collection/${currentCollectionId}`, "GET")
+        .then((response) => {
+          setTypes(response.results);
+        })
+        .catch((error) => console.error(`couldn't get types`, error));
+
+      fetchWrapper
+        .apiCall(`/relationships/collection/${currentCollectionId}`, "GET")
+        .then((response) => {
+          setRelationships(response.results);
+        })
+        .catch((error) => console.error(`couldn't get relationships`, error));
+    }
+  }, [currentCollectionId]);
 
   return (
     <CollectionContext.Provider value={gameDataState}>

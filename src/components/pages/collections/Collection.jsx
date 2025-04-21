@@ -34,19 +34,11 @@ export default function Collection() {
   const { authInfo } = useContext(AuthContext);
 
   useEffect(() => {
-    console.log("ID", id);
     if (
       (id && !currentCollectionId) ||
       (id && currentCollectionId && currentCollectionId !== id)
     ) {
       setCurrentCollectionId(id);
-
-      fetchWrapper
-        .apiCall(`/collection/${id}`, "GET")
-        .then((response) => {
-          setCurrentCollection(response.result);
-        })
-        .catch((error) => console.error(`couldn't retrieve collection`, error));
 
       fetchWrapper
         .apiCall(`/types/collection/${id}`, "GET")
