@@ -5,10 +5,16 @@ import fetchWrapper from "../../lib/apiCall";
 export const CollectionContext = createContext();
 
 export default function CollectionContextProvider({ children }) {
+  const [currentCollectionId, setCurrentCollectionId] = useState(null);
+  const [currentCollection, setCurrentCollection] = useState(null);
   const [types, setTypes] = useState([]);
   const [relationships, setRelationships] = useState([]);
 
   const gameDataState = {
+    currentCollectionId,
+    setCurrentCollectionId,
+    currentCollection,
+    setCurrentCollection,
     types,
     setTypes,
     relationships,

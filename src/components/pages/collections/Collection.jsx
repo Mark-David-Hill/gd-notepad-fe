@@ -12,6 +12,7 @@ import SearchSection from "./SearchSection";
 
 import fetchWrapper from "../../../lib/apiCall";
 
+import { CollectionContext } from "../../context/CollectionContextProvider";
 import { AuthContext } from "../../context/AuthContextProvider";
 
 export default function Collection() {
@@ -21,18 +22,29 @@ export default function Collection() {
   const [types, setTypes] = useState([]);
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [collectionData, setCollectionData] = useState(null);
   const [currentTab, setCurrentTab] = useState("items");
 
   const { id } = useParams();
+  const {
+    currentCollectionId,
+    setCurrentCollectionId,
+    currentCollection,
+    setCurrentCollection,
+  } = useContext(CollectionContext);
   const { authInfo } = useContext(AuthContext);
 
   useEffect(() => {
-    if (id) {
+    console.log("ID", id);
+    if (
+      (id && !currentCollectionId) ||
+      (id && currentCollectionId && currentCollectionId !== id)
+    ) {
+      setCurrentCollectionId(id);
+
       fetchWrapper
         .apiCall(`/collection/${id}`, "GET")
         .then((response) => {
-          setCollectionData(response.result);
+          setCurrentCollection(response.result);
         })
         .catch((error) => console.error(`couldn't retrieve collection`, error));
 
@@ -59,12 +71,12 @@ export default function Collection() {
         setCurrentTab={setCurrentTab}
       />
 
-      {collectionData && items ? (
+      {currentCollection && items ? (
         <div className="collection-wrapper">
           {/* <h1>{collectionData.name}</h1> */}
 
           <CollectionOverview
-            collectionData={collectionData}
+            collectionData={currentCollection}
             types={types}
             items={items}
           />
@@ -72,7 +84,7 @@ export default function Collection() {
           {currentTab === "items" && items.length > 0 ? (
             <div className="items-container">
               <SearchSection
-                collectionId={collectionData?.collection_id}
+                collectionId={currentCollectionId}
                 types={types}
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
@@ -88,7 +100,7 @@ export default function Collection() {
               {authInfo && (
                 <AddItemForm
                   setItems={setItems}
-                  collectionId={collectionData.collection_id}
+                  collectionId={currentCollectionId}
                   types={types}
                 />
               )}
@@ -98,14 +110,14 @@ export default function Collection() {
 
                 <div className={"items-wrapper"}>
                   <ItemsList
-                    collectionId={collectionData?.collection_id}
+                    collectionId={currentCollectionId}
                     itemsList={items}
                     setItems={setItems}
                     currentRelationships={selectedElements}
                     viewType={viewType}
                     searchTerm={searchTerm}
                     currentTypes={selectedTypes}
-                    currentCollections={[collectionData]}
+                    currentCollections={[currentCollection]}
                     currentRelatedElements={selectedElements}
                   />
                 </div>
