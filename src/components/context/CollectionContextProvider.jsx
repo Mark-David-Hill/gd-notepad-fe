@@ -8,6 +8,7 @@ export default function CollectionContextProvider({ children }) {
   const [currentCollectionId, setCurrentCollectionId] = useState(null);
   const [currentCollection, setCurrentCollection] = useState(null);
   const [types, setTypes] = useState([]);
+  const [items, setItems] = useState([]);
   const [relationships, setRelationships] = useState([]);
 
   const gameDataState = {
@@ -17,6 +18,8 @@ export default function CollectionContextProvider({ children }) {
     setCurrentCollection,
     types,
     setTypes,
+    items,
+    setItems,
     relationships,
     setRelationships,
   };
@@ -47,6 +50,13 @@ export default function CollectionContextProvider({ children }) {
           setRelationships(response.results);
         })
         .catch((error) => console.error(`couldn't get relationships`, error));
+
+      fetchWrapper
+        .apiCall(`/items/collection/${currentCollectionId}`, "GET")
+        .then((response) => {
+          setItems(response.results);
+        })
+        .catch((error) => console.error(`couldn't get items`, error));
     }
   }, [currentCollectionId]);
 

@@ -10,8 +10,6 @@ import AddTypeForm from "../../forms/AddTypeForm";
 import ItemCard from "../../item-cards/ItemCard";
 import SearchSection from "./SearchSection";
 
-import fetchWrapper from "../../../lib/apiCall";
-
 import { CollectionContext } from "../../context/CollectionContextProvider";
 import { AuthContext } from "../../context/AuthContextProvider";
 
@@ -19,8 +17,6 @@ export default function Collection() {
   const [viewType, setViewType] = useState("square");
   const [selectedElements, setSelectedElements] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
-  const [types, setTypes] = useState([]);
-  const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentTab, setCurrentTab] = useState("items");
 
@@ -29,7 +25,9 @@ export default function Collection() {
     currentCollectionId,
     setCurrentCollectionId,
     currentCollection,
-    setCurrentCollection,
+    types,
+    items,
+    setItems,
   } = useContext(CollectionContext);
   const { authInfo } = useContext(AuthContext);
 
@@ -39,20 +37,6 @@ export default function Collection() {
       (id && currentCollectionId && currentCollectionId !== id)
     ) {
       setCurrentCollectionId(id);
-
-      fetchWrapper
-        .apiCall(`/types/collection/${id}`, "GET")
-        .then((response) => {
-          setTypes(response.results);
-        })
-        .catch((error) => console.error("couldn't get types", error));
-
-      fetchWrapper
-        .apiCall(`/items/collection/${id}`, "GET")
-        .then((response) => {
-          setItems(response.results);
-        })
-        .catch((error) => console.error("couldn't get items", error));
     }
   }, [id]);
 
@@ -65,8 +49,6 @@ export default function Collection() {
 
       {currentCollection && items ? (
         <div className="collection-wrapper">
-          {/* <h1>{collectionData.name}</h1> */}
-
           <CollectionOverview
             collectionData={currentCollection}
             types={types}
