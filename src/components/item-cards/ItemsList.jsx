@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import ItemCard from "./ItemCard";
+
+// import { CollectionContext } from "../context/CollectionContextProvider";
 
 import fetchWrapper from "../../lib/apiCall";
 
@@ -14,6 +16,8 @@ const ItemsList = ({
   currentTypes,
 }) => {
   const [relationships, setRelationships] = useState([]);
+
+  // const { relationships, setRelationships } = useContext(CollectionContext);
 
   useEffect(() => {
     console.log(`/relationships/collection/${collectionId}`);
