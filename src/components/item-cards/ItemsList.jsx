@@ -1,8 +1,8 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 
 import ItemCard from "./ItemCard";
 
-// import { CollectionContext } from "../context/CollectionContextProvider";
+import { CollectionContext } from "../context/CollectionContextProvider";
 
 import fetchWrapper from "../../lib/apiCall";
 
@@ -15,9 +15,7 @@ const ItemsList = ({
   searchTerm,
   currentTypes,
 }) => {
-  const [relationships, setRelationships] = useState([]);
-
-  // const { relationships, setRelationships } = useContext(CollectionContext);
+  const { relationships, setRelationships } = useContext(CollectionContext);
 
   useEffect(() => {
     console.log(`/relationships/collection/${collectionId}`);

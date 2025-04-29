@@ -26,6 +26,7 @@ export default function Collection() {
     setCurrentCollectionId,
     currentCollection,
     types,
+    setTypes,
     items,
     setItems,
   } = useContext(CollectionContext);
