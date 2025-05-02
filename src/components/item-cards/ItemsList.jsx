@@ -1,13 +1,10 @@
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 
 import ItemCard from "./ItemCard";
 
 import { CollectionContext } from "../context/CollectionContextProvider";
 
-import fetchWrapper from "../../lib/apiCall";
-
 const ItemsList = ({
-  collectionId,
   itemsList,
   setItems,
   currentRelationships,
@@ -15,20 +12,7 @@ const ItemsList = ({
   searchTerm,
   currentTypes,
 }) => {
-  const { relationships, setRelationships } = useContext(CollectionContext);
-
-  useEffect(() => {
-    console.log(`/relationships/collection/${collectionId}`);
-    fetchWrapper
-      .apiCall(`/relationships/collection/${collectionId}`, "GET")
-      .then((response) => {
-        console.log(response);
-        setRelationships(response.results);
-      })
-      .catch((error) =>
-        console.error(`couldn't retrieve relationships`, error)
-      );
-  }, []);
+  const { relationships } = useContext(CollectionContext);
 
   const includedInCurrentRelationships = (elementData) => {
     if (currentRelationships.length === 0) {
