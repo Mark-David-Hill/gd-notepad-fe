@@ -13,6 +13,7 @@ import Login from "./components/pages/Login";
 import Navbar from "./components/nav/Navbar";
 import Footer from "./components/nav/Footer";
 import Item from "./components/pages/Item";
+import Type from "./components/pages/type";
 
 import { AuthContext } from "./components/context/AuthContextProvider";
 
@@ -47,6 +48,7 @@ function App() {
           <Route path="/" element={<Collections />} />
           <Route path="collection/:id" element={<Collection />} />
           <Route path="/item/:id" element={<Item />} />
+          <Route path="/type/:id" element={<Type />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
         <Footer />

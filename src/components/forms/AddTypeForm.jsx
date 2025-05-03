@@ -112,6 +112,7 @@ const AddTypeForm = ({ collectionId, setTypes }) => {
             "https://www.svgrepo.com/show/508699/landscape-placeholder.svg",
         }}
         itemType="type"
+        pageRoute="type"
       />
     </div>
   );

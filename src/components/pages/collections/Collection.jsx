@@ -115,7 +115,8 @@ export default function Collection() {
                       key={type.type_id}
                       itemData={type}
                       setItems={setTypes}
-                      itemType={"type"}
+                      itemType="type"
+                      pageRoute="type"
                       viewType="square"
                       colorScheme={type.color_scheme}
                       typeImageUrl={type.image_url}
