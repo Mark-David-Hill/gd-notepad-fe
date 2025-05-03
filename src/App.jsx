@@ -13,7 +13,7 @@ import Login from "./components/pages/Login";
 import Navbar from "./components/nav/Navbar";
 import Footer from "./components/nav/Footer";
 import Item from "./components/pages/Item";
-import Type from "./components/pages/type";
+import Type from "./components/pages/Type";
 
 import { AuthContext } from "./components/context/AuthContextProvider";
 

@@ -24,8 +24,8 @@ export default function Item() {
       {elementData ? (
         <ItemCard
           itemData={elementData}
-          itemType="element"
-          pageRoute="game-elements"
+          itemType="item"
+          pageRoute="item"
           viewType="page"
           colorScheme={elementData.type.colorScheme}
           typeImageUrl={elementData.type.image_url}
