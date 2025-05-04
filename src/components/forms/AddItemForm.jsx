@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import fetchWrapper from "../../lib/apiCall";
 
-import ItemCard from "../item-cards/ItemCard";
+import CollectionItemCard from "../item-cards/CollectionItemCard";
 
 const AddItemForm = ({ types, collectionId, setItems }) => {
   const [addFormIsOpen, setAddFormIsOpen] = useState(false);
@@ -90,7 +90,7 @@ const AddItemForm = ({ types, collectionId, setItems }) => {
         </button>
         <button onClick={handleAddItem}>Add Item</button>
       </div>
-      <ItemCard
+      <CollectionItemCard
         itemData={{
           description: formDescription,
           name: formName,
@@ -100,7 +100,7 @@ const AddItemForm = ({ types, collectionId, setItems }) => {
           type_id: formTypeId,
           notes: [],
         }}
-        itemType="item"
+        viewType="add"
       />
     </div>
   );

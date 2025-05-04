@@ -14,6 +14,7 @@ const CardView = ({
   pageRoute,
   colorScheme,
   typeImageUrl,
+  isEditable,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -22,7 +23,7 @@ const CardView = ({
   const handleDelete = () => {
     fetchWrapper
       .apiCall(`/${itemType}/delete/${itemData[`${itemType}_id`]}`, "DELETE")
-      .then((response) => {
+      .then(() => {
         setItems((prev) =>
           prev.filter(
             (item) => item[`${itemType}_id`] !== itemData[`${itemType}_id`]
@@ -62,14 +63,14 @@ const CardView = ({
               View More Details
             </NavLink>
           )}
-          {/* {authInfo && ( */}
-          <div className="edit-delete-section">
-            <button onClick={() => setIsEditing((prev) => !prev)}>
-              {isEditing ? "Cancel" : "Edit"}
-            </button>
-            <button onClick={handleDelete}>Delete</button>
-          </div>
-          {/* )} */}
+          {authInfo && isEditable && (
+            <div className="edit-delete-section">
+              <button onClick={() => setIsEditing((prev) => !prev)}>
+                {isEditing ? "Cancel" : "Edit"}
+              </button>
+              <button onClick={handleDelete}>Delete</button>
+            </div>
+          )}
         </div>
       </div>
     </div>

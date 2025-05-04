@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import ItemCard from "./ItemCard";
+import CollectionItemCard from "./CollectionItemCard";
 
 import { CollectionContext } from "../context/CollectionContextProvider";
 
@@ -55,13 +55,12 @@ const ItemsList = ({
                   .includes(searchTerm.trim().toLowerCase()))
             ) {
               return (
-                <ItemCard
+                <CollectionItemCard
                   key={elementId}
                   itemData={elementData}
                   setItems={setItems}
-                  itemType="item"
-                  pageRoute="item"
                   viewType={viewType}
+                  pageRoute="item"
                   colorScheme={elementData.type.color_scheme}
                   typeImageUrl={elementData.type.image_url}
                 />

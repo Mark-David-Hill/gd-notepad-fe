@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import ItemCard from "../item-cards/ItemCard";
+import CollectionItemCard from "../item-cards/CollectionItemCard";
 
 import fetchWrapper from "../../lib/apiCall";
 
@@ -22,10 +22,8 @@ export default function Item() {
   return (
     <div className="game-element-container">
       {elementData ? (
-        <ItemCard
+        <CollectionItemCard
           itemData={elementData}
-          itemType="item"
-          pageRoute="item"
           viewType="page"
           colorScheme={elementData.type.colorScheme}
           typeImageUrl={elementData.type.image_url}

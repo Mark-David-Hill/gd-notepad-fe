@@ -1,5 +1,6 @@
 import SquareView from "./SquareView";
 import CardView from "./CardView";
+import PageView from "./PageView";
 import RowView from "./RowView";
 
 import { getColor } from "../../util/getColor";
@@ -39,7 +40,7 @@ const ItemCard = ({
           colorScheme={colorScheme}
           typeImageUrl={typeImageUrl}
         />
-      ) : viewType === "card" ? (
+      ) : viewType === "card" || viewType === "add" ? (
         <CardView
           itemData={itemData}
           setItems={setItems}
@@ -47,8 +48,9 @@ const ItemCard = ({
           itemType={itemType}
           colorScheme={colorScheme}
           typeImageUrl={typeImageUrl}
+          isEditable={viewType === "add" ? false : true}
         />
-      ) : (
+      ) : viewType === "row" ? (
         <RowView
           itemData={itemData}
           setItems={setItems}
@@ -57,7 +59,16 @@ const ItemCard = ({
           colorScheme={colorScheme}
           typeImageUrl={typeImageUrl}
         />
-      )}
+      ) : viewType === "page" ? (
+        <PageView
+          itemData={itemData}
+          setItems={setItems}
+          itemType={itemType}
+          pageRoute={pageRoute}
+          colorScheme={colorScheme}
+          typeImageUrl={typeImageUrl}
+        />
+      ) : null}
     </div>
   );
 };
