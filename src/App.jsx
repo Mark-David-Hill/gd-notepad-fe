@@ -7,13 +7,13 @@ import {
 } from "react-router-dom";
 
 import Collections from "./components/pages/collections/Collections";
-import Collection from "./components/pages/collections/Collection";
+import Collection from "./components/pages/collections/CollectionDetails";
 import NoPage from "./components/pages/NoPage";
 import Login from "./components/pages/Login";
 import Navbar from "./components/nav/Navbar";
 import Footer from "./components/nav/Footer";
-import Item from "./components/pages/Item";
-import Type from "./components/pages/Type";
+import Item from "./components/pages/ItemDetails";
+import Type from "./components/pages/TypeDetails";
 
 import { AuthContext } from "./components/context/AuthContextProvider";
 
