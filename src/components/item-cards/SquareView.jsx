@@ -1,22 +1,11 @@
-import { useNavigate } from "react-router-dom";
-
+import { useItemNavigation } from "../../hooks/useItemActions";
 import { getColor } from "../../util/getColor";
 
-const SquareView = ({
-  itemData,
-  pageRoute,
-  itemType,
-  colorScheme,
-  typeImageUrl,
-}) => {
-  const navigate = useNavigate();
+const SquareView = ({ itemData, pageRoute, colorScheme, id }) => {
+  const onNavigate = useItemNavigation(pageRoute, id);
+
   return (
-    <div
-      className="square-view-container"
-      onClick={() => {
-        navigate(`/${pageRoute}/${itemData[`${itemType}_id`]}`);
-      }}
-    >
+    <div className="square-view-container" onClick={onNavigate}>
       <div
         className="title-wrapper"
         style={{
@@ -28,10 +17,7 @@ const SquareView = ({
         </h2>
       </div>
       <div className="image-wrapper">
-        <img
-          src={itemData.image_url || typeImageUrl}
-          alt={`${itemData.name} image`}
-        />
+        <img src={itemData.image_url} alt={`${itemData.name} image`} />
       </div>
     </div>
   );

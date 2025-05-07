@@ -1,74 +1,63 @@
+import React, { useMemo } from "react";
+
 import SquareView from "./SquareView";
 import CardView from "./CardView";
 import PageView from "./PageView";
 import RowView from "./RowView";
 
-import { getColor } from "../../util/getColor";
+import { getCardStyles } from "../../util/getCardStyles";
+
+const viewComponents = {
+  square: SquareView,
+  card: CardView,
+  add: CardView,
+  row: RowView,
+  page: PageView,
+};
 
 const ItemCard = ({
-  itemData,
+  viewType = "card",
   setItems,
   itemType,
   pageRoute,
   colorScheme,
   typeImageUrl,
-  viewType = "card",
+  itemData,
 }) => {
   if (!itemData) return null;
+
+  const ViewComponent = viewComponents[viewType] || null;
+  const id = itemData[`${itemType}_id`];
+
+  const sharedProps = useMemo(
+    () => ({
+      itemData,
+      itemType,
+      pageRoute,
+      colorScheme,
+      typeImageUrl,
+      setItems,
+      id,
+      isEditable: viewType === "card",
+      isAddView: viewType === "add",
+    }),
+    [
+      itemData,
+      itemType,
+      pageRoute,
+      colorScheme,
+      typeImageUrl,
+      setItems,
+      viewType,
+    ]
+  );
 
   return (
     <div
       className={`item-card-container ${viewType}`}
-      style={{
-        border: `1px solid ${getColor(
-          colorScheme,
-          "secondary_color",
-          "black"
-        )}`,
-        backgroundColor: getColor(
-          colorScheme,
-          "background_color",
-          "rgb(198, 255, 237)"
-        ),
-      }}
+      style={getCardStyles(colorScheme)}
     >
-      {viewType === "square" ? (
-        <SquareView
-          itemData={itemData}
-          pageRoute={pageRoute}
-          itemType={itemType}
-          colorScheme={colorScheme}
-          typeImageUrl={typeImageUrl}
-        />
-      ) : viewType === "card" || viewType === "add" ? (
-        <CardView
-          itemData={itemData}
-          setItems={setItems}
-          pageRoute={pageRoute}
-          itemType={itemType}
-          colorScheme={colorScheme}
-          typeImageUrl={typeImageUrl}
-          isEditable={viewType === "add" ? false : true}
-        />
-      ) : viewType === "row" ? (
-        <RowView
-          itemData={itemData}
-          setItems={setItems}
-          itemType={itemType}
-          pageRoute={pageRoute}
-          colorScheme={colorScheme}
-          typeImageUrl={typeImageUrl}
-        />
-      ) : viewType === "page" ? (
-        <PageView
-          itemData={itemData}
-          setItems={setItems}
-          itemType={itemType}
-          pageRoute={pageRoute}
-          colorScheme={colorScheme}
-          typeImageUrl={typeImageUrl}
-        />
-      ) : null}
+      {ViewComponent ? <ViewComponent {...sharedProps} /> : null}
     </div>
   );
 };
