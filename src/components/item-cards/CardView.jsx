@@ -1,11 +1,8 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-import fetchWrapper from "../../lib/apiCall";
-
+import { useItemDeletion } from "../../hooks/useItemActions";
 import { getColor } from "../../util/getColor";
-
-import { AuthContext } from "../context/AuthContextProvider";
 
 const CardView = ({
   itemData,
@@ -13,25 +10,12 @@ const CardView = ({
   itemType,
   pageRoute,
   colorScheme,
-  typeImageUrl,
   isEditable,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const id = itemData[`${itemType}_id`];
 
-  const { authInfo } = useContext(AuthContext);
-
-  const handleDelete = () => {
-    fetchWrapper
-      .apiCall(`/${itemType}/delete/${itemData[`${itemType}_id`]}`, "DELETE")
-      .then(() => {
-        setItems((prev) =>
-          prev.filter(
-            (item) => item[`${itemType}_id`] !== itemData[`${itemType}_id`]
-          )
-        );
-      })
-      .catch((error) => console.error(`could not delete ${itemType}`, error));
-  };
+  const onDelete = useItemDeletion(itemType, id, setItems);
 
   return (
     <div className="card-view-container">
@@ -47,28 +31,26 @@ const CardView = ({
       </div>
       <div className="card-content-wrapper">
         <div className="image-wrapper">
-          <img
-            src={itemData.image_url || typeImageUrl}
-            alt={`${itemData.name} image`}
-          />
+          <img src={itemData.image_url} alt={`${itemData.name} image`} />
         </div>
         <div className="text-wrapper">
-          {isEditing ? (
-            <input type="text" value={itemData.description} />
-          ) : (
-            <p>{itemData.description}</p>
-          )}
+          <p>
+            {isEditing ? (
+              <em>Editing mode active (you can put a form here)</em>
+            ) : (
+              itemData.description
+            )}
+          </p>
+
           {pageRoute && (
-            <NavLink to={`/${pageRoute}/${itemData[`${itemType}_id`]}`}>
-              View More Details
-            </NavLink>
+            <NavLink to={`/${pageRoute}/${id}`}>View More Details</NavLink>
           )}
-          {authInfo && isEditable && (
+          {isEditable && (
             <div className="edit-delete-section">
               <button onClick={() => setIsEditing((prev) => !prev)}>
                 {isEditing ? "Cancel" : "Edit"}
               </button>
-              <button onClick={handleDelete}>Delete</button>
+              <button onClick={onDelete}>Delete</button>
             </div>
           )}
         </div>
