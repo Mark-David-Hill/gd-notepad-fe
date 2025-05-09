@@ -1,51 +1,38 @@
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 
 import AddCollectionForm from "../../forms/AddCollectionForm";
 import ItemCard from "../../item-cards/ItemCard";
 
-import fetchWrapper from "../../../lib/apiCall";
-
 import { AuthContext } from "../../context/AuthContextProvider";
+import useFetch from "../../../hooks/useFetch";
 
 const Collections = () => {
-  const [collections, setCollections] = useState([]);
-
   const { authInfo } = useContext(AuthContext);
-
-  useEffect(() => {
-    fetchWrapper
-      .apiCall(`/collections`, "GET")
-      .then((response) => {
-        setCollections(response.results);
-      })
-      .catch((error) => console.error(`couldn't retrieve collections`, error));
-  }, []);
+  const { data: collections = [], loading } = useFetch("/collections");
 
   return (
-    <div className="items-container">
-      <h1>Collections</h1>
-      <div className={"items-wrapper"}>
-        {authInfo && <AddCollectionForm setCollections={setCollections} />}
-        <div className="games-display-container">
-          <div className="games-display-wrapper">
-            {!collections ? (
-              <p>Loading</p>
-            ) : (
-              collections.map((collectionData, collectionId) => {
-                return (
-                  <ItemCard
-                    key={collectionId}
-                    itemData={collectionData}
-                    itemType="collection"
-                    pageRoute="collection"
-                  />
-                );
-              })
-            )}
+    <section className="items-container">
+      <header className="collections-header">
+        <h1>Collections</h1>
+      </header>
+      <div className="items-wrapper">
+        {authInfo && <AddCollectionForm onSuccess={reload} />}
+        {loading ? (
+          <p>Loading…</p>
+        ) : (
+          <div className="collections-wrapper">
+            {collections.map((col) => (
+              <ItemCard
+                key={col.id}
+                itemData={col}
+                itemType="collection"
+                pageRoute="collection"
+              />
+            ))}
           </div>
-        </div>
+        )}
       </div>
-    </div>
+    </section>
   );
 };
 
