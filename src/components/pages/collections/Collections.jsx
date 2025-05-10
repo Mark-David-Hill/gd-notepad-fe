@@ -16,15 +16,15 @@ const Collections = () => {
         <h1>Collections</h1>
       </header>
       <div className="items-wrapper">
-        {authInfo && <AddCollectionForm onSuccess={reload} />}
+        {/* {authInfo && <AddCollectionForm onSuccess={reload} />} */}
         {loading ? (
           <p>Loading…</p>
         ) : (
           <div className="collections-wrapper">
-            {collections.map((col) => (
+            {collections.map((collection) => (
               <ItemCard
-                key={col.id}
-                itemData={col}
+                key={collection.collection_id}
+                itemData={collection}
                 itemType="collection"
                 pageRoute="collection"
               />
