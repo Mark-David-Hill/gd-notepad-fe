@@ -11,6 +11,7 @@ const ItemsList = ({
   viewType,
   searchTerm,
   currentTypes,
+  types,
 }) => {
   const { relationships } = useContext(CollectionContext);
 
@@ -63,6 +64,7 @@ const ItemsList = ({
                   pageRoute="item"
                   colorScheme={elementData.type.color_scheme}
                   typeImageUrl={elementData.type.image_url}
+                  types={types}
                 />
               );
             } else {

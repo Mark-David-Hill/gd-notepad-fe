@@ -7,6 +7,7 @@ const CollectionItemCard = ({
   typeImageUrl,
   pageRoute,
   viewType = "card",
+  types,
 }) => {
   if (!itemData) return null;
 
@@ -19,6 +20,7 @@ const CollectionItemCard = ({
       colorScheme={colorScheme}
       typeImageUrl={typeImageUrl}
       viewType={viewType}
+      types={types}
     />
   );
 };

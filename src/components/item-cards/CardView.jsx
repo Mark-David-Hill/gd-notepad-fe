@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 
 import { useItemDeletion } from "../../hooks/useItemActions";
 import { getColor } from "../../util/getColor";
+import EditItemForm from "../forms/EditItemForm";
 
 const CardView = ({
   itemData,
@@ -11,11 +12,37 @@ const CardView = ({
   pageRoute,
   colorScheme,
   isEditable,
+  types,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const id = itemData[`${itemType}_id`];
 
   const onDelete = useItemDeletion(itemType, id, setItems);
+
+  const handleSaveEdit = (updatedItem) => {
+    setItems((prev) =>
+      prev.map((item) => (item[`${itemType}_id`] === id ? updatedItem : item))
+    );
+    setIsEditing(false);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+  };
+
+  if (isEditing) {
+    return (
+      <div className="card-view-container">
+        <EditItemForm
+          itemData={itemData}
+          itemType={itemType}
+          types={types}
+          onSave={handleSaveEdit}
+          onCancel={handleCancelEdit}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="card-view-container">
@@ -34,22 +61,14 @@ const CardView = ({
           <img src={itemData.image_url} alt={`${itemData.name} image`} />
         </div>
         <div className="text-wrapper">
-          <p>
-            {isEditing ? (
-              <em>Editing mode active (you can put a form here)</em>
-            ) : (
-              itemData.description
-            )}
-          </p>
+          <p>{itemData.description}</p>
 
           {pageRoute && (
             <NavLink to={`/${pageRoute}/${id}`}>View More Details</NavLink>
           )}
           {isEditable && (
             <div className="edit-delete-section">
-              <button onClick={() => setIsEditing((prev) => !prev)}>
-                {isEditing ? "Cancel" : "Edit"}
-              </button>
+              <button onClick={() => setIsEditing(true)}>Edit</button>
               <button onClick={onDelete}>Delete</button>
             </div>
           )}

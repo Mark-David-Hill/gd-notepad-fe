@@ -94,6 +94,7 @@ export default function Collection() {
                     currentTypes={selectedTypes}
                     currentCollections={[currentCollection]}
                     currentRelatedElements={selectedElements}
+                    types={types}
                   />
                 </div>
               </div>
@@ -120,6 +121,7 @@ export default function Collection() {
                       viewType="square"
                       colorScheme={type.color_scheme}
                       typeImageUrl={type.image_url}
+                      types={types}
                     />
                   ))}
                 </div>

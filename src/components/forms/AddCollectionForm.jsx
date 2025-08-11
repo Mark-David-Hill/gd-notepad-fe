@@ -77,6 +77,7 @@ const AddCollectionForm = ({ setCollections }) => {
           notes: [],
         }}
         itemType="collection"
+        types={[]}
       />
     </div>
   );

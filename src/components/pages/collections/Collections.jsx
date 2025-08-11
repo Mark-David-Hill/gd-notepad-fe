@@ -4,10 +4,12 @@ import AddCollectionForm from "../../forms/AddCollectionForm";
 import ItemCard from "../../item-cards/ItemCard";
 
 import { AuthContext } from "../../context/AuthContextProvider";
+import { CollectionContext } from "../../context/CollectionContextProvider";
 import useFetch from "../../../hooks/useFetch";
 
 const Collections = () => {
   const { authInfo } = useContext(AuthContext);
+  const { types } = useContext(CollectionContext);
   const { data: collections = [], loading } = useFetch("/collections");
 
   return (
@@ -27,6 +29,7 @@ const Collections = () => {
                 itemData={collection}
                 itemType="collection"
                 pageRoute="collection"
+                types={types}
               />
             ))}
           </div>

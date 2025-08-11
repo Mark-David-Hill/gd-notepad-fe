@@ -106,6 +106,7 @@ const AddColorSchemeForm = ({ setColorSchemes }) => {
           name: formName,
         }}
         itemType="color-scheme"
+        types={[]}
       />
     </div>
   );

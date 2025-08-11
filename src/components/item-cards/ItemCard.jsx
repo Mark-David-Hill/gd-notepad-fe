@@ -23,6 +23,7 @@ const ItemCard = ({
   colorScheme,
   typeImageUrl,
   itemData,
+  types,
 }) => {
   if (!itemData) return null;
 
@@ -40,6 +41,7 @@ const ItemCard = ({
       id,
       isEditable: viewType === "card",
       isAddView: viewType === "add",
+      types,
     }),
     [
       itemData,
@@ -49,6 +51,7 @@ const ItemCard = ({
       typeImageUrl,
       setItems,
       viewType,
+      types,
     ]
   );
 

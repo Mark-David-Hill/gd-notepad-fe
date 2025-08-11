@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import fetchWrapper from "../../lib/apiCall";
 
 import ItemCard from "../item-cards/ItemCard";
 
 import { getColor } from "../../util/getColor";
+import { CollectionContext } from "../context/CollectionContextProvider";
 
 const AddTypeForm = ({ collectionId, setTypes }) => {
+  const { types } = useContext(CollectionContext);
   const [addFormIsOpen, setAddFormIsOpen] = useState(false);
   const [colorSchemes, setColorSchemes] = useState([]);
   const [formName, setFormName] = useState("");
@@ -113,6 +115,7 @@ const AddTypeForm = ({ collectionId, setTypes }) => {
         }}
         itemType="type"
         pageRoute="type"
+        types={types}
       />
     </div>
   );
