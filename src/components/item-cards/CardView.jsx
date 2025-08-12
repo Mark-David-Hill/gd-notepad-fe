@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { NavLink } from "react-router-dom";
 
 import { useItemDeletion } from "../../hooks/useItemActions";
 import { getColor } from "../../util/getColor";
+import { AuthContext } from "../context/AuthContextProvider";
 import EditItemForm from "../forms/EditItemForm";
 
 const CardView = ({
@@ -14,6 +15,7 @@ const CardView = ({
   isEditable,
   types,
 }) => {
+  const { authInfo } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
   const id = itemData[`${itemType}_id`];
 
@@ -66,7 +68,7 @@ const CardView = ({
           {pageRoute && (
             <NavLink to={`/${pageRoute}/${id}`}>View More Details</NavLink>
           )}
-          {isEditable && (
+          {isEditable && authInfo && (
             <div className="edit-delete-section">
               <button onClick={() => setIsEditing(true)}>Edit</button>
               <button onClick={onDelete}>Delete</button>

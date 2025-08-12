@@ -1,11 +1,10 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import fetchWrapper from "../../lib/apiCall";
 
 import { AuthContext } from "../context/AuthContextProvider";
 
 const LoginForm = () => {
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,26 +18,15 @@ const LoginForm = () => {
     setPassword(event.target.value);
   };
 
-  async function loginUser(email, password) {
-    const body = { email, password };
-
-    try {
-      const response = await fetchWrapper.apiCall(`/user/auth`, "POST", body);
-      if (response.message === "login successful") {
-        setIsAuthenticated(true);
-        navigate("/dashboard");
-      } else {
-        console.error("Login failed:", response.message);
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-    }
-  }
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (email && password) {
-      loginUser(email, password);
+      const result = await login(email, password);
+      if (result.success) {
+        navigate("/dashboard");
+      } else {
+        console.error("Login failed:", result.message);
+      }
     }
   };
 

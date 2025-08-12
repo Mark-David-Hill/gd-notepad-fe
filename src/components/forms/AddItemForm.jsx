@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import fetchWrapper from "../../lib/apiCall";
+import { AuthContext } from "../context/AuthContextProvider";
 
 import CollectionItemCard from "../item-cards/CollectionItemCard";
 
 const AddItemForm = ({ types, collectionId, setItems }) => {
+  const { authInfo } = useContext(AuthContext);
   const [addFormIsOpen, setAddFormIsOpen] = useState(false);
   const [formName, setFormName] = useState("");
   const [formImgUrl, setFormImgUrl] = useState("");
@@ -41,6 +43,11 @@ const AddItemForm = ({ types, collectionId, setItems }) => {
 
   if (!types || !types.length) {
     return <p>Loading...</p>;
+  }
+
+  // Don't render anything if user is not authenticated
+  if (!authInfo) {
+    return null;
   }
 
   return !addFormIsOpen ? (

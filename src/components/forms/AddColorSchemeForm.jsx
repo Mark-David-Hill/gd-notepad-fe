@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import fetchWrapper from "../../lib/apiCall";
+import { AuthContext } from "../context/AuthContextProvider";
 
 import ItemCard from "../item-cards/ItemCard";
 
 const AddColorSchemeForm = ({ setColorSchemes }) => {
+  const { authInfo } = useContext(AuthContext);
   const [addFormIsOpen, setAddFormIsOpen] = useState(false);
   const [formName, setFormName] = useState("");
   const [formPrimaryColor, setFormPrimaryColor] = useState("");
@@ -13,9 +15,10 @@ const AddColorSchemeForm = ({ setColorSchemes }) => {
   const [formBackgroundColor, setFormBackgroundColor] = useState("");
 
   const handleResetForm = () => {
-    setFormImgUrl("");
+    setFormPrimaryColor("");
+    setFormSecondaryColor("");
+    setFormTextColor("");
     setFormName("");
-    setFormDescription("");
   };
 
   const handleAddColorScheme = () => {
@@ -44,6 +47,11 @@ const AddColorSchemeForm = ({ setColorSchemes }) => {
         .catch((error) => console.error("couldn't add color scheme", error));
     }
   };
+
+  // Don't render anything if user is not authenticated
+  if (!authInfo) {
+    return null;
+  }
 
   return !addFormIsOpen ? (
     <button onClick={() => setAddFormIsOpen(true)}>Add Color Scheme</button>

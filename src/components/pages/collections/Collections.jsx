@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import AddCollectionForm from "../../forms/AddCollectionForm";
 import ItemCard from "../../item-cards/ItemCard";
@@ -10,7 +10,11 @@ import useFetch from "../../../hooks/useFetch";
 const Collections = () => {
   const { authInfo } = useContext(AuthContext);
   const { types } = useContext(CollectionContext);
-  const { data: collections = [], loading } = useFetch("/collections");
+  const { data: collections = [], loading, refetch } = useFetch("/collections");
+
+  const handleCollectionAdded = () => {
+    refetch();
+  };
 
   return (
     <section className="items-container">
@@ -18,7 +22,9 @@ const Collections = () => {
         <h1>Collections</h1>
       </header>
       <div className="items-wrapper">
-        {/* {authInfo && <AddCollectionForm onSuccess={reload} />} */}
+        {authInfo && (
+          <AddCollectionForm setCollections={handleCollectionAdded} />
+        )}
         {loading ? (
           <p>Loading…</p>
         ) : (

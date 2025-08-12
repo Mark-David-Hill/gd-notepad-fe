@@ -6,9 +6,11 @@ import ItemCard from "../item-cards/ItemCard";
 
 import { getColor } from "../../util/getColor";
 import { CollectionContext } from "../context/CollectionContextProvider";
+import { AuthContext } from "../context/AuthContextProvider";
 
 const AddTypeForm = ({ collectionId, setTypes }) => {
   const { types } = useContext(CollectionContext);
+  const { authInfo } = useContext(AuthContext);
   const [addFormIsOpen, setAddFormIsOpen] = useState(false);
   const [colorSchemes, setColorSchemes] = useState([]);
   const [formName, setFormName] = useState("");
@@ -49,6 +51,11 @@ const AddTypeForm = ({ collectionId, setTypes }) => {
       setColorSchemes(response.results);
     });
   }, []);
+
+  // Don't render anything if user is not authenticated
+  if (!authInfo) {
+    return null;
+  }
 
   return !addFormIsOpen ? (
     <button onClick={() => setAddFormIsOpen(true)}>Add Type</button>

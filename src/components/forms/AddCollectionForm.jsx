@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import ItemCard from "../item-cards/ItemCard";
 import fetchWrapper from "../../lib/apiCall";
+import { AuthContext } from "../context/AuthContextProvider";
 
 const AddCollectionForm = ({ setCollections }) => {
+  const { authInfo } = useContext(AuthContext);
   const [addFormIsOpen, setAddFormIsOpen] = useState(false);
   const [formName, setFormName] = useState("");
   const [formImgUrl, setFormImgUrl] = useState("");
@@ -14,6 +16,11 @@ const AddCollectionForm = ({ setCollections }) => {
     setFormName("");
     setFormDescription("");
   };
+
+  // Don't render anything if user is not authenticated
+  if (!authInfo) {
+    return null;
+  }
 
   const handleAddCollection = () => {
     if (formName && formDescription) {
