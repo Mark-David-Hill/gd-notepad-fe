@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 
 import fetchWrapper from "../../lib/apiCall";
 
-const EditItemForm = ({ itemData, itemType, types, onSave, onCancel }) => {
+const EditItemForm = ({
+  itemData,
+  itemType,
+  types,
+  onSave,
+  onCancel,
+  onPreviewUpdate,
+}) => {
   const [formName, setFormName] = useState("");
   const [formImgUrl, setFormImgUrl] = useState("");
   const [formDescription, setFormDescription] = useState("");
@@ -20,6 +27,19 @@ const EditItemForm = ({ itemData, itemType, types, onSave, onCancel }) => {
       setFormTypeId(currentTypeId);
     }
   }, [itemData]);
+
+  // Update preview whenever form data changes
+  useEffect(() => {
+    if (onPreviewUpdate && itemData) {
+      const previewData = {
+        ...itemData,
+        name: formName,
+        image_url: formImgUrl,
+        description: formDescription,
+      };
+      onPreviewUpdate(previewData);
+    }
+  }, [formName, formImgUrl, formDescription, onPreviewUpdate, itemData]);
 
   const handleSave = () => {
     if (formName && formDescription) {

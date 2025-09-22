@@ -64,6 +64,37 @@
         padding: 20px;
       }
     }
+
+    // Editing mode styling
+    &.editing {
+      width: 663px; // Make the entire card wider
+
+      .card-content-wrapper {
+        .image-wrapper {
+          width: 150px; // Fixed smaller width for image
+          flex-shrink: 0;
+        }
+
+        .text-wrapper {
+          width: 450px; // Fixed larger width for form
+          background-color: rgba(255, 255, 255, 0.9);
+          backdrop-filter: blur(2px);
+          border: 1px solid rgba(0, 123, 255, 0.3);
+          border-radius: 4px;
+          padding: 15.5px;
+          display: flex;
+          flex-direction: column;
+
+          // Override form input widths specifically in edit mode
+          input,
+          select,
+          textarea {
+            width: 450px !important;
+            max-width: 450px !important;
+          }
+        }
+      }
+    }
   }
 
   .row-wrapper {

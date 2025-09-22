@@ -17,6 +17,7 @@ const CardView = ({
 }) => {
   const { authInfo } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
+  const [previewData, setPreviewData] = useState(itemData);
   const id = itemData[`${itemType}_id`];
 
   const onDelete = useItemDeletion(itemType, id, setItems);
@@ -26,22 +27,49 @@ const CardView = ({
       prev.map((item) => (item[`${itemType}_id`] === id ? updatedItem : item))
     );
     setIsEditing(false);
+    setPreviewData(updatedItem);
   };
 
   const handleCancelEdit = () => {
     setIsEditing(false);
+    setPreviewData(itemData);
+  };
+
+  const handlePreviewUpdate = (newPreviewData) => {
+    setPreviewData(newPreviewData);
   };
 
   if (isEditing) {
     return (
-      <div className="card-view-container">
-        <EditItemForm
-          itemData={itemData}
-          itemType={itemType}
-          types={types}
-          onSave={handleSaveEdit}
-          onCancel={handleCancelEdit}
-        />
+      <div className="card-view-container editing">
+        <div className="title-wrapper">
+          <h2
+            style={{
+              backgroundColor: getColor(colorScheme, "primary_color", "white"),
+              color: getColor(colorScheme, "text_color", "black"),
+            }}
+          >
+            {previewData.name}
+          </h2>
+        </div>
+        <div className="card-content-wrapper">
+          <div className="image-wrapper">
+            <img
+              src={previewData.image_url}
+              alt={`${previewData.name} image`}
+            />
+          </div>
+          <div className="text-wrapper">
+            <EditItemForm
+              itemData={itemData}
+              itemType={itemType}
+              types={types}
+              onSave={handleSaveEdit}
+              onCancel={handleCancelEdit}
+              onPreviewUpdate={handlePreviewUpdate}
+            />
+          </div>
+        </div>
       </div>
     );
   }
