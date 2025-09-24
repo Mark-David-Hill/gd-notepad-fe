@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 
 import fetchWrapper from "../../lib/apiCall";
+import { getColor } from "../../util/getColor";
 
 const EditItemForm = ({
   itemData,
   itemType,
   types,
+  colorScheme,
   onSave,
   onCancel,
   onPreviewUpdate,

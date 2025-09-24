@@ -59,11 +59,21 @@ const CardView = ({
               alt={`${previewData.name} image`}
             />
           </div>
-          <div className="text-wrapper">
+          <div
+            className="text-wrapper"
+            style={{
+              backgroundColor: getColor(
+                colorScheme,
+                "background_color",
+                "rgb(198, 255, 237)"
+              ),
+            }}
+          >
             <EditItemForm
               itemData={itemData}
               itemType={itemType}
               types={types}
+              colorScheme={colorScheme}
               onSave={handleSaveEdit}
               onCancel={handleCancelEdit}
               onPreviewUpdate={handlePreviewUpdate}
