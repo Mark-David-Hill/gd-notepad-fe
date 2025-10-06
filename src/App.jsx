@@ -6,14 +6,15 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import Collections from "./components/pages/collections/Collections";
+import ExternalCollections from "./components/pages/sheets/ExternalCollections";
 import Collection from "./components/pages/collections/CollectionDetails";
+import Collections from "./components/pages/collections/Collections";
+import Item from "./components/pages/ItemDetails";
+import Type from "./components/pages/TypeDetails";
 import NoPage from "./components/pages/NoPage";
 import Login from "./components/pages/Login";
 import Navbar from "./components/nav/Navbar";
 import Footer from "./components/nav/Footer";
-import Item from "./components/pages/ItemDetails";
-import Type from "./components/pages/TypeDetails";
 
 import { AuthContext } from "./components/context/AuthContextProvider";
 
@@ -36,16 +37,24 @@ function App() {
           <Route
             path="/"
             element={
-              isAuthenticated ? <Navigate to="/dashboard" /> : <Collections />
+              isAuthenticated ? (
+                <Navigate to="/dashboard" />
+              ) : (
+                <ExternalCollections />
+              )
             }
           />
           <Route
             path="/dashboard"
             element={
-              isAuthenticated ? <Collections /> : <Navigate to="/login" />
+              isAuthenticated ? (
+                <ExternalCollections />
+              ) : (
+                <Navigate to="/login" />
+              )
             }
           />
-          <Route path="/" element={<Collections />} />
+          <Route path="/" element={<ExternalCollections />} />
           <Route path="collection/:id" element={<Collection />} />
           <Route path="/item/:id" element={<Item />} />
           <Route path="/type/:id" element={<Type />} />
