@@ -7,7 +7,7 @@
 // import { CollectionContext } from "../../context/CollectionContextProvider";
 // import useFetch from "../../../hooks/useFetch";
 
-const Collections = () => {
+const ExternalCollections = () => {
   // const { authInfo } = useContext(AuthContext);
   // const { types } = useContext(CollectionContext);
   // const { data: collections = [], loading, refetch } = useFetch("/collections");
@@ -46,4 +46,4 @@ const Collections = () => {
   );
 };
 
-export default Collections;
+export default ExternalCollections;

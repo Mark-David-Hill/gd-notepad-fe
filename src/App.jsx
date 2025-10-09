@@ -6,9 +6,9 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import ExternalCollections from "./components/pages/sheets/ExternalCollections";
+import ExternalCollections from "./components/pages/external-collections/ExternalCollections";
 import Collection from "./components/pages/collections/CollectionDetails";
-import Collections from "./components/pages/collections/Collections";
+// import Collections from "./components/pages/collections/Collections";
 import Item from "./components/pages/ItemDetails";
 import Type from "./components/pages/TypeDetails";
 import NoPage from "./components/pages/NoPage";
