@@ -1,8 +1,5 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-
-import ItemCard from "../../item-cards/ItemCard";
-import { CollectionContext } from "../../context/CollectionContextProvider";
 
 const GOOGLE_SHEET_ID = "1aYK-0RBzHnzvZKmVjWwwbfmPqY29f6SnyjfT8InQf10";
 const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv`;
@@ -28,8 +25,8 @@ const extractImageUrl = (url) => {
   return url;
 };
 
-// Wrapper component to add external link functionality
-const ExternalCollectionCard = ({ collection, types }) => {
+// Custom card view for external collections
+const ExternalCollectionCard = ({ collection }) => {
   useEffect(() => {
     // Debug image loading
     if (collection.image_url) {
@@ -50,43 +47,37 @@ const ExternalCollectionCard = ({ collection, types }) => {
   }, [collection]);
 
   return (
-    <div style={{ position: "relative" }}>
-      <ItemCard
-        itemData={collection}
-        itemType="collection"
-        pageRoute={null}
-        types={types}
-      />
-      {collection.sheet_url && (
-        <div
-          style={{
-            position: "absolute",
-            bottom: "10px",
-            left: "10px",
-            right: "10px",
-            padding: "10px",
-            backgroundColor: "rgba(255, 255, 255, 0.9)",
-            borderRadius: "4px",
-          }}
-        >
-          <a
-            href={collection.sheet_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: "inline-block",
-              padding: "8px 16px",
-              backgroundColor: "#4CAF50",
-              color: "white",
-              textDecoration: "none",
-              borderRadius: "4px",
-              fontWeight: "500",
-            }}
-          >
-            View External Collection →
-          </a>
+    <div
+      className="item-card-container card"
+      style={{
+        border: "1px solid black",
+        backgroundColor: "rgb(198, 255, 237)",
+      }}
+    >
+      <div className="card-view-container">
+        <div className="title-wrapper">
+          <h2 style={{ backgroundColor: "white", color: "black" }}>
+            {collection.name}
+          </h2>
         </div>
-      )}
+        <div className="card-content-wrapper">
+          <div className="image-wrapper">
+            <img src={collection.image_url} alt={`${collection.name} image`} />
+          </div>
+          <div className="text-wrapper">
+            <p>{collection.description}</p>
+            {collection.sheet_url && (
+              <a
+                href={collection.sheet_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View External Collection
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -99,14 +90,12 @@ ExternalCollectionCard.propTypes = {
     image_url: PropTypes.string,
     sheet_url: PropTypes.string,
   }).isRequired,
-  types: PropTypes.array,
 };
 
 const ExternalCollections = () => {
   const [externalCollections, setExternalCollections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { types } = useContext(CollectionContext);
 
   useEffect(() => {
     const fetchGoogleSheetData = async () => {
@@ -212,7 +201,6 @@ const ExternalCollections = () => {
               <ExternalCollectionCard
                 key={collection.collection_id}
                 collection={collection}
-                types={types}
               />
             ))}
           </div>
