@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const GOOGLE_SHEET_ID = "1aYK-0RBzHnzvZKmVjWwwbfmPqY29f6SnyjfT8InQf10";
@@ -67,13 +68,12 @@ const ExternalCollectionCard = ({ collection }) => {
           <div className="text-wrapper">
             <p>{collection.description}</p>
             {collection.sheet_url && (
-              <a
-                href={collection.sheet_url}
-                target="_blank"
-                rel="noopener noreferrer"
+              <NavLink
+                to={`/external-collection/${collection.collection_id}`}
+                state={{ collection }}
               >
                 View External Collection
-              </a>
+              </NavLink>
             )}
           </div>
         </div>

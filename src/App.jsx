@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import ExternalCollections from "./components/pages/external-collections/ExternalCollections";
+import ExternalCollectionDetails from "./components/pages/external-collections/ExternalCollectionDetails";
 import Collection from "./components/pages/collections/CollectionDetails";
 // import Collections from "./components/pages/collections/Collections";
 import Item from "./components/pages/ItemDetails";
@@ -56,6 +57,10 @@ function App() {
           />
           <Route path="/" element={<ExternalCollections />} />
           <Route path="collection/:id" element={<Collection />} />
+          <Route
+            path="external-collection/:id"
+            element={<ExternalCollectionDetails />}
+          />
           <Route path="/item/:id" element={<Item />} />
           <Route path="/type/:id" element={<Type />} />
           <Route path="*" element={<NoPage />} />
