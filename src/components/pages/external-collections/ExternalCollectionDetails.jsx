@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
+import ItemCard from "../../item-cards/ItemCard";
+import ViewSelect from "../../forms/ViewSelect";
+
 // Extract actual image URL from Google imgres URLs
 const extractImageUrl = (url) => {
   if (!url) return url;
@@ -49,58 +52,6 @@ const parseCSVLine = (line) => {
   return values;
 };
 
-// Individual item card for external collection items
-const ExternalItemCard = ({ item, types, colorSchemes }) => {
-  // Find the type for this item
-  const itemType = types.find((t) => t.type_id === item.type_id);
-
-  // Find the color scheme for this type
-  const colorScheme = itemType
-    ? colorSchemes.find((cs) => cs.color_scheme_id === itemType.color_scheme_id)
-    : null;
-
-  // Get colors with defaults
-  const borderColor = colorScheme?.secondary_color || "black";
-  const backgroundColor = colorScheme?.background_color || "rgb(198, 255, 237)";
-  const primaryColor = colorScheme?.primary_color || "white";
-  const textColor = colorScheme?.text_color || "black";
-
-  return (
-    <div
-      className="item-card-container square"
-      style={{
-        border: `1px solid ${borderColor}`,
-        backgroundColor: backgroundColor,
-      }}
-    >
-      <div className="square-view-container">
-        <div className="title-wrapper">
-          <h2 style={{ backgroundColor: primaryColor, color: textColor }}>
-            {item.name}
-          </h2>
-        </div>
-        <div className="square-container">
-          <div className="image-wrapper">
-            {item.image_url && (
-              <img src={item.image_url} alt={`${item.name} image`} />
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-ExternalItemCard.propTypes = {
-  item: PropTypes.shape({
-    name: PropTypes.string,
-    image_url: PropTypes.string,
-    type_id: PropTypes.string,
-  }).isRequired,
-  types: PropTypes.array,
-  colorSchemes: PropTypes.array,
-};
-
 const ExternalCollectionDetails = () => {
   const { id } = useParams();
   const location = useLocation();
@@ -109,6 +60,7 @@ const ExternalCollectionDetails = () => {
   const [colorSchemes, setColorSchemes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [viewType, setViewType] = useState("square");
 
   // Get collection metadata from navigation state or localStorage
   const collectionData =
@@ -237,31 +189,57 @@ const ExternalCollectionDetails = () => {
             <p>Error: {error}</p>
           ) : (
             <>
-              {types.length > 0 && (
-                <div
-                  style={{
-                    marginBottom: "20px",
-                    padding: "10px",
-                    backgroundColor: "#f0f0f0",
-                    borderRadius: "5px",
-                  }}
-                >
-                  <p>
-                    <strong>Types:</strong>{" "}
-                    {types.map((t) => t.name).join(", ")}
-                  </p>
-                </div>
-              )}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginBottom: "20px",
+                }}
+              >
+                {types.length > 0 && (
+                  <div
+                    style={{
+                      padding: "10px",
+                      backgroundColor: "#f0f0f0",
+                      borderRadius: "5px",
+                      flex: 1,
+                    }}
+                  >
+                    <p style={{ margin: 0 }}>
+                      <strong>Types:</strong>{" "}
+                      {types.map((t) => t.name).join(", ")}
+                    </p>
+                  </div>
+                )}
+                <ViewSelect viewType={viewType} setViewType={setViewType} />
+              </div>
               <h2>Items ({items.length})</h2>
               <div className="items-wrapper">
-                {items.map((item, index) => (
-                  <ExternalItemCard
-                    key={item.item_id || index}
-                    item={item}
-                    types={types}
-                    colorSchemes={colorSchemes}
-                  />
-                ))}
+                {items.map((item, index) => {
+                  // Find the type and color scheme for this item
+                  const itemType = types.find(
+                    (t) => t.type_id === item.type_id
+                  );
+                  const colorScheme = itemType
+                    ? colorSchemes.find(
+                        (cs) => cs.color_scheme_id === itemType.color_scheme_id
+                      )
+                    : null;
+
+                  return (
+                    <ItemCard
+                      key={item.item_id || index}
+                      itemData={item}
+                      itemType="item"
+                      pageRoute={null}
+                      colorScheme={colorScheme}
+                      typeImageUrl={itemType?.image_url}
+                      viewType={viewType}
+                      types={types}
+                    />
+                  );
+                })}
               </div>
             </>
           )}
