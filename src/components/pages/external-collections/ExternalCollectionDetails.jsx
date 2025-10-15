@@ -3,6 +3,7 @@ import { useParams, useLocation } from "react-router-dom";
 
 import ItemCard from "../../item-cards/ItemCard";
 import ViewSelect from "../../forms/ViewSelect";
+import ComboBox from "../../forms/ComboBox";
 
 // Extract actual image URL from Google imgres URLs
 const extractImageUrl = (url) => {
@@ -61,6 +62,7 @@ const ExternalCollectionDetails = () => {
   const [error, setError] = useState(null);
   const [viewType, setViewType] = useState("square");
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTypes, setSelectedTypes] = useState([]);
 
   // Get collection metadata from navigation state or localStorage
   const collectionData =
@@ -76,6 +78,13 @@ const ExternalCollectionDetails = () => {
       );
     }
   }, [id, location.state]);
+
+  // Initialize selectedTypes when types are loaded (only once)
+  useEffect(() => {
+    if (types.length > 0) {
+      setSelectedTypes(types.map((type) => type.name));
+    }
+  }, [types]);
 
   // Helper function to fetch a specific sheet tab
   const fetchSheetTab = async (sheetId, tabName) => {
@@ -197,6 +206,14 @@ const ExternalCollectionDetails = () => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
+                {types.length > 0 && (
+                  <ComboBox
+                    placeholder="Types"
+                    allOptions={types.map((type) => type.name)}
+                    currentOptions={selectedTypes}
+                    setCurrentOptions={setSelectedTypes}
+                  />
+                )}
                 <ViewSelect viewType={viewType} setViewType={setViewType} />
               </div>
 
@@ -219,24 +236,48 @@ const ExternalCollectionDetails = () => {
               <h2>
                 Items (
                 {
-                  items.filter(
-                    (item) =>
+                  items.filter((item) => {
+                    // Find item type
+                    const itemType = types.find(
+                      (t) => t.type_id === item.type_id
+                    );
+
+                    // Filter by type
+                    const typeMatch =
+                      !itemType || selectedTypes.includes(itemType.name);
+
+                    // Filter by search term
+                    const searchMatch =
                       !searchTerm ||
                       item.name
                         ?.toLowerCase()
-                        .includes(searchTerm.trim().toLowerCase())
-                  ).length
+                        .includes(searchTerm.trim().toLowerCase());
+
+                    return typeMatch && searchMatch;
+                  }).length
                 }
                 )
               </h2>
               <div className="items-wrapper">
                 {items
                   .filter((item) => {
+                    // Find item type
+                    const itemType = types.find(
+                      (t) => t.type_id === item.type_id
+                    );
+
+                    // Filter by type
+                    const typeMatch =
+                      !itemType || selectedTypes.includes(itemType.name);
+
                     // Filter by search term
-                    if (!searchTerm) return true;
-                    return item.name
-                      ?.toLowerCase()
-                      .includes(searchTerm.trim().toLowerCase());
+                    const searchMatch =
+                      !searchTerm ||
+                      item.name
+                        ?.toLowerCase()
+                        .includes(searchTerm.trim().toLowerCase());
+
+                    return typeMatch && searchMatch;
                   })
                   .map((item, index) => {
                     // Find the type and color scheme for this item
