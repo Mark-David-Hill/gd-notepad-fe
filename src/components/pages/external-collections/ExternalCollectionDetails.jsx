@@ -250,10 +250,16 @@ const ExternalCollectionDetails = () => {
                         )
                       : null;
 
+                    // Use type's image_url as fallback if item doesn't have one
+                    const itemWithImage = {
+                      ...item,
+                      image_url: item.image_url || itemType?.image_url || "",
+                    };
+
                     return (
                       <ItemCard
                         key={item.item_id || index}
-                        itemData={item}
+                        itemData={itemWithImage}
                         itemType="item"
                         pageRoute={null}
                         colorScheme={colorScheme}
