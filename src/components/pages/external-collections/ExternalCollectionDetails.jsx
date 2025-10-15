@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
 
 import ItemCard from "../../item-cards/ItemCard";
 import ViewSelect from "../../forms/ViewSelect";
@@ -61,6 +60,7 @@ const ExternalCollectionDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [viewType, setViewType] = useState("square");
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Get collection metadata from navigation state or localStorage
   const collectionData =
@@ -189,57 +189,80 @@ const ExternalCollectionDetails = () => {
             <p>Error: {error}</p>
           ) : (
             <>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  marginBottom: "20px",
-                }}
-              >
-                {types.length > 0 && (
-                  <div
-                    style={{
-                      padding: "10px",
-                      backgroundColor: "#f0f0f0",
-                      borderRadius: "5px",
-                      flex: 1,
-                    }}
-                  >
-                    <p style={{ margin: 0 }}>
-                      <strong>Types:</strong>{" "}
-                      {types.map((t) => t.name).join(", ")}
-                    </p>
-                  </div>
-                )}
+              <div className="search-section" style={{ marginBottom: "20px" }}>
+                <input
+                  className="search-box"
+                  type="text"
+                  placeholder="Search items..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
                 <ViewSelect viewType={viewType} setViewType={setViewType} />
               </div>
-              <h2>Items ({items.length})</h2>
-              <div className="items-wrapper">
-                {items.map((item, index) => {
-                  // Find the type and color scheme for this item
-                  const itemType = types.find(
-                    (t) => t.type_id === item.type_id
-                  );
-                  const colorScheme = itemType
-                    ? colorSchemes.find(
-                        (cs) => cs.color_scheme_id === itemType.color_scheme_id
-                      )
-                    : null;
 
-                  return (
-                    <ItemCard
-                      key={item.item_id || index}
-                      itemData={item}
-                      itemType="item"
-                      pageRoute={null}
-                      colorScheme={colorScheme}
-                      typeImageUrl={itemType?.image_url}
-                      viewType={viewType}
-                      types={types}
-                    />
-                  );
-                })}
+              {types.length > 0 && (
+                <div
+                  style={{
+                    marginBottom: "20px",
+                    padding: "10px",
+                    backgroundColor: "#f0f0f0",
+                    borderRadius: "5px",
+                  }}
+                >
+                  <p style={{ margin: 0 }}>
+                    <strong>Types:</strong>{" "}
+                    {types.map((t) => t.name).join(", ")}
+                  </p>
+                </div>
+              )}
+
+              <h2>
+                Items (
+                {
+                  items.filter(
+                    (item) =>
+                      !searchTerm ||
+                      item.name
+                        ?.toLowerCase()
+                        .includes(searchTerm.trim().toLowerCase())
+                  ).length
+                }
+                )
+              </h2>
+              <div className="items-wrapper">
+                {items
+                  .filter((item) => {
+                    // Filter by search term
+                    if (!searchTerm) return true;
+                    return item.name
+                      ?.toLowerCase()
+                      .includes(searchTerm.trim().toLowerCase());
+                  })
+                  .map((item, index) => {
+                    // Find the type and color scheme for this item
+                    const itemType = types.find(
+                      (t) => t.type_id === item.type_id
+                    );
+                    const colorScheme = itemType
+                      ? colorSchemes.find(
+                          (cs) =>
+                            cs.color_scheme_id === itemType.color_scheme_id
+                        )
+                      : null;
+
+                    return (
+                      <ItemCard
+                        key={item.item_id || index}
+                        itemData={item}
+                        itemType="item"
+                        pageRoute={null}
+                        colorScheme={colorScheme}
+                        typeImageUrl={itemType?.image_url}
+                        viewType={viewType}
+                        types={types}
+                      />
+                    );
+                  })}
               </div>
             </>
           )}
