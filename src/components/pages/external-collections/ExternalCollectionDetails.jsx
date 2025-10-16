@@ -58,6 +58,7 @@ const ExternalCollectionDetails = () => {
   const [items, setItems] = useState([]);
   const [types, setTypes] = useState([]);
   const [colorSchemes, setColorSchemes] = useState([]);
+  const [relationships, setRelationships] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [viewType, setViewType] = useState("square");
@@ -146,21 +147,25 @@ const ExternalCollectionDetails = () => {
           throw new Error("Could not extract sheet ID from URL");
         }
 
-        // Fetch all tabs (Items, Types, ColorSchemes)
-        const [itemsData, typesData, colorSchemesData] = await Promise.all([
-          fetchSheetTab(sheetId, "Items"),
-          fetchSheetTab(sheetId, "Types").catch(() => []),
-          fetchSheetTab(sheetId, "ColorSchemes").catch(() => []),
-        ]);
+        // Fetch all tabs (Items, Types, ColorSchemes, Relationships)
+        const [itemsData, typesData, colorSchemesData, relationshipsData] =
+          await Promise.all([
+            fetchSheetTab(sheetId, "Items"),
+            fetchSheetTab(sheetId, "Types").catch(() => []),
+            fetchSheetTab(sheetId, "ColorSchemes").catch(() => []),
+            fetchSheetTab(sheetId, "Relationships").catch(() => []),
+          ]);
 
         setItems(itemsData);
         setTypes(typesData);
         setColorSchemes(colorSchemesData);
+        setRelationships(relationshipsData);
 
         console.log(`External Collection "${collectionData.name}" Data:`, {
           items: itemsData,
           types: typesData,
           colorSchemes: colorSchemesData,
+          relationships: relationshipsData,
         });
 
         setError(null);
@@ -311,6 +316,57 @@ const ExternalCollectionDetails = () => {
                     );
                   })}
               </div>
+
+              {relationships.length > 0 && (
+                <>
+                  <h2>Relationships ({relationships.length})</h2>
+                  <div className="relationships-wrapper">
+                    {relationships.map((relationship, index) => {
+                      const item1 = items.find(
+                        (item) => item.item_id === relationship.item_1_id
+                      );
+                      const item2 = items.find(
+                        (item) => item.item_id === relationship.item_2_id
+                      );
+
+                      return (
+                        <div
+                          key={index}
+                          style={{
+                            border: "1px solid #ccc",
+                            padding: "10px",
+                            margin: "5px",
+                            borderRadius: "5px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <span>
+                              {item1?.name || `Item ${relationship.item_1_id}`}
+                            </span>
+                            <span>↔</span>
+                            <span>
+                              {item2?.name || `Item ${relationship.item_2_id}`}
+                            </span>
+                          </div>
+                          {relationship.description && (
+                            <div style={{ fontStyle: "italic" }}>
+                              {relationship.description}
+                            </div>
+                          )}
+                          {relationship.count && (
+                            <div>Count: {relationship.count}</div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
             </>
           )}
         </div>
