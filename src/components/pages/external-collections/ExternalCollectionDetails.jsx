@@ -64,6 +64,7 @@ const ExternalCollectionDetails = () => {
   const [viewType, setViewType] = useState("square");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTypes, setSelectedTypes] = useState([]);
+  const [selectedElements, setSelectedElements] = useState([]);
 
   // Get collection metadata from navigation state or localStorage
   const collectionData =
@@ -180,6 +181,25 @@ const ExternalCollectionDetails = () => {
     fetchCollectionData();
   }, [collectionData]);
 
+  // Helper function to check if an item is related to selected elements
+  const isItemRelatedToSelected = (item) => {
+    if (selectedElements.length === 0) return true;
+
+    return relationships.some((relationship) => {
+      const item1 = items.find((i) => i.item_id === relationship.item_1_id);
+      const item2 = items.find((i) => i.item_id === relationship.item_2_id);
+
+      // Check if this item is in a relationship with any selected element
+      const isRelated =
+        (item.item_id === relationship.item_1_id &&
+          selectedElements.includes(item2?.name)) ||
+        (item.item_id === relationship.item_2_id &&
+          selectedElements.includes(item1?.name));
+
+      return isRelated;
+    });
+  };
+
   if (!collectionData) {
     return (
       <div className="collection-container">
@@ -217,6 +237,14 @@ const ExternalCollectionDetails = () => {
                     allOptions={types.map((type) => type.name)}
                     currentOptions={selectedTypes}
                     setCurrentOptions={setSelectedTypes}
+                  />
+                )}
+                {items.length > 0 && (
+                  <ComboBox
+                    placeholder="Related Elements"
+                    allOptions={items.map((item) => item.name)}
+                    currentOptions={selectedElements}
+                    setCurrentOptions={setSelectedElements}
                   />
                 )}
                 <ViewSelect viewType={viewType} setViewType={setViewType} />
@@ -258,7 +286,10 @@ const ExternalCollectionDetails = () => {
                         ?.toLowerCase()
                         .includes(searchTerm.trim().toLowerCase());
 
-                    return typeMatch && searchMatch;
+                    // Filter by related elements
+                    const relatedMatch = isItemRelatedToSelected(item);
+
+                    return typeMatch && searchMatch && relatedMatch;
                   }).length
                 }
                 )
@@ -282,7 +313,10 @@ const ExternalCollectionDetails = () => {
                         ?.toLowerCase()
                         .includes(searchTerm.trim().toLowerCase());
 
-                    return typeMatch && searchMatch;
+                    // Filter by related elements
+                    const relatedMatch = isItemRelatedToSelected(item);
+
+                    return typeMatch && searchMatch && relatedMatch;
                   })
                   .map((item, index) => {
                     // Find the type and color scheme for this item
