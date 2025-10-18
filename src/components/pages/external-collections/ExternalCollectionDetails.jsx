@@ -59,6 +59,7 @@ const ExternalCollectionDetails = () => {
   const [types, setTypes] = useState([]);
   const [colorSchemes, setColorSchemes] = useState([]);
   const [relationships, setRelationships] = useState([]);
+  const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [viewType, setViewType] = useState("square");
@@ -148,25 +149,39 @@ const ExternalCollectionDetails = () => {
           throw new Error("Could not extract sheet ID from URL");
         }
 
-        // Fetch all tabs (Items, Types, ColorSchemes, Relationships)
-        const [itemsData, typesData, colorSchemesData, relationshipsData] =
-          await Promise.all([
-            fetchSheetTab(sheetId, "Items"),
-            fetchSheetTab(sheetId, "Types").catch(() => []),
-            fetchSheetTab(sheetId, "ColorSchemes").catch(() => []),
-            fetchSheetTab(sheetId, "Relationships").catch(() => []),
-          ]);
+        // Fetch all tabs (Items, Types, ColorSchemes, Relationships, Notes)
+        const [
+          itemsData,
+          typesData,
+          colorSchemesData,
+          relationshipsData,
+          notesData,
+        ] = await Promise.all([
+          fetchSheetTab(sheetId, "Items"),
+          fetchSheetTab(sheetId, "Types").catch(() => []),
+          fetchSheetTab(sheetId, "ColorSchemes").catch(() => []),
+          fetchSheetTab(sheetId, "Relationships").catch(() => []),
+          fetchSheetTab(sheetId, "Notes").catch(() => []),
+        ]);
 
-        setItems(itemsData);
+        // Attach notes to items
+        const itemsWithNotes = itemsData.map((item) => ({
+          ...item,
+          notes: notesData.filter((note) => note.item_id === item.item_id),
+        }));
+
+        setItems(itemsWithNotes);
         setTypes(typesData);
         setColorSchemes(colorSchemesData);
         setRelationships(relationshipsData);
+        setNotes(notesData);
 
         console.log(`External Collection "${collectionData.name}" Data:`, {
           items: itemsData,
           types: typesData,
           colorSchemes: colorSchemesData,
           relationships: relationshipsData,
+          notes: notesData,
         });
 
         setError(null);
@@ -394,6 +409,67 @@ const ExternalCollectionDetails = () => {
                           )}
                           {relationship.count && (
                             <div>Count: {relationship.count}</div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+
+              {notes.length > 0 && (
+                <>
+                  <h2>Notes ({notes.length})</h2>
+                  <div className="notes-wrapper">
+                    {notes.map((note, index) => {
+                      const item = items.find(
+                        (i) => i.item_id === note.item_id
+                      );
+
+                      return (
+                        <div
+                          key={index}
+                          style={{
+                            border: "1px solid #ddd",
+                            padding: "15px",
+                            margin: "10px 0",
+                            borderRadius: "5px",
+                            backgroundColor: "#f9f9f9",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              marginBottom: "10px",
+                            }}
+                          >
+                            <strong>
+                              {item?.name || `Item ${note.item_id}`}
+                            </strong>
+                            {note.date_time && (
+                              <span style={{ fontSize: "12px", color: "#666" }}>
+                                {note.date_time}
+                              </span>
+                            )}
+                          </div>
+                          <div style={{ marginBottom: "10px" }}>
+                            {note.content}
+                          </div>
+                          {note.link_url && (
+                            <div>
+                              <a
+                                href={note.link_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{
+                                  color: "#007bff",
+                                  textDecoration: "none",
+                                }}
+                              >
+                                {note.link_type || "Link"} →
+                              </a>
+                            </div>
                           )}
                         </div>
                       );
