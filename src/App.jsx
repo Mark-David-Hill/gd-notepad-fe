@@ -9,7 +9,6 @@ import {
 import ExternalCollections from "./components/pages/external-collections/ExternalCollections";
 import ExternalCollectionDetails from "./components/pages/external-collections/ExternalCollectionDetails";
 import Collection from "./components/pages/collections/CollectionDetails";
-// import Collections from "./components/pages/collections/Collections";
 import Item from "./components/pages/ItemDetails";
 import Type from "./components/pages/TypeDetails";
 import NoPage from "./components/pages/NoPage";
@@ -35,16 +34,7 @@ function App() {
             path="/login"
             element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login />}
           />
-          <Route
-            path="/"
-            element={
-              isAuthenticated ? (
-                <Navigate to="/dashboard" />
-              ) : (
-                <ExternalCollections />
-              )
-            }
-          />
+          <Route path="/" element={<ExternalCollections />} />
           <Route
             path="/dashboard"
             element={
@@ -55,14 +45,24 @@ function App() {
               )
             }
           />
-          <Route path="/" element={<ExternalCollections />} />
-          <Route path="collection/:id" element={<Collection />} />
+          <Route
+            path="collection/:id"
+            element={
+              isAuthenticated ? <Collection /> : <Navigate to="/login" />
+            }
+          />
           <Route
             path="external-collection/:id"
             element={<ExternalCollectionDetails />}
           />
-          <Route path="/item/:id" element={<Item />} />
-          <Route path="/type/:id" element={<Type />} />
+          <Route
+            path="/item/:id"
+            element={isAuthenticated ? <Item /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/type/:id"
+            element={isAuthenticated ? <Type /> : <Navigate to="/login" />}
+          />
           <Route path="*" element={<NoPage />} />
         </Routes>
         <Footer />

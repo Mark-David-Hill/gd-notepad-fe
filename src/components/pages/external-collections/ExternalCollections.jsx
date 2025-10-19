@@ -1,6 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
+
+import { AuthContext } from "../../context/AuthContextProvider";
+import { CollectionContext } from "../../context/CollectionContextProvider";
+import useFetch from "../../../hooks/useFetch";
+import ItemCard from "../../item-cards/ItemCard";
 
 const GOOGLE_SHEET_ID = "1aYK-0RBzHnzvZKmVjWwwbfmPqY29f6SnyjfT8InQf10";
 const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv`;
@@ -97,6 +102,11 @@ const ExternalCollections = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const { authInfo } = useContext(AuthContext);
+  const { types } = useContext(CollectionContext);
+  const { data: internalCollections = [], loading: internalLoading } =
+    useFetch("/collections");
+
   useEffect(() => {
     const fetchGoogleSheetData = async () => {
       try {
@@ -188,21 +198,47 @@ const ExternalCollections = () => {
   return (
     <section className="items-container">
       <header className="collections-header">
-        <h1>External Collections</h1>
+        <h1>Collections</h1>
       </header>
       <div className="items-wrapper">
-        {loading ? (
-          <p>Loading external collections...</p>
-        ) : error ? (
-          <p>Error: {error}</p>
-        ) : (
-          <div className="collections-wrapper">
-            {externalCollections.map((collection) => (
-              <ExternalCollectionCard
-                key={collection.collection_id}
-                collection={collection}
-              />
-            ))}
+        {/* External Collections Section */}
+        <div style={{ marginBottom: "40px" }}>
+          {authInfo && <h2>External Collections</h2>}
+          {loading ? (
+            <p>Loading external collections...</p>
+          ) : error ? (
+            <p>Error: {error}</p>
+          ) : (
+            <div className="collections-wrapper">
+              {externalCollections.map((collection) => (
+                <ExternalCollectionCard
+                  key={collection.collection_id}
+                  collection={collection}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Internal Collections Section */}
+        {authInfo && (
+          <div>
+            <h2>Internal Collections</h2>
+            {internalLoading ? (
+              <p>Loading internal collections...</p>
+            ) : (
+              <div className="collections-wrapper">
+                {internalCollections.map((collection) => (
+                  <ItemCard
+                    key={collection.collection_id}
+                    itemData={collection}
+                    itemType="collection"
+                    pageRoute="collection"
+                    types={types}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>
