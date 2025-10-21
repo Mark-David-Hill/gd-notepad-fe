@@ -437,7 +437,15 @@ const ExternalCollectionDetails = () => {
               {currentTab === "relationships" && relationships.length > 0 && (
                 <>
                   <h2>Relationships ({relationships.length})</h2>
-                  <div className="relationships-wrapper">
+                  <div
+                    className="collections-wrapper"
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns:
+                        "repeat(auto-fill, minmax(300px, 1fr))",
+                      gap: "20px",
+                    }}
+                  >
                     {relationships.map((relationship, index) => {
                       const item1 = items.find(
                         (item) => item.item_id === relationship.item_1_id
@@ -449,35 +457,185 @@ const ExternalCollectionDetails = () => {
                       return (
                         <div
                           key={index}
+                          className="item-card-container card"
                           style={{
                             border: "1px solid #ccc",
-                            padding: "10px",
-                            margin: "5px",
-                            borderRadius: "5px",
+                            borderRadius: "8px",
+                            overflow: "hidden",
+                            backgroundColor: "rgb(198, 255, 237)",
                           }}
                         >
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <span>
-                              {item1?.name || `Item ${relationship.item_1_id}`}
-                            </span>
-                            <span>↔</span>
-                            <span>
-                              {item2?.name || `Item ${relationship.item_2_id}`}
-                            </span>
-                          </div>
-                          {relationship.description && (
-                            <div style={{ fontStyle: "italic" }}>
-                              {relationship.description}
+                          <div className="card-view-container">
+                            {/* Header with relationship title */}
+                            <div
+                              className="title-wrapper"
+                              style={{
+                                backgroundColor: "#4a90e2",
+                                padding: "10px",
+                              }}
+                            >
+                              <h2
+                                style={{
+                                  backgroundColor: "transparent",
+                                  color: "white",
+                                  margin: 0,
+                                  fontSize: "16px",
+                                }}
+                              >
+                                {item1?.name ||
+                                  `Item ${relationship.item_1_id}`}{" "}
+                                ↔{" "}
+                                {item2?.name ||
+                                  `Item ${relationship.item_2_id}`}
+                              </h2>
                             </div>
-                          )}
-                          {relationship.count && (
-                            <div>Count: {relationship.count}</div>
-                          )}
+
+                            {/* Content area with images and details */}
+                            <div
+                              className="card-content-wrapper"
+                              style={{ padding: "15px" }}
+                            >
+                              {/* Images side by side */}
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  gap: "20px",
+                                  marginBottom: "15px",
+                                }}
+                              >
+                                <div style={{ textAlign: "center" }}>
+                                  <div
+                                    style={{
+                                      width: "80px",
+                                      height: "80px",
+                                      border: "1px solid #ddd",
+                                      borderRadius: "4px",
+                                      backgroundColor: "white",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      marginBottom: "5px",
+                                    }}
+                                  >
+                                    {item1?.image_url ? (
+                                      <img
+                                        src={item1.image_url}
+                                        alt={item1.name}
+                                        style={{
+                                          maxWidth: "100%",
+                                          maxHeight: "100%",
+                                          objectFit: "contain",
+                                        }}
+                                      />
+                                    ) : (
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "#666",
+                                        }}
+                                      >
+                                        No Image
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div
+                                    style={{
+                                      fontSize: "12px",
+                                      fontWeight: "bold",
+                                    }}
+                                  >
+                                    {item1?.name ||
+                                      `Item ${relationship.item_1_id}`}
+                                  </div>
+                                </div>
+
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    fontSize: "24px",
+                                    color: "#4a90e2",
+                                    fontWeight: "bold",
+                                  }}
+                                >
+                                  ↔
+                                </div>
+
+                                <div style={{ textAlign: "center" }}>
+                                  <div
+                                    style={{
+                                      width: "80px",
+                                      height: "80px",
+                                      border: "1px solid #ddd",
+                                      borderRadius: "4px",
+                                      backgroundColor: "white",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      marginBottom: "5px",
+                                    }}
+                                  >
+                                    {item2?.image_url ? (
+                                      <img
+                                        src={item2.image_url}
+                                        alt={item2.name}
+                                        style={{
+                                          maxWidth: "100%",
+                                          maxHeight: "100%",
+                                          objectFit: "contain",
+                                        }}
+                                      />
+                                    ) : (
+                                      <span
+                                        style={{
+                                          fontSize: "12px",
+                                          color: "#666",
+                                        }}
+                                      >
+                                        No Image
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div
+                                    style={{
+                                      fontSize: "12px",
+                                      fontWeight: "bold",
+                                    }}
+                                  >
+                                    {item2?.name ||
+                                      `Item ${relationship.item_2_id}`}
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Relationship details */}
+                              {relationship.description && (
+                                <div
+                                  style={{
+                                    fontStyle: "italic",
+                                    marginBottom: "10px",
+                                    fontSize: "14px",
+                                    color: "#333",
+                                  }}
+                                >
+                                  {relationship.description}
+                                </div>
+                              )}
+
+                              {relationship.count && (
+                                <div
+                                  style={{
+                                    fontSize: "12px",
+                                    color: "#666",
+                                    fontWeight: "bold",
+                                  }}
+                                >
+                                  Count: {relationship.count}
+                                </div>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       );
                     })}
