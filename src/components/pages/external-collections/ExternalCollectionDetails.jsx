@@ -454,6 +454,26 @@ const ExternalCollectionDetails = () => {
                         (item) => item.item_id === relationship.item_2_id
                       );
 
+                      // Find types for image fallback
+                      const item1Type = types.find(
+                        (t) => t.type_id === item1?.type_id
+                      );
+                      const item2Type = types.find(
+                        (t) => t.type_id === item2?.type_id
+                      );
+
+                      // Use type's image_url as fallback if item doesn't have one
+                      const item1WithImage = {
+                        ...item1,
+                        image_url:
+                          item1?.image_url || item1Type?.image_url || "",
+                      };
+                      const item2WithImage = {
+                        ...item2,
+                        image_url:
+                          item2?.image_url || item2Type?.image_url || "",
+                      };
+
                       return (
                         <div
                           key={index}
@@ -482,10 +502,10 @@ const ExternalCollectionDetails = () => {
                                   fontSize: "16px",
                                 }}
                               >
-                                {item1?.name ||
+                                {item1WithImage?.name ||
                                   `Item ${relationship.item_1_id}`}{" "}
                                 ↔{" "}
-                                {item2?.name ||
+                                {item2WithImage?.name ||
                                   `Item ${relationship.item_2_id}`}
                               </h2>
                             </div>
@@ -518,10 +538,10 @@ const ExternalCollectionDetails = () => {
                                       marginBottom: "5px",
                                     }}
                                   >
-                                    {item1?.image_url ? (
+                                    {item1WithImage?.image_url ? (
                                       <img
-                                        src={item1.image_url}
-                                        alt={item1.name}
+                                        src={item1WithImage.image_url}
+                                        alt={item1WithImage.name}
                                         style={{
                                           maxWidth: "100%",
                                           maxHeight: "100%",
@@ -545,7 +565,7 @@ const ExternalCollectionDetails = () => {
                                       fontWeight: "bold",
                                     }}
                                   >
-                                    {item1?.name ||
+                                    {item1WithImage?.name ||
                                       `Item ${relationship.item_1_id}`}
                                   </div>
                                 </div>
@@ -576,10 +596,10 @@ const ExternalCollectionDetails = () => {
                                       marginBottom: "5px",
                                     }}
                                   >
-                                    {item2?.image_url ? (
+                                    {item2WithImage?.image_url ? (
                                       <img
-                                        src={item2.image_url}
-                                        alt={item2.name}
+                                        src={item2WithImage.image_url}
+                                        alt={item2WithImage.name}
                                         style={{
                                           maxWidth: "100%",
                                           maxHeight: "100%",
@@ -603,7 +623,7 @@ const ExternalCollectionDetails = () => {
                                       fontWeight: "bold",
                                     }}
                                   >
-                                    {item2?.name ||
+                                    {item2WithImage?.name ||
                                       `Item ${relationship.item_2_id}`}
                                   </div>
                                 </div>
