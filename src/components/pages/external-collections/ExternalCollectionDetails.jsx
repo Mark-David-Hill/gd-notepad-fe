@@ -427,6 +427,9 @@ const ExternalCollectionDetails = () => {
                             typeImageUrl={itemType?.image_url}
                             viewType={viewType}
                             types={types}
+                            isExternal={true}
+                            relationships={relationships}
+                            items={items}
                           />
                         );
                       })}
