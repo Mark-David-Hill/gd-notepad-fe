@@ -64,4 +64,3 @@ const ExternalRowView = ({
 };
 
 export default ExternalRowView;
-

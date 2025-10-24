@@ -8,6 +8,8 @@ const LoginForm = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSetEmail = (event) => {
@@ -20,25 +22,45 @@ const LoginForm = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (email && password) {
+    setError("");
+
+    if (!email || !password) {
+      setError("Please fill in all fields");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
       const result = await login(email, password);
       if (result.success) {
-        navigate("/dashboard");
+        navigate("/");
       } else {
-        console.error("Login failed:", result.message);
+        setError(
+          result.message || "Login failed. Please check your credentials."
+        );
       }
+    } catch (err) {
+      setError("An unexpected error occurred. Please try again.");
+      console.error("Login error:", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <form className="login" onSubmit={handleLogin}>
+      {error && <div className="login-error">{error}</div>}
+
       <input
         type="email"
         name="email"
-        placeholder="Email"
+        placeholder="Email Address"
         autoComplete="email"
         value={email}
         onChange={handleSetEmail}
+        disabled={isLoading}
+        required
       />
       <input
         type="password"
@@ -47,8 +69,16 @@ const LoginForm = () => {
         autoComplete="current-password"
         value={password}
         onChange={handleSetPassword}
+        disabled={isLoading}
+        required
       />
-      <button type="submit">Login</button>
+      <button
+        type="submit"
+        disabled={isLoading}
+        className={isLoading ? "loading" : ""}
+      >
+        {isLoading ? "Signing In..." : "Sign In"}
+      </button>
     </form>
   );
 };
