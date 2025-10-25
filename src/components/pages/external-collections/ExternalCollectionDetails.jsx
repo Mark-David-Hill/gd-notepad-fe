@@ -430,6 +430,7 @@ const ExternalCollectionDetails = () => {
                             isExternal={true}
                             relationships={relationships}
                             items={items}
+                            colorSchemes={colorSchemes}
                           />
                         );
                       })}
@@ -465,6 +466,62 @@ const ExternalCollectionDetails = () => {
                         (t) => t.type_id === item2?.type_id
                       );
 
+                      // Get color schemes for both items
+                      const item1ColorScheme = item1Type
+                        ? colorSchemes.find(
+                            (cs) =>
+                              cs.color_scheme_id === item1Type.color_scheme_id
+                          )
+                        : null;
+                      const item2ColorScheme = item2Type
+                        ? colorSchemes.find(
+                            (cs) =>
+                              cs.color_scheme_id === item2Type.color_scheme_id
+                          )
+                        : null;
+
+                      // Calculate gradient colors
+                      let backgroundGradient =
+                        "linear-gradient(135deg, #f0f4ff 0%, #e6f2ff 100%)"; // Default gradient
+                      let headerGradient =
+                        "linear-gradient(135deg, #4a90e2 0%, #3b82f6 100%)"; // Default gradient
+                      let textColor = "#1e40af"; // Default dark blue
+
+                      if (item1ColorScheme && item2ColorScheme) {
+                        // Create gradient from item1 background color to item2 background color (like item cards)
+                        const item1Background =
+                          item1ColorScheme.background_color || "#e6f2ff";
+                        const item2Background =
+                          item2ColorScheme.background_color || "#e6f2ff";
+                        backgroundGradient = `linear-gradient(135deg, ${item1Background} 0%, ${item2Background} 100%)`;
+
+                        // Use primary colors for header with sharper gradient
+                        const item1Primary =
+                          item1ColorScheme.primary_color || "#3b82f6";
+                        const item2Primary =
+                          item2ColorScheme.primary_color || "#3b82f6";
+                        headerGradient = `linear-gradient(90deg, ${item1Primary} 0%, ${item1Primary} 30%, ${item2Primary} 70%, ${item2Primary} 100%)`;
+
+                        // Use the first item's text color for better contrast
+                        textColor = item1ColorScheme.text_color || "#1e40af";
+                      } else if (item1ColorScheme) {
+                        const background =
+                          item1ColorScheme.background_color || "#e6f2ff";
+                        const primary =
+                          item1ColorScheme.primary_color || "#3b82f6";
+                        backgroundGradient = `linear-gradient(135deg, ${background} 0%, ${background} 100%)`;
+                        headerGradient = `linear-gradient(90deg, ${primary} 0%, ${primary} 30%, ${primary} 70%, ${primary} 100%)`;
+                        textColor = item1ColorScheme.text_color || "#1e40af";
+                      } else if (item2ColorScheme) {
+                        const background =
+                          item2ColorScheme.background_color || "#e6f2ff";
+                        const primary =
+                          item2ColorScheme.primary_color || "#3b82f6";
+                        backgroundGradient = `linear-gradient(135deg, ${background} 0%, ${background} 100%)`;
+                        headerGradient = `linear-gradient(90deg, ${primary} 0%, ${primary} 30%, ${primary} 70%, ${primary} 100%)`;
+                        textColor = item2ColorScheme.text_color || "#1e40af";
+                      }
+
                       // Use type's image_url as fallback if item doesn't have one
                       const item1WithImage = {
                         ...item1,
@@ -482,10 +539,11 @@ const ExternalCollectionDetails = () => {
                           key={index}
                           className="item-card-container card"
                           style={{
-                            border: "1px solid #ccc",
+                            border: `1px solid ${textColor}`,
                             borderRadius: "8px",
                             overflow: "hidden",
-                            backgroundColor: "rgb(198, 255, 237)",
+                            background: backgroundGradient,
+                            boxShadow: `0 4px 12px rgba(0, 0, 0, 0.1)`,
                           }}
                         >
                           <div className="card-view-container">
@@ -493,7 +551,7 @@ const ExternalCollectionDetails = () => {
                             <div
                               className="title-wrapper"
                               style={{
-                                backgroundColor: "#4a90e2",
+                                background: headerGradient,
                                 padding: "10px",
                               }}
                             >
@@ -566,6 +624,7 @@ const ExternalCollectionDetails = () => {
                                     style={{
                                       fontSize: "12px",
                                       fontWeight: "bold",
+                                      color: textColor,
                                     }}
                                   >
                                     {item1WithImage?.name ||
@@ -624,6 +683,7 @@ const ExternalCollectionDetails = () => {
                                     style={{
                                       fontSize: "12px",
                                       fontWeight: "bold",
+                                      color: textColor,
                                     }}
                                   >
                                     {item2WithImage?.name ||
@@ -639,7 +699,7 @@ const ExternalCollectionDetails = () => {
                                     fontStyle: "italic",
                                     marginBottom: "10px",
                                     fontSize: "14px",
-                                    color: "#333",
+                                    color: textColor,
                                   }}
                                 >
                                   {relationship.description}
@@ -650,7 +710,7 @@ const ExternalCollectionDetails = () => {
                                 <div
                                   style={{
                                     fontSize: "12px",
-                                    color: "#666",
+                                    color: textColor,
                                     fontWeight: "bold",
                                   }}
                                 >

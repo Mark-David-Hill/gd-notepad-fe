@@ -28,6 +28,7 @@ const ItemCard = ({
   isExternal = false,
   relationships = [],
   items = [],
+  colorSchemes = [],
 }) => {
   if (!itemData) return null;
 
@@ -53,6 +54,7 @@ const ItemCard = ({
         viewType === "row" && {
           relationships,
           items,
+          colorSchemes,
         }),
     }),
     [
@@ -67,6 +69,7 @@ const ItemCard = ({
       isExternal,
       relationships,
       items,
+      colorSchemes,
     ]
   );
 

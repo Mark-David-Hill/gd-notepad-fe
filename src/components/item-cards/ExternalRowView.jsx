@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import ExternalRelationshipsList from "./ExternalRelationshipsList";
 import NotesList from "./NotesList";
@@ -14,6 +15,7 @@ const ExternalRowView = ({
   relationships,
   types,
   items,
+  colorSchemes,
 }) => {
   return (
     <div className="row-view-container">
@@ -51,6 +53,7 @@ const ExternalRowView = ({
                 relationships={relationships}
                 types={types}
                 items={items}
+                colorSchemes={colorSchemes}
               />
             </div>
             <div className="notes-wrapper">
@@ -61,6 +64,18 @@ const ExternalRowView = ({
       </div>
     </div>
   );
+};
+
+ExternalRowView.propTypes = {
+  itemData: PropTypes.object.isRequired,
+  itemType: PropTypes.string.isRequired,
+  pageRoute: PropTypes.string,
+  colorScheme: PropTypes.object,
+  typeImageUrl: PropTypes.string,
+  relationships: PropTypes.array.isRequired,
+  items: PropTypes.array.isRequired,
+  types: PropTypes.array.isRequired,
+  colorSchemes: PropTypes.array,
 };
 
 export default ExternalRowView;

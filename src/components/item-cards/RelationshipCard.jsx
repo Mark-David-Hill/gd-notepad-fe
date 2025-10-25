@@ -1,6 +1,32 @@
-const RelationshipCard = ({ element, description, count }) => {
+const RelationshipCard = ({
+  element,
+  description,
+  count,
+  backgroundGradient,
+  textColor,
+}) => {
+  // Debug logging
+  console.log("RelationshipCard received colors:", {
+    backgroundGradient,
+    textColor,
+    element: element.name,
+  });
+
   return (
-    <div className="relationship-wrapper">
+    <div
+      className="relationship-wrapper"
+      style={{
+        background:
+          backgroundGradient ||
+          "linear-gradient(135deg, #f0f4ff 0%, #e6f2ff 100%)",
+        color: textColor || "#1e40af",
+        border: `1px solid ${textColor || "#1e40af"}`,
+        borderRadius: "8px",
+        padding: "8px",
+        margin: "4px",
+        boxShadow: `0 2px 8px rgba(0, 0, 0, 0.1)`,
+      }}
+    >
       <div className="name-image-wrapper">
         <h4 className="relationship-name">
           {element.name.length > 17
