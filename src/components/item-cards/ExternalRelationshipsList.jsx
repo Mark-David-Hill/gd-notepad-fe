@@ -27,11 +27,6 @@ const ExternalRelationshipsList = ({
     return types.find((type) => type.type_id === relatedElement?.type_id);
   };
 
-  // Function to create gradient from two colors
-  const createGradient = (color1, color2) => {
-    return `linear-gradient(135deg, ${color1} 0%, ${color2} 100%)`;
-  };
-
   // Function to get color scheme for a type
   const getColorSchemeForType = (type) => {
     if (!type || !colorSchemes) return null;
@@ -77,66 +72,37 @@ const ExternalRelationshipsList = ({
                       );
                       const relatedType = getRelatedElementType(relatedElement);
 
-                      // Get the current item's type and color scheme
-                      const currentItemType = types.find(
-                        (t) => t.type_id === itemData.type_id
-                      );
-                      const currentItemColorScheme =
-                        getColorSchemeForType(currentItemType);
+                      // Get the related item's color scheme
                       const relatedItemColorScheme =
                         getColorSchemeForType(relatedType);
 
                       // Debug logging
                       console.log("Relationship Color Debug:", {
-                        currentItemType,
                         relatedType,
-                        currentItemColorScheme,
                         relatedItemColorScheme,
                         colorSchemes,
                       });
 
-                      // Create gradient colors
-                      let backgroundGradient =
-                        "linear-gradient(135deg, #f0f4ff 0%, #e6f2ff 100%)"; // Default gradient
-                      let textColor = "#1e40af"; // Default dark blue
+                      // Use only the related item's color (no gradient in row view)
+                      let backgroundColor = "#e6f2ff"; // Default
+                      let headerColor = "#3b82f6"; // Default (darker for header)
+                      let textColor = "#1e40af"; // Default
 
-                      if (currentItemColorScheme && relatedItemColorScheme) {
-                        // Create gradient from current item background color to related item background color (like item cards)
-                        const currentBackground =
-                          currentItemColorScheme.background_color || "#e6f2ff";
-                        const relatedBackground =
+                      if (relatedItemColorScheme) {
+                        // Use the related item's background color for the main body
+                        backgroundColor =
                           relatedItemColorScheme.background_color || "#e6f2ff";
-                        backgroundGradient = createGradient(
-                          currentBackground,
-                          relatedBackground
-                        );
-
-                        // Use the current item's text color for better contrast
-                        textColor =
-                          currentItemColorScheme.text_color || "#1e40af";
-                      } else if (currentItemColorScheme) {
-                        const background =
-                          currentItemColorScheme.background_color || "#e6f2ff";
-                        backgroundGradient = createGradient(
-                          background,
-                          background
-                        );
-                        textColor =
-                          currentItemColorScheme.text_color || "#1e40af";
-                      } else if (relatedItemColorScheme) {
-                        const background =
-                          relatedItemColorScheme.background_color || "#e6f2ff";
-                        backgroundGradient = createGradient(
-                          background,
-                          background
-                        );
+                        // Use the related item's primary color (darker) for the header
+                        headerColor =
+                          relatedItemColorScheme.primary_color || "#3b82f6";
                         textColor =
                           relatedItemColorScheme.text_color || "#1e40af";
                       }
 
                       // Debug the final colors
                       console.log("Final Colors:", {
-                        backgroundGradient,
+                        backgroundColor,
+                        headerColor,
                         textColor,
                         relationship: relationship.description,
                       });
@@ -163,7 +129,8 @@ const ExternalRelationshipsList = ({
                           element={elementForCard}
                           description={relationship.description}
                           count={relationship.count}
-                          backgroundGradient={backgroundGradient}
+                          backgroundColor={backgroundColor}
+                          headerColor={headerColor}
                           textColor={textColor}
                         />
                       );
