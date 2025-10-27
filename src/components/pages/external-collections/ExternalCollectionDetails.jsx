@@ -252,6 +252,24 @@ const ExternalCollectionDetails = () => {
           >
             Items ({items.length})
           </button>
+          {types.length > 0 && (
+            <button
+              className={`tab-button ${currentTab === "types" ? "active" : ""}`}
+              onClick={() => setCurrentTab("types")}
+              style={{
+                padding: "10px 20px",
+                marginRight: "10px",
+                border: "none",
+                backgroundColor:
+                  currentTab === "types" ? "#007bff" : "transparent",
+                color: currentTab === "types" ? "white" : "#333",
+                cursor: "pointer",
+                borderRadius: "5px 5px 0 0",
+              }}
+            >
+              Types ({types.length})
+            </button>
+          )}
           {relationships.length > 0 && (
             <button
               className={`tab-button ${
@@ -720,6 +738,34 @@ const ExternalCollectionDetails = () => {
                             </div>
                           </div>
                         </div>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+
+              {currentTab === "types" && types.length > 0 && (
+                <>
+                  <h2>Types ({types.length})</h2>
+                  <div className="items-wrapper">
+                    {types.map((type, index) => {
+                      // Find color scheme for this type
+                      const colorScheme = colorSchemes.find(
+                        (cs) => cs.color_scheme_id === type.color_scheme_id
+                      );
+
+                      return (
+                        <ItemCard
+                          key={type.type_id || index}
+                          itemData={type}
+                          itemType="type"
+                          pageRoute="type"
+                          viewType="square"
+                          colorScheme={colorScheme}
+                          typeImageUrl={type.image_url}
+                          types={types}
+                          isExternal={true}
+                        />
                       );
                     })}
                   </div>
