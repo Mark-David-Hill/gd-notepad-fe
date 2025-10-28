@@ -226,616 +226,160 @@ const ExternalCollectionDetails = () => {
 
   return (
     <div className="collection-container">
-      <div className="collection-wrapper">
-        <header className="collections-header">
-          <h1>{collectionData.name}</h1>
-          {collectionData.description && <p>{collectionData.description}</p>}
-        </header>
-
-        <div
-          className="tab-selector"
-          style={{ marginBottom: "20px", borderBottom: "1px solid #ccc" }}
+      <div className="view-select-wrapper">
+        <button
+          className={currentTab === "items" ? "selected" : ""}
+          onClick={() => setCurrentTab("items")}
         >
-          <button
-            className={`tab-button ${currentTab === "items" ? "active" : ""}`}
-            onClick={() => setCurrentTab("items")}
-            style={{
-              padding: "10px 20px",
-              marginRight: "10px",
-              border: "none",
-              backgroundColor:
-                currentTab === "items" ? "#007bff" : "transparent",
-              color: currentTab === "items" ? "white" : "#333",
-              cursor: "pointer",
-              borderRadius: "5px 5px 0 0",
-            }}
-          >
-            Items ({items.length})
-          </button>
-          {types.length > 0 && (
-            <button
-              className={`tab-button ${currentTab === "types" ? "active" : ""}`}
-              onClick={() => setCurrentTab("types")}
-              style={{
-                padding: "10px 20px",
-                marginRight: "10px",
-                border: "none",
-                backgroundColor:
-                  currentTab === "types" ? "#007bff" : "transparent",
-                color: currentTab === "types" ? "white" : "#333",
-                cursor: "pointer",
-                borderRadius: "5px 5px 0 0",
-              }}
-            >
-              Types ({types.length})
-            </button>
-          )}
-          {relationships.length > 0 && (
-            <button
-              className={`tab-button ${
-                currentTab === "relationships" ? "active" : ""
-              }`}
-              onClick={() => setCurrentTab("relationships")}
-              style={{
-                padding: "10px 20px",
-                marginRight: "10px",
-                border: "none",
-                backgroundColor:
-                  currentTab === "relationships" ? "#007bff" : "transparent",
-                color: currentTab === "relationships" ? "white" : "#333",
-                cursor: "pointer",
-                borderRadius: "5px 5px 0 0",
-              }}
-            >
-              Relationships ({relationships.length})
-            </button>
-          )}
-          {notes.length > 0 && (
-            <button
-              className={`tab-button ${currentTab === "notes" ? "active" : ""}`}
-              onClick={() => setCurrentTab("notes")}
-              style={{
-                padding: "10px 20px",
-                border: "none",
-                backgroundColor:
-                  currentTab === "notes" ? "#007bff" : "transparent",
-                color: currentTab === "notes" ? "white" : "#333",
-                cursor: "pointer",
-                borderRadius: "5px 5px 0 0",
-              }}
-            >
-              Notes ({notes.length})
-            </button>
-          )}
-        </div>
+          Items
+        </button>
 
-        <div className="items-container">
-          {loading ? (
-            <p>Loading items...</p>
-          ) : error ? (
-            <p>Error: {error}</p>
-          ) : (
-            <>
-              {currentTab === "items" && (
-                <>
-                  <div
-                    className="search-section"
-                    style={{ marginBottom: "20px" }}
-                  >
-                    <input
-                      className="search-box"
-                      type="text"
-                      placeholder="Search items..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    {types.length > 0 && (
-                      <ComboBox
-                        placeholder="Types"
-                        allOptions={types.map((type) => type.name)}
-                        currentOptions={selectedTypes}
-                        setCurrentOptions={setSelectedTypes}
-                      />
-                    )}
-                    {items.length > 0 && (
-                      <ComboBox
-                        placeholder="Related Elements"
-                        allOptions={items.map((item) => item.name)}
-                        currentOptions={selectedElements}
-                        setCurrentOptions={setSelectedElements}
-                      />
-                    )}
-                    <ViewSelect viewType={viewType} setViewType={setViewType} />
-                  </div>
+        <button
+          className={currentTab === "types" ? "selected" : ""}
+          onClick={() => setCurrentTab("types")}
+        >
+          Types
+        </button>
+      </div>
 
-                  {types.length > 0 && (
-                    <div
-                      style={{
-                        marginBottom: "20px",
-                        padding: "10px",
-                        backgroundColor: "#f0f0f0",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      <p style={{ margin: 0 }}>
-                        <strong>Types:</strong>{" "}
-                        {types.map((t) => t.name).join(", ")}
-                      </p>
-                    </div>
-                  )}
+      {collectionData && items ? (
+        <div className="collection-wrapper">
+          <header className="collections-header">
+            <h1>{collectionData.name}</h1>
+            {collectionData.description && <p>{collectionData.description}</p>}
+          </header>
 
-                  <h2>
-                    Items (
-                    {
-                      items.filter((item) => {
-                        // Find item type
-                        const itemType = types.find(
-                          (t) => t.type_id === item.type_id
-                        );
+          {currentTab === "items" && items.length > 0 ? (
+            <div className="items-container">
+              <div className="search-section">
+                <input
+                  className="search-box"
+                  type="text"
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
 
-                        // Filter by type
-                        const typeMatch =
-                          !itemType || selectedTypes.includes(itemType.name);
+                {types.length > 0 && (
+                  <ComboBox
+                    placeholder="Types"
+                    allOptions={types.map((type) => type.name)}
+                    currentOptions={selectedTypes}
+                    setCurrentOptions={setSelectedTypes}
+                  />
+                )}
 
-                        // Filter by search term
-                        const searchMatch =
-                          !searchTerm ||
-                          item.name
-                            ?.toLowerCase()
-                            .includes(searchTerm.trim().toLowerCase());
+                {items.length > 0 && (
+                  <ComboBox
+                    placeholder="Related Elements"
+                    allOptions={items.map((item) => item.name)}
+                    currentOptions={selectedElements}
+                    setCurrentOptions={setSelectedElements}
+                  />
+                )}
 
-                        // Filter by related elements
-                        const relatedMatch = isItemRelatedToSelected(item);
+                <ViewSelect viewType={viewType} setViewType={setViewType} />
+              </div>
 
-                        return typeMatch && searchMatch && relatedMatch;
-                      }).length
-                    }
-                    )
-                  </h2>
-                  <div className="items-wrapper">
-                    {items
-                      .filter((item) => {
-                        // Find item type
-                        const itemType = types.find(
-                          (t) => t.type_id === item.type_id
-                        );
+              <div className="items-container">
+                <h2>Items</h2>
 
-                        // Filter by type
-                        const typeMatch =
-                          !itemType || selectedTypes.includes(itemType.name);
-
-                        // Filter by search term
-                        const searchMatch =
-                          !searchTerm ||
-                          item.name
-                            ?.toLowerCase()
-                            .includes(searchTerm.trim().toLowerCase());
-
-                        // Filter by related elements
-                        const relatedMatch = isItemRelatedToSelected(item);
-
-                        return typeMatch && searchMatch && relatedMatch;
-                      })
-                      .map((item, index) => {
-                        // Find the type and color scheme for this item
-                        const itemType = types.find(
-                          (t) => t.type_id === item.type_id
-                        );
-                        const colorScheme = itemType
-                          ? colorSchemes.find(
-                              (cs) =>
-                                cs.color_scheme_id === itemType.color_scheme_id
-                            )
-                          : null;
-
-                        // Use type's image_url as fallback if item doesn't have one
-                        const itemWithImage = {
-                          ...item,
-                          image_url:
-                            item.image_url || itemType?.image_url || "",
-                        };
-
-                        return (
-                          <ItemCard
-                            key={item.item_id || index}
-                            itemData={itemWithImage}
-                            itemType="item"
-                            pageRoute={null}
-                            colorScheme={colorScheme}
-                            typeImageUrl={itemType?.image_url}
-                            viewType={viewType}
-                            types={types}
-                            isExternal={true}
-                            relationships={relationships}
-                            items={items}
-                            colorSchemes={colorSchemes}
-                          />
-                        );
-                      })}
-                  </div>
-                </>
-              )}
-
-              {currentTab === "relationships" && relationships.length > 0 && (
-                <>
-                  <h2>Relationships ({relationships.length})</h2>
-                  <div
-                    className="collections-wrapper"
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns:
-                        "repeat(auto-fill, minmax(300px, 1fr))",
-                      gap: "20px",
-                    }}
-                  >
-                    {relationships.map((relationship, index) => {
-                      const item1 = items.find(
-                        (item) => item.item_id === relationship.item_1_id
-                      );
-                      const item2 = items.find(
-                        (item) => item.item_id === relationship.item_2_id
+                <div className="items-wrapper">
+                  {items
+                    .filter((item) => {
+                      // Find item type
+                      const itemType = types.find(
+                        (t) => t.type_id === item.type_id
                       );
 
-                      // Find types for image fallback
-                      const item1Type = types.find(
-                        (t) => t.type_id === item1?.type_id
-                      );
-                      const item2Type = types.find(
-                        (t) => t.type_id === item2?.type_id
-                      );
+                      // Filter by type
+                      const typeMatch =
+                        !itemType || selectedTypes.includes(itemType.name);
 
-                      // Get color schemes for both items
-                      const item1ColorScheme = item1Type
+                      // Filter by search term
+                      const searchMatch =
+                        !searchTerm ||
+                        item.name
+                          ?.toLowerCase()
+                          .includes(searchTerm.trim().toLowerCase());
+
+                      // Filter by related elements
+                      const relatedMatch = isItemRelatedToSelected(item);
+
+                      return typeMatch && searchMatch && relatedMatch;
+                    })
+                    .map((item, index) => {
+                      // Find the type and color scheme for this item
+                      const itemType = types.find(
+                        (t) => t.type_id === item.type_id
+                      );
+                      const colorScheme = itemType
                         ? colorSchemes.find(
                             (cs) =>
-                              cs.color_scheme_id === item1Type.color_scheme_id
+                              cs.color_scheme_id === itemType.color_scheme_id
                           )
                         : null;
-                      const item2ColorScheme = item2Type
-                        ? colorSchemes.find(
-                            (cs) =>
-                              cs.color_scheme_id === item2Type.color_scheme_id
-                          )
-                        : null;
-
-                      // Calculate gradient colors
-                      let backgroundGradient =
-                        "linear-gradient(135deg, #f0f4ff 0%, #e6f2ff 100%)"; // Default gradient
-                      let headerGradient =
-                        "linear-gradient(135deg, #4a90e2 0%, #3b82f6 100%)"; // Default gradient
-                      let textColor = "#1e40af"; // Default dark blue
-
-                      if (item1ColorScheme && item2ColorScheme) {
-                        // Create gradient from item1 background color to item2 background color (like item cards)
-                        const item1Background =
-                          item1ColorScheme.background_color || "#e6f2ff";
-                        const item2Background =
-                          item2ColorScheme.background_color || "#e6f2ff";
-                        backgroundGradient = `linear-gradient(135deg, ${item1Background} 0%, ${item2Background} 100%)`;
-
-                        // Use primary colors for header with sharper gradient
-                        const item1Primary =
-                          item1ColorScheme.primary_color || "#3b82f6";
-                        const item2Primary =
-                          item2ColorScheme.primary_color || "#3b82f6";
-                        headerGradient = `linear-gradient(90deg, ${item1Primary} 0%, ${item1Primary} 30%, ${item2Primary} 70%, ${item2Primary} 100%)`;
-
-                        // Use the first item's text color for better contrast
-                        textColor = item1ColorScheme.text_color || "#1e40af";
-                      } else if (item1ColorScheme) {
-                        const background =
-                          item1ColorScheme.background_color || "#e6f2ff";
-                        const primary =
-                          item1ColorScheme.primary_color || "#3b82f6";
-                        backgroundGradient = `linear-gradient(135deg, ${background} 0%, ${background} 100%)`;
-                        headerGradient = `linear-gradient(90deg, ${primary} 0%, ${primary} 30%, ${primary} 70%, ${primary} 100%)`;
-                        textColor = item1ColorScheme.text_color || "#1e40af";
-                      } else if (item2ColorScheme) {
-                        const background =
-                          item2ColorScheme.background_color || "#e6f2ff";
-                        const primary =
-                          item2ColorScheme.primary_color || "#3b82f6";
-                        backgroundGradient = `linear-gradient(135deg, ${background} 0%, ${background} 100%)`;
-                        headerGradient = `linear-gradient(90deg, ${primary} 0%, ${primary} 30%, ${primary} 70%, ${primary} 100%)`;
-                        textColor = item2ColorScheme.text_color || "#1e40af";
-                      }
 
                       // Use type's image_url as fallback if item doesn't have one
-                      const item1WithImage = {
-                        ...item1,
-                        image_url:
-                          item1?.image_url || item1Type?.image_url || "",
+                      const itemWithImage = {
+                        ...item,
+                        image_url: item.image_url || itemType?.image_url || "",
                       };
-                      const item2WithImage = {
-                        ...item2,
-                        image_url:
-                          item2?.image_url || item2Type?.image_url || "",
-                      };
-
-                      return (
-                        <div
-                          key={index}
-                          className="item-card-container card"
-                          style={{
-                            border: `1px solid ${textColor}`,
-                            borderRadius: "8px",
-                            overflow: "hidden",
-                            background: backgroundGradient,
-                            boxShadow: `0 4px 12px rgba(0, 0, 0, 0.1)`,
-                          }}
-                        >
-                          <div className="card-view-container">
-                            {/* Header with relationship title */}
-                            <div
-                              className="title-wrapper"
-                              style={{
-                                background: headerGradient,
-                                padding: "10px",
-                              }}
-                            >
-                              <h2
-                                style={{
-                                  backgroundColor: "transparent",
-                                  color: "white",
-                                  margin: 0,
-                                  fontSize: "16px",
-                                }}
-                              >
-                                {item1WithImage?.name ||
-                                  `Item ${relationship.item_1_id}`}{" "}
-                                ↔{" "}
-                                {item2WithImage?.name ||
-                                  `Item ${relationship.item_2_id}`}
-                              </h2>
-                            </div>
-
-                            {/* Content area with images and details */}
-                            <div
-                              className="card-content-wrapper"
-                              style={{ padding: "15px" }}
-                            >
-                              {/* Images side by side */}
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  gap: "20px",
-                                  marginBottom: "15px",
-                                }}
-                              >
-                                <div style={{ textAlign: "center" }}>
-                                  <div
-                                    style={{
-                                      width: "80px",
-                                      height: "80px",
-                                      border: "1px solid #ddd",
-                                      borderRadius: "4px",
-                                      backgroundColor: "white",
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      marginBottom: "5px",
-                                    }}
-                                  >
-                                    {item1WithImage?.image_url ? (
-                                      <img
-                                        src={item1WithImage.image_url}
-                                        alt={item1WithImage.name}
-                                        style={{
-                                          maxWidth: "100%",
-                                          maxHeight: "100%",
-                                          objectFit: "contain",
-                                        }}
-                                      />
-                                    ) : (
-                                      <span
-                                        style={{
-                                          fontSize: "12px",
-                                          color: "#666",
-                                        }}
-                                      >
-                                        No Image
-                                      </span>
-                                    )}
-                                  </div>
-                                  <div
-                                    style={{
-                                      fontSize: "12px",
-                                      fontWeight: "bold",
-                                      color: textColor,
-                                    }}
-                                  >
-                                    {item1WithImage?.name ||
-                                      `Item ${relationship.item_1_id}`}
-                                  </div>
-                                </div>
-
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    fontSize: "24px",
-                                    color: "#4a90e2",
-                                    fontWeight: "bold",
-                                  }}
-                                >
-                                  ↔
-                                </div>
-
-                                <div style={{ textAlign: "center" }}>
-                                  <div
-                                    style={{
-                                      width: "80px",
-                                      height: "80px",
-                                      border: "1px solid #ddd",
-                                      borderRadius: "4px",
-                                      backgroundColor: "white",
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      marginBottom: "5px",
-                                    }}
-                                  >
-                                    {item2WithImage?.image_url ? (
-                                      <img
-                                        src={item2WithImage.image_url}
-                                        alt={item2WithImage.name}
-                                        style={{
-                                          maxWidth: "100%",
-                                          maxHeight: "100%",
-                                          objectFit: "contain",
-                                        }}
-                                      />
-                                    ) : (
-                                      <span
-                                        style={{
-                                          fontSize: "12px",
-                                          color: "#666",
-                                        }}
-                                      >
-                                        No Image
-                                      </span>
-                                    )}
-                                  </div>
-                                  <div
-                                    style={{
-                                      fontSize: "12px",
-                                      fontWeight: "bold",
-                                      color: textColor,
-                                    }}
-                                  >
-                                    {item2WithImage?.name ||
-                                      `Item ${relationship.item_2_id}`}
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* Relationship details */}
-                              {relationship.description && (
-                                <div
-                                  style={{
-                                    fontStyle: "italic",
-                                    marginBottom: "10px",
-                                    fontSize: "14px",
-                                    color: textColor,
-                                  }}
-                                >
-                                  {relationship.description}
-                                </div>
-                              )}
-
-                              {relationship.count && (
-                                <div
-                                  style={{
-                                    fontSize: "12px",
-                                    color: textColor,
-                                    fontWeight: "bold",
-                                  }}
-                                >
-                                  Count: {relationship.count}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </>
-              )}
-
-              {currentTab === "types" && types.length > 0 && (
-                <>
-                  <h2>Types ({types.length})</h2>
-                  <div className="items-wrapper">
-                    {types.map((type, index) => {
-                      // Find color scheme for this type
-                      const colorScheme = colorSchemes.find(
-                        (cs) => cs.color_scheme_id === type.color_scheme_id
-                      );
 
                       return (
                         <ItemCard
-                          key={type.type_id || index}
-                          itemData={type}
-                          itemType="type"
-                          pageRoute="type"
-                          viewType="square"
+                          key={item.item_id || index}
+                          itemData={itemWithImage}
+                          itemType="item"
+                          pageRoute={null}
                           colorScheme={colorScheme}
-                          typeImageUrl={type.image_url}
+                          typeImageUrl={itemType?.image_url}
+                          viewType={viewType}
                           types={types}
                           isExternal={true}
+                          relationships={relationships}
+                          items={items}
+                          colorSchemes={colorSchemes}
                         />
                       );
                     })}
-                  </div>
-                </>
-              )}
+                </div>
+              </div>
+            </div>
+          ) : (
+            currentTab === "types" && (
+              <div className="items-container">
+                <h2>Types</h2>
 
-              {currentTab === "notes" && notes.length > 0 && (
-                <>
-                  <h2>Notes ({notes.length})</h2>
-                  <div className="notes-wrapper">
-                    {notes.map((note, index) => {
-                      const item = items.find(
-                        (i) => i.item_id === note.item_id
-                      );
+                <div className="items-wrapper">
+                  {types.map((type) => {
+                    // Find color scheme for this type
+                    const colorScheme = colorSchemes.find(
+                      (cs) => cs.color_scheme_id === type.color_scheme_id
+                    );
 
-                      return (
-                        <div
-                          key={index}
-                          style={{
-                            border: "1px solid #ddd",
-                            padding: "15px",
-                            margin: "10px 0",
-                            borderRadius: "5px",
-                            backgroundColor: "#f9f9f9",
-                          }}
-                        >
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              marginBottom: "10px",
-                            }}
-                          >
-                            <strong>
-                              {item?.name || `Item ${note.item_id}`}
-                            </strong>
-                            {note.date_time && (
-                              <span style={{ fontSize: "12px", color: "#666" }}>
-                                {note.date_time}
-                              </span>
-                            )}
-                          </div>
-                          <div style={{ marginBottom: "10px" }}>
-                            {note.content}
-                          </div>
-                          {note.link_url && (
-                            <div>
-                              <a
-                                href={note.link_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                style={{
-                                  color: "#007bff",
-                                  textDecoration: "none",
-                                }}
-                              >
-                                {note.link_type || "Link"} →
-                              </a>
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </>
-              )}
-            </>
+                    return (
+                      <ItemCard
+                        key={type.type_id}
+                        itemData={type}
+                        itemType="type"
+                        pageRoute="type"
+                        viewType="square"
+                        colorScheme={colorScheme}
+                        typeImageUrl={type.image_url}
+                        types={types}
+                        isExternal={true}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            )
           )}
         </div>
-      </div>
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 };
