@@ -4,6 +4,7 @@ import { useParams, useLocation } from "react-router-dom";
 import ItemCard from "../../item-cards/ItemCard";
 import ViewSelect from "../../forms/ViewSelect";
 import ComboBox from "../../forms/ComboBox";
+import NotesDisplay from "../../item-cards/NotesDisplay";
 
 // Extract actual image URL from Google imgres URLs
 const extractImageUrl = (url) => {
@@ -240,6 +241,13 @@ const ExternalCollectionDetails = () => {
         >
           Types
         </button>
+
+        <button
+          className={currentTab === "notes" ? "selected" : ""}
+          onClick={() => setCurrentTab("notes")}
+        >
+          Notes
+        </button>
       </div>
 
       {collectionData && items ? (
@@ -346,36 +354,36 @@ const ExternalCollectionDetails = () => {
                 </div>
               </div>
             </div>
-          ) : (
-            currentTab === "types" && (
-              <div className="items-container">
-                <h2>Types</h2>
+          ) : currentTab === "types" ? (
+            <div className="items-container">
+              <h2>Types</h2>
 
-                <div className="items-wrapper">
-                  {types.map((type) => {
-                    // Find color scheme for this type
-                    const colorScheme = colorSchemes.find(
-                      (cs) => cs.color_scheme_id === type.color_scheme_id
-                    );
+              <div className="items-wrapper">
+                {types.map((type) => {
+                  // Find color scheme for this type
+                  const colorScheme = colorSchemes.find(
+                    (cs) => cs.color_scheme_id === type.color_scheme_id
+                  );
 
-                    return (
-                      <ItemCard
-                        key={type.type_id}
-                        itemData={type}
-                        itemType="type"
-                        pageRoute="type"
-                        viewType="square"
-                        colorScheme={colorScheme}
-                        typeImageUrl={type.image_url}
-                        types={types}
-                        isExternal={true}
-                      />
-                    );
-                  })}
-                </div>
+                  return (
+                    <ItemCard
+                      key={type.type_id}
+                      itemData={type}
+                      itemType="type"
+                      pageRoute="type"
+                      viewType="square"
+                      colorScheme={colorScheme}
+                      typeImageUrl={type.image_url}
+                      types={types}
+                      isExternal={true}
+                    />
+                  );
+                })}
               </div>
-            )
-          )}
+            </div>
+          ) : currentTab === "notes" ? (
+            <NotesDisplay notes={notes} items={items} />
+          ) : null}
         </div>
       ) : (
         <p>Loading...</p>

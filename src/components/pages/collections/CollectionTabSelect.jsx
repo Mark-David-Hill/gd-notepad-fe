@@ -14,6 +14,13 @@ const CollectionTabSelect = ({ currentTab, setCurrentTab }) => {
       >
         Types
       </button>
+
+      <button
+        className={currentTab === "notes" ? "selected" : ""}
+        onClick={() => setCurrentTab("notes")}
+      >
+        Notes
+      </button>
     </div>
   );
 };

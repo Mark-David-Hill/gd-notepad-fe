@@ -9,6 +9,7 @@ import AddItemForm from "../../forms/AddItemForm";
 import AddTypeForm from "../../forms/AddTypeForm";
 import ItemCard from "../../item-cards/ItemCard";
 import SearchSection from "./SearchSection";
+import NotesDisplay from "../../item-cards/NotesDisplay";
 
 import { CollectionContext } from "../../context/CollectionContextProvider";
 import { AuthContext } from "../../context/AuthContextProvider";
@@ -29,6 +30,7 @@ export default function Collection() {
     setTypes,
     items,
     setItems,
+    notes,
   } = useContext(CollectionContext);
   const { authInfo } = useContext(AuthContext);
 
@@ -99,35 +101,35 @@ export default function Collection() {
                 </div>
               </div>
             </div>
-          ) : (
-            currentTab === "types" && (
-              <div className="items-container">
-                {authInfo && (
-                  <AddTypeForm collectionId={id} setTypes={setTypes} />
-                )}
+          ) : currentTab === "types" ? (
+            <div className="items-container">
+              {authInfo && (
+                <AddTypeForm collectionId={id} setTypes={setTypes} />
+              )}
 
-                {authInfo?.role === "super-admin" && <AddColorSchemeForm />}
+              {authInfo?.role === "super-admin" && <AddColorSchemeForm />}
 
-                <h2>Types</h2>
+              <h2>Types</h2>
 
-                <div className="items-wrapper">
-                  {types.map((type) => (
-                    <ItemCard
-                      key={type.type_id}
-                      itemData={type}
-                      setItems={setTypes}
-                      itemType="type"
-                      pageRoute="type"
-                      viewType="square"
-                      colorScheme={type.color_scheme}
-                      typeImageUrl={type.image_url}
-                      types={types}
-                    />
-                  ))}
-                </div>
+              <div className="items-wrapper">
+                {types.map((type) => (
+                  <ItemCard
+                    key={type.type_id}
+                    itemData={type}
+                    setItems={setTypes}
+                    itemType="type"
+                    pageRoute="type"
+                    viewType="square"
+                    colorScheme={type.color_scheme}
+                    typeImageUrl={type.image_url}
+                    types={types}
+                  />
+                ))}
               </div>
-            )
-          )}
+            </div>
+          ) : currentTab === "notes" ? (
+            <NotesDisplay notes={notes} items={items} />
+          ) : null}
         </div>
       ) : (
         <p>Loading...</p>

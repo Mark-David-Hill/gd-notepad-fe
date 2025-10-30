@@ -10,6 +10,7 @@ export default function CollectionContextProvider({ children }) {
   const [types, setTypes] = useState([]);
   const [items, setItems] = useState([]);
   const [relationships, setRelationships] = useState([]);
+  const [notes, setNotes] = useState([]);
 
   const gameDataState = {
     currentCollectionId,
@@ -22,6 +23,8 @@ export default function CollectionContextProvider({ children }) {
     setItems,
     relationships,
     setRelationships,
+    notes,
+    setNotes,
   };
 
   useEffect(() => {
@@ -55,6 +58,19 @@ export default function CollectionContextProvider({ children }) {
         .apiCall(`/items/collection/${currentCollectionId}`, "GET")
         .then((response) => {
           setItems(response.results);
+          
+          // Extract notes from items and add item_id to each note
+          const allNotes = [];
+          response.results.forEach(item => {
+            if (item.notes && Array.isArray(item.notes)) {
+              const notesWithItemId = item.notes.map(note => ({
+                ...note,
+                item_id: item.item_id
+              }));
+              allNotes.push(...notesWithItemId);
+            }
+          });
+          setNotes(allNotes);
         })
         .catch((error) => console.error(`couldn't get items`, error));
     }
