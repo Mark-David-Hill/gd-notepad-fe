@@ -16,28 +16,28 @@ const ItemsList = ({
   const { relationships } = useContext(CollectionContext);
 
   const includedInCurrentRelationships = (elementData) => {
-    if (currentRelationships.length === 0) {
+    if (!currentRelationships || currentRelationships.length === 0) {
       return true;
     }
 
-    const relationshipsThatIncludeCurrentElement = relationships.filter(
-      (relationship) =>
-        relationship.item_1.name === elementData.name ||
-        relationship.item_2.name === elementData.name
-    );
+    if (!relationships || relationships.length === 0) {
+      return true;
+    }
 
-    const relationshipsToCheckAgainstCurrentRelationships = [
-      ...new Set(
-        relationshipsThatIncludeCurrentElement.flatMap((relationship) => [
-          relationship.item_1.name,
-          relationship.item_2.name,
-        ])
-      ),
-    ];
+    return relationships.some((relationship) => {
+      // Check if this item is in a relationship with any selected element
+      if (!relationship.item_1 || !relationship.item_2) {
+        return false;
+      }
 
-    return currentRelationships.every((relationshipName) =>
-      relationshipsToCheckAgainstCurrentRelationships.includes(relationshipName)
-    );
+      const isRelated =
+        (elementData.name === relationship.item_1.name &&
+          currentRelationships.includes(relationship.item_2.name)) ||
+        (elementData.name === relationship.item_2.name &&
+          currentRelationships.includes(relationship.item_1.name));
+
+      return isRelated;
+    });
   };
 
   return (
@@ -46,30 +46,28 @@ const ItemsList = ({
         <p>Loading...</p>
       ) : (
         itemsList.map((elementData, elementId) => {
-          {
-            if (
-              currentTypes.includes(elementData.type.name) &&
-              includedInCurrentRelationships(elementData) &&
-              (!searchTerm ||
-                elementData?.name
-                  .toLowerCase()
-                  .includes(searchTerm.trim().toLowerCase()))
-            ) {
-              return (
-                <CollectionItemCard
-                  key={elementId}
-                  itemData={elementData}
-                  setItems={setItems}
-                  viewType={viewType}
-                  pageRoute="item"
-                  colorScheme={elementData.type.color_scheme}
-                  typeImageUrl={elementData.type.image_url}
-                  types={types}
-                />
-              );
-            } else {
-              return null;
-            }
+          if (
+            currentTypes.includes(elementData.type.name) &&
+            includedInCurrentRelationships(elementData) &&
+            (!searchTerm ||
+              elementData?.name
+                .toLowerCase()
+                .includes(searchTerm.trim().toLowerCase()))
+          ) {
+            return (
+              <CollectionItemCard
+                key={elementId}
+                itemData={elementData}
+                setItems={setItems}
+                viewType={viewType}
+                pageRoute="item"
+                colorScheme={elementData.type.color_scheme}
+                typeImageUrl={elementData.type.image_url}
+                types={types}
+              />
+            );
+          } else {
+            return null;
           }
         })
       )}
