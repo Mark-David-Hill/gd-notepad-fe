@@ -329,8 +329,8 @@ const ExternalCollectionDetails = () => {
           ) : (
             <div className="collection-wrapper">
               {currentTab === "items" ? (
-                <div className="items-container">
-                  <div className="search-section">
+                <>
+                  <div className="search-section external-collection-details__search">
                     <input
                       className="search-box"
                       type="text"
@@ -360,11 +360,11 @@ const ExternalCollectionDetails = () => {
                     <ViewSelect viewType={viewType} setViewType={setViewType} />
                   </div>
 
-                  <div className="items-container">
+                  <div className="external-collection-details__panel">
                     <h2>Items</h2>
 
                     <div
-                      className={`items-wrapper external-collection-details__items external-collection-details__items--${viewType}`}
+                      className={`external-collection-details__grid external-collection-details__grid--${viewType}`}
                     >
                       {filteredItems.length === 0 ? (
                         <p className="external-collection-details__empty">
@@ -378,7 +378,8 @@ const ExternalCollectionDetails = () => {
                           const colorScheme = itemType
                             ? colorSchemes.find(
                                 (cs) =>
-                                  cs.color_scheme_id === itemType.color_scheme_id
+                                  cs.color_scheme_id ===
+                                  itemType.color_scheme_id
                               )
                             : null;
 
@@ -408,12 +409,12 @@ const ExternalCollectionDetails = () => {
                       )}
                     </div>
                   </div>
-                </div>
+                </>
               ) : currentTab === "types" ? (
-                <div className="items-container">
+                <div className="external-collection-details__panel">
                   <h2>Types</h2>
 
-                  <div className="items-wrapper">
+                  <div className="external-collection-details__grid">
                     {types.length === 0 ? (
                       <p className="external-collection-details__empty">
                         No types available.
