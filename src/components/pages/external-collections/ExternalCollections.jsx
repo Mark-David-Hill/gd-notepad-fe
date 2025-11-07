@@ -1,14 +1,18 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext, useMemo, useState } from "react";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { AuthContext } from "../../context/AuthContextProvider";
 import { CollectionContext } from "../../context/CollectionContextProvider";
+import { ThemeContext } from "../../context/ThemeContextProvider";
 import useFetch from "../../../hooks/useFetch";
 import ItemCard from "../../item-cards/ItemCard";
 
 const GOOGLE_SHEET_ID = "1aYK-0RBzHnzvZKmVjWwwbfmPqY29f6SnyjfT8InQf10";
 const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv`;
+
+const LIGHT_MODE_VARIANT = "soft";
+const DARK_MODE_VARIANT = "modern";
 
 // Extract actual image URL from Google imgres URLs
 const extractImageUrl = (url) => {
@@ -32,58 +36,49 @@ const extractImageUrl = (url) => {
 };
 
 // Custom card view for external collections
-const ExternalCollectionCard = ({ collection }) => {
-  useEffect(() => {
-    // Debug image loading
-    if (collection.image_url) {
-      const img = new Image();
-      img.onload = () => {
-        console.log(`✓ Image loaded successfully for: ${collection.name}`);
-      };
-      img.onerror = () => {
-        console.error(`✗ Failed to load image for: ${collection.name}`, {
-          url: collection.image_url,
-          collection: collection,
-        });
-      };
-      img.src = collection.image_url;
-    } else {
-      console.warn(`⚠ No image URL provided for: ${collection.name}`);
-    }
-  }, [collection]);
+const CARD_VARIANTS = [LIGHT_MODE_VARIANT, DARK_MODE_VARIANT];
+
+const ExternalCollectionCard = ({ collection, variant }) => {
+  const cardVariant = CARD_VARIANTS.includes(variant)
+    ? variant
+    : LIGHT_MODE_VARIANT;
+
+  const placeholderLetter = collection.name?.[0]?.toUpperCase() || "?";
 
   return (
-    <div
-      className="item-card-container card"
-      style={{
-        border: "1px solid black",
-        backgroundColor: "rgb(198, 255, 237)",
-      }}
+    <article
+      className={`external-collection-card external-collection-card--${cardVariant}`}
     >
-      <div className="card-view-container">
-        <div className="title-wrapper">
-          <h2 style={{ backgroundColor: "white", color: "black" }}>
-            {collection.name}
-          </h2>
-        </div>
-        <div className="card-content-wrapper">
-          <div className="image-wrapper">
-            <img src={collection.image_url} alt={`${collection.name} image`} />
+      <div className="external-collection-card__media">
+        {collection.image_url ? (
+          <img
+            src={collection.image_url}
+            alt={`${collection.name} cover art`}
+            loading="lazy"
+          />
+        ) : (
+          <div
+            aria-hidden="true"
+            className="external-collection-card__placeholder"
+          >
+            {placeholderLetter}
           </div>
-          <div className="text-wrapper">
-            <p>{collection.description}</p>
-            {collection.sheet_url && (
-              <NavLink
-                to={`/external-collection/${collection.collection_id}`}
-                state={{ collection }}
-              >
-                View External Collection
-              </NavLink>
-            )}
-          </div>
-        </div>
+        )}
       </div>
-    </div>
+      <div className="external-collection-card__content">
+        <h3>{collection.name}</h3>
+        {collection.description && <p>{collection.description}</p>}
+        {collection.sheet_url && (
+          <NavLink
+            className="external-collection-card__link"
+            to={`/external-collection/${collection.collection_id}`}
+            state={{ collection }}
+          >
+            View External Collection
+          </NavLink>
+        )}
+      </div>
+    </article>
   );
 };
 
@@ -95,6 +90,7 @@ ExternalCollectionCard.propTypes = {
     image_url: PropTypes.string,
     sheet_url: PropTypes.string,
   }).isRequired,
+  variant: PropTypes.oneOf(CARD_VARIANTS).isRequired,
 };
 
 const ExternalCollections = () => {
@@ -104,8 +100,14 @@ const ExternalCollections = () => {
 
   const { authInfo } = useContext(AuthContext);
   const { types } = useContext(CollectionContext);
+  const { theme } = useContext(ThemeContext);
   const { data: internalCollections = [], loading: internalLoading } =
     useFetch("/collections");
+
+  const cardStyle = useMemo(
+    () => (theme === "dark" ? DARK_MODE_VARIANT : LIGHT_MODE_VARIANT),
+    [theme]
+  );
 
   useEffect(() => {
     const fetchGoogleSheetData = async () => {
@@ -196,24 +198,27 @@ const ExternalCollections = () => {
   }, []);
 
   return (
-    <section className="items-container">
+    <section className="items-container external-collections-page">
       <header className="collections-header">
         <h1>Collections</h1>
       </header>
       <div className="items-wrapper">
         {/* External Collections Section */}
-        <div style={{ marginBottom: "40px" }}>
-          {authInfo && <h2>External Collections</h2>}
+        <div className="external-collections-section">
+          <div className="external-collections-section__header">
+            {authInfo && <h2>External Collections</h2>}
+          </div>
           {loading ? (
             <p>Loading external collections...</p>
           ) : error ? (
             <p>Error: {error}</p>
           ) : (
-            <div className="collections-wrapper">
+            <div className="collections-wrapper external-collections__grid">
               {externalCollections.map((collection) => (
                 <ExternalCollectionCard
-                  key={collection.collection_id}
+                  key={collection.collection_id || collection.name}
                   collection={collection}
+                  variant={cardStyle}
                 />
               ))}
             </div>

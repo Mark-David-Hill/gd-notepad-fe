@@ -12,7 +12,9 @@
     align-items: center;
 
     .selected {
-      background-color: rgb(127, 227, 255);
+      background-color: var(--accent-soft);
+      border: 1px solid var(--accent-strong);
+      color: var(--text-primary);
     }
   }
 

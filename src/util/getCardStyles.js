@@ -1,6 +1,16 @@
 import { getColor } from "./getColor";
 
 export const getCardStyles = (scheme) => ({
-  border: `1px solid ${getColor(scheme, "secondary_color", "black")}`,
-  backgroundColor: getColor(scheme, "background_color", "rgb(198, 255, 237)"),
+  "--item-card-background": getColor(
+    scheme,
+    "background_color",
+    "var(--surface-card)"
+  ),
+  "--item-card-border": getColor(
+    scheme,
+    "secondary_color",
+    "var(--border-color)"
+  ),
+  "--item-card-accent": getColor(scheme, "primary_color", "var(--accent)"),
+  "--item-card-text": getColor(scheme, "text_color", "var(--text-primary)"),
 });

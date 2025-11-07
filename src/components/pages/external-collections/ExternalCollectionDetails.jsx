@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext, useMemo } from "react";
 import { useParams, useLocation } from "react-router-dom";
 
 import ItemCard from "../../item-cards/ItemCard";
 import ViewSelect from "../../forms/ViewSelect";
 import ComboBox from "../../forms/ComboBox";
 import NotesDisplay from "../../item-cards/NotesDisplay";
+import { ThemeContext } from "../../context/ThemeContextProvider";
 
 // Extract actual image URL from Google imgres URLs
 const extractImageUrl = (url) => {
@@ -53,6 +54,9 @@ const parseCSVLine = (line) => {
   return values;
 };
 
+const LIGHT_DETAIL_STYLE = "aurora";
+const DARK_DETAIL_STYLE = "noir";
+
 const ExternalCollectionDetails = () => {
   const { id } = useParams();
   const location = useLocation();
@@ -68,6 +72,7 @@ const ExternalCollectionDetails = () => {
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [selectedElements, setSelectedElements] = useState([]);
   const [currentTab, setCurrentTab] = useState("items");
+  const { theme } = useContext(ThemeContext);
 
   // Get collection metadata from navigation state or localStorage
   const collectionData =
@@ -90,6 +95,11 @@ const ExternalCollectionDetails = () => {
       setSelectedTypes(types.map((type) => type.name));
     }
   }, [types]);
+
+  const detailStyle = useMemo(
+    () => (theme === "dark" ? DARK_DETAIL_STYLE : LIGHT_DETAIL_STYLE),
+    [theme]
+  );
 
   // Helper function to fetch a specific sheet tab
   const fetchSheetTab = async (sheetId, tabName) => {
@@ -225,168 +235,224 @@ const ExternalCollectionDetails = () => {
     );
   }
 
+  const heroInitial = collectionData.name?.[0]?.toUpperCase() || "?";
+  const summaryStats = [
+    { label: "Items", value: items.length },
+    { label: "Types", value: types.length },
+    { label: "Relationships", value: relationships.length },
+    { label: "Notes", value: notes.length },
+  ];
+  const filteredItems = items.filter((item) => {
+    const itemType = types.find((t) => t.type_id === item.type_id);
+    const typeMatch = !itemType || selectedTypes.includes(itemType.name);
+    const searchMatch =
+      !searchTerm ||
+      item.name?.toLowerCase().includes(searchTerm.trim().toLowerCase());
+    const relatedMatch = isItemRelatedToSelected(item);
+
+    return typeMatch && searchMatch && relatedMatch;
+  });
+
   return (
-    <div className="collection-container">
-      <div className="view-select-wrapper">
-        <button
-          className={currentTab === "items" ? "selected" : ""}
-          onClick={() => setCurrentTab("items")}
-        >
-          Items
-        </button>
-
-        <button
-          className={currentTab === "types" ? "selected" : ""}
-          onClick={() => setCurrentTab("types")}
-        >
-          Types
-        </button>
-
-        <button
-          className={currentTab === "notes" ? "selected" : ""}
-          onClick={() => setCurrentTab("notes")}
-        >
-          Notes
-        </button>
-      </div>
-
-      {collectionData && items ? (
-        <div className="collection-wrapper">
-          <header className="collections-header">
-            <h1>{collectionData.name}</h1>
-            {collectionData.description && <p>{collectionData.description}</p>}
-          </header>
-
-          {currentTab === "items" && items.length > 0 ? (
-            <div className="items-container">
-              <div className="search-section">
-                <input
-                  className="search-box"
-                  type="text"
-                  placeholder="Search..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-
-                {types.length > 0 && (
-                  <ComboBox
-                    placeholder="Types"
-                    allOptions={types.map((type) => type.name)}
-                    currentOptions={selectedTypes}
-                    setCurrentOptions={setSelectedTypes}
-                  />
-                )}
-
-                {items.length > 0 && (
-                  <ComboBox
-                    placeholder="Related Elements"
-                    allOptions={items.map((item) => item.name)}
-                    currentOptions={selectedElements}
-                    setCurrentOptions={setSelectedElements}
-                  />
-                )}
-
-                <ViewSelect viewType={viewType} setViewType={setViewType} />
-              </div>
-
-              <div className="items-container">
-                <h2>Items</h2>
-
-                <div className="items-wrapper">
-                  {items
-                    .filter((item) => {
-                      // Find item type
-                      const itemType = types.find(
-                        (t) => t.type_id === item.type_id
-                      );
-
-                      // Filter by type
-                      const typeMatch =
-                        !itemType || selectedTypes.includes(itemType.name);
-
-                      // Filter by search term
-                      const searchMatch =
-                        !searchTerm ||
-                        item.name
-                          ?.toLowerCase()
-                          .includes(searchTerm.trim().toLowerCase());
-
-                      // Filter by related elements
-                      const relatedMatch = isItemRelatedToSelected(item);
-
-                      return typeMatch && searchMatch && relatedMatch;
-                    })
-                    .map((item, index) => {
-                      // Find the type and color scheme for this item
-                      const itemType = types.find(
-                        (t) => t.type_id === item.type_id
-                      );
-                      const colorScheme = itemType
-                        ? colorSchemes.find(
-                            (cs) =>
-                              cs.color_scheme_id === itemType.color_scheme_id
-                          )
-                        : null;
-
-                      // Use type's image_url as fallback if item doesn't have one
-                      const itemWithImage = {
-                        ...item,
-                        image_url: item.image_url || itemType?.image_url || "",
-                      };
-
-                      return (
-                        <ItemCard
-                          key={item.item_id || index}
-                          itemData={itemWithImage}
-                          itemType="item"
-                          pageRoute={null}
-                          colorScheme={colorScheme}
-                          typeImageUrl={itemType?.image_url}
-                          viewType={viewType}
-                          types={types}
-                          isExternal={true}
-                          relationships={relationships}
-                          items={items}
-                          colorSchemes={colorSchemes}
-                        />
-                      );
-                    })}
-                </div>
-              </div>
-            </div>
-          ) : currentTab === "types" ? (
-            <div className="items-container">
-              <h2>Types</h2>
-
-              <div className="items-wrapper">
-                {types.map((type) => {
-                  // Find color scheme for this type
-                  const colorScheme = colorSchemes.find(
-                    (cs) => cs.color_scheme_id === type.color_scheme_id
-                  );
-
-                  return (
-                    <ItemCard
-                      key={type.type_id}
-                      itemData={type}
-                      itemType="type"
-                      pageRoute="type"
-                      viewType="square"
-                      colorScheme={colorScheme}
-                      typeImageUrl={type.image_url}
-                      types={types}
-                      isExternal={true}
-                    />
-                  );
-                })}
-              </div>
-            </div>
-          ) : currentTab === "notes" ? (
-            <NotesDisplay notes={notes} items={items} />
-          ) : null}
+    <div
+      className={`collection-container external-collection-details external-collection-details--${detailStyle}`}
+    >
+      <section className="external-collection-details__hero">
+        <div className="external-collection-details__hero-visual">
+          {collectionData.image_url ? (
+            <img
+              src={collectionData.image_url}
+              alt={`${collectionData.name} artwork`}
+            />
+          ) : (
+            <span aria-hidden="true">{heroInitial}</span>
+          )}
         </div>
+        <div className="external-collection-details__hero-content">
+          <h1>{collectionData.name}</h1>
+          {collectionData.description && <p>{collectionData.description}</p>}
+          <div className="external-collection-details__hero-meta">
+            {summaryStats.map((stat) => (
+              <div
+                key={stat.label}
+                className="external-collection-details__hero-stat"
+              >
+                <span className="value">{loading ? "..." : stat.value}</span>
+                <span className="label">{stat.label}</span>
+              </div>
+            ))}
+          </div>
+          {collectionData.sheet_url && (
+            <a
+              className="external-collection-details__hero-link"
+              href={collectionData.sheet_url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open source sheet
+            </a>
+          )}
+        </div>
+      </section>
+
+      {error ? (
+        <p className="external-collection-details__alert">Error: {error}</p>
       ) : (
-        <p>Loading...</p>
+        <div className="external-collection-details__content">
+          <div className="view-select-wrapper external-collection-details__tabs">
+            <button
+              className={currentTab === "items" ? "selected" : ""}
+              onClick={() => setCurrentTab("items")}
+            >
+              Items
+            </button>
+
+            <button
+              className={currentTab === "types" ? "selected" : ""}
+              onClick={() => setCurrentTab("types")}
+            >
+              Types
+            </button>
+
+            <button
+              className={currentTab === "notes" ? "selected" : ""}
+              onClick={() => setCurrentTab("notes")}
+            >
+              Notes
+            </button>
+          </div>
+
+          {loading ? (
+            <p className="external-collection-details__loading">
+              Loading collection...
+            </p>
+          ) : (
+            <div className="collection-wrapper">
+              {currentTab === "items" ? (
+                <div className="items-container">
+                  <div className="search-section">
+                    <input
+                      className="search-box"
+                      type="text"
+                      placeholder="Search..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+
+                    {types.length > 0 && (
+                      <ComboBox
+                        placeholder="Types"
+                        allOptions={types.map((type) => type.name)}
+                        currentOptions={selectedTypes}
+                        setCurrentOptions={setSelectedTypes}
+                      />
+                    )}
+
+                    {items.length > 0 && (
+                      <ComboBox
+                        placeholder="Related Elements"
+                        allOptions={items.map((item) => item.name)}
+                        currentOptions={selectedElements}
+                        setCurrentOptions={setSelectedElements}
+                      />
+                    )}
+
+                    <ViewSelect viewType={viewType} setViewType={setViewType} />
+                  </div>
+
+                  <div className="items-container">
+                    <h2>Items</h2>
+
+                    <div
+                      className={`items-wrapper external-collection-details__items external-collection-details__items--${viewType}`}
+                    >
+                      {filteredItems.length === 0 ? (
+                        <p className="external-collection-details__empty">
+                          No items match your filters yet.
+                        </p>
+                      ) : (
+                        filteredItems.map((item, index) => {
+                          const itemType = types.find(
+                            (t) => t.type_id === item.type_id
+                          );
+                          const colorScheme = itemType
+                            ? colorSchemes.find(
+                                (cs) =>
+                                  cs.color_scheme_id === itemType.color_scheme_id
+                              )
+                            : null;
+
+                          const itemWithImage = {
+                            ...item,
+                            image_url:
+                              item.image_url || itemType?.image_url || "",
+                          };
+
+                          return (
+                            <ItemCard
+                              key={item.item_id || index}
+                              itemData={itemWithImage}
+                              itemType="item"
+                              pageRoute={null}
+                              colorScheme={colorScheme}
+                              typeImageUrl={itemType?.image_url}
+                              viewType={viewType}
+                              types={types}
+                              isExternal={true}
+                              relationships={relationships}
+                              items={items}
+                              colorSchemes={colorSchemes}
+                            />
+                          );
+                        })
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ) : currentTab === "types" ? (
+                <div className="items-container">
+                  <h2>Types</h2>
+
+                  <div className="items-wrapper">
+                    {types.length === 0 ? (
+                      <p className="external-collection-details__empty">
+                        No types available.
+                      </p>
+                    ) : (
+                      types.map((type) => {
+                        const colorScheme = colorSchemes.find(
+                          (cs) => cs.color_scheme_id === type.color_scheme_id
+                        );
+
+                        return (
+                          <ItemCard
+                            key={type.type_id}
+                            itemData={type}
+                            itemType="type"
+                            pageRoute="type"
+                            viewType="square"
+                            colorScheme={colorScheme}
+                            typeImageUrl={type.image_url}
+                            types={types}
+                            isExternal={true}
+                          />
+                        );
+                      })
+                    )}
+                  </div>
+                </div>
+              ) : currentTab === "notes" ? (
+                notes.length === 0 ? (
+                  <p className="external-collection-details__empty">
+                    No notes available yet.
+                  </p>
+                ) : (
+                  <NotesDisplay notes={notes} items={items} />
+                )
+              ) : null}
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
