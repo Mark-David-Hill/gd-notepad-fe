@@ -1,14 +1,42 @@
 .view-select-wrapper {
   display: flex;
-  gap: 5px;
-  margin: 10px;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.25rem;
+  background: var(--surface-glass);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  backdrop-filter: blur(12px);
 
-  button.selected {
-    background-color: rgb(196, 255, 231);
+  button {
+    padding: 0.625rem 0.75rem;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: var(--surface-hover);
+      color: var(--text-primary);
+    }
+
+    &.selected {
+      background: var(--accent);
+      color: var(--text-on-accent);
+      box-shadow: var(--shadow-sm);
+    }
   }
 
   img {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
+    opacity: 0.9;
   }
 }
