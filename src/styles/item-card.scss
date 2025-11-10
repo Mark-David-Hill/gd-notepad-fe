@@ -101,6 +101,7 @@
         p {
           margin: 0;
           line-height: 1.4;
+          color: #000000;
         }
 
         a {
@@ -197,6 +198,7 @@
       p {
         margin: 0;
         line-height: 1.4;
+        color: #000000;
       }
     }
 
@@ -335,22 +337,22 @@
     flex-direction: column;
     gap: 20px;
   }
-  
+
   .item-notes-section {
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 15px;
     background-color: var(--surface-card);
-    
+
     .item-header {
       display: flex;
       align-items: center;
       margin-bottom: 15px;
       gap: 12px;
-      
+
       .item-image {
         flex-shrink: 0;
-        
+
         img {
           width: 50px;
           height: 50px;
@@ -359,7 +361,7 @@
           border: 1px solid var(--border-color);
         }
       }
-      
+
       h3 {
         margin: 0;
         color: var(--text-primary);
@@ -367,18 +369,18 @@
         font-weight: 600;
       }
     }
-    
+
     .note-item {
       margin-bottom: 10px;
       padding: 8px;
       background-color: var(--surface-glass);
       border-radius: 4px;
       border-left: 3px solid var(--accent);
-      
+
       &:last-child {
         margin-bottom: 0;
       }
-      
+
       p {
         margin: 0;
         line-height: 1.4;
