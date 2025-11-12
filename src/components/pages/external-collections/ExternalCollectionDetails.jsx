@@ -1,58 +1,13 @@
 import { useState, useEffect, useContext, useMemo } from "react";
 import { useParams, useLocation } from "react-router-dom";
 
+import NotesDisplay from "../../item-cards/NotesDisplay";
 import ItemCard from "../../item-cards/ItemCard";
 import ViewSelect from "../../forms/ViewSelect";
 import ComboBox from "../../forms/ComboBox";
-import NotesDisplay from "../../item-cards/NotesDisplay";
+
+import { extractImageUrl, parseCSVLine } from "../../../util/googleSheetsUtil";
 import { ThemeContext } from "../../context/ThemeContextProvider";
-
-// Extract actual image URL from Google imgres URLs
-const extractImageUrl = (url) => {
-  if (!url) return url;
-
-  if (url.includes("google.com/imgres") || url.includes("imgurl=")) {
-    try {
-      const urlObj = new URL(url);
-      const imgurl = urlObj.searchParams.get("imgurl");
-      if (imgurl) {
-        return decodeURIComponent(imgurl);
-      }
-    } catch (e) {
-      console.warn("Failed to parse image URL:", url);
-    }
-  }
-
-  return url;
-};
-
-// Parse CSV with proper handling of quoted fields
-const parseCSVLine = (line) => {
-  const values = [];
-  let current = "";
-  let inQuotes = false;
-
-  for (let i = 0; i < line.length; i++) {
-    const char = line[i];
-    const nextChar = line[i + 1];
-
-    if (char === '"') {
-      if (inQuotes && nextChar === '"') {
-        current += '"';
-        i++;
-      } else {
-        inQuotes = !inQuotes;
-      }
-    } else if (char === "," && !inQuotes) {
-      values.push(current.trim());
-      current = "";
-    } else {
-      current += char;
-    }
-  }
-  values.push(current.trim());
-  return values;
-};
 
 const LIGHT_DETAIL_STYLE = "aurora";
 const DARK_DETAIL_STYLE = "noir";
