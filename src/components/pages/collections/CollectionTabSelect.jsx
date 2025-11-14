@@ -1,28 +1,26 @@
-const CollectionTabSelect = ({ currentTab, setCurrentTab }) => {
-  return (
-    <div className="view-select-wrapper">
-      <button
-        className={currentTab === "items" ? "selected" : ""}
-        onClick={() => setCurrentTab("items")}
-      >
-        Items
-      </button>
+const DEFAULT_TABS = [
+  { id: "items", label: "Items" },
+  { id: "types", label: "Types" },
+  { id: "notes", label: "Notes" },
+];
 
+const CollectionTabSelect = ({
+  currentTab,
+  setCurrentTab,
+  className = "view-select-wrapper",
+  tabs = DEFAULT_TABS,
+}) => (
+  <div className={className}>
+    {tabs.map((tab) => (
       <button
-        className={currentTab === "types" ? "selected" : ""}
-        onClick={() => setCurrentTab("types")}
+        key={tab.id}
+        className={currentTab === tab.id ? "selected" : ""}
+        onClick={() => setCurrentTab(tab.id)}
       >
-        Types
+        {tab.label}
       </button>
-
-      <button
-        className={currentTab === "notes" ? "selected" : ""}
-        onClick={() => setCurrentTab("notes")}
-      >
-        Notes
-      </button>
-    </div>
-  );
-};
+    ))}
+  </div>
+);
 
 export default CollectionTabSelect;

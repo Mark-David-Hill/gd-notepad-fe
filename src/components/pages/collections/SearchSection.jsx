@@ -1,9 +1,8 @@
-import { useEffect } from "react";
-
 import ViewSelect from "../../forms/ViewSelect";
 import ComboBox from "../../forms/ComboBox";
 
 const SearchSection = ({
+  className = "search-section",
   types,
   viewType,
   setViewType,
@@ -14,15 +13,10 @@ const SearchSection = ({
   searchTerm,
   setSearchTerm,
   allItems,
+  showRelatedOptions = true,
 }) => {
-  useEffect(() => {
-    if (types) {
-      setSelectedTypes(types.map((type) => type.name));
-    }
-  }, []);
-
-  return allItems.length > 0 && types ? (
-    <div className="search-section">
+  return (
+    <div className={className}>
       <input
         className="search-box"
         type="text"
@@ -31,7 +25,7 @@ const SearchSection = ({
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
-      {types.length > 0 && (
+      {types?.length > 0 && (
         <ComboBox
           placeholder="Types"
           allOptions={types.map((type) => type.name)}
@@ -40,7 +34,7 @@ const SearchSection = ({
         />
       )}
 
-      {types.length > 0 && (
+      {showRelatedOptions && allItems?.length > 0 && (
         <ComboBox
           placeholder="Related Elements"
           allOptions={allItems.map((element) => element.name)}
@@ -51,8 +45,6 @@ const SearchSection = ({
 
       <ViewSelect viewType={viewType} setViewType={setViewType} />
     </div>
-  ) : (
-    <p>Loading...</p>
   );
 };
 
