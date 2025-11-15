@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 
 import ExternalCollections from "./components/pages/external-collections/ExternalCollections";
-import UnifiedCollectionDetails from "./components/pages/collections/UnifiedCollectionDetails";
+import CollectionDetails from "./components/pages/collections/CollectionDetails";
 import Item from "./components/pages/ItemDetails";
 import Type from "./components/pages/TypeDetails";
 import NoPage from "./components/pages/NoPage";
@@ -48,7 +48,7 @@ function App() {
             path="collection/:id"
             element={
               isAuthenticated ? (
-                <UnifiedCollectionDetails isExternal={false} />
+                <CollectionDetails isExternal={false} />
               ) : (
                 <Navigate to="/login" />
               )
@@ -56,7 +56,7 @@ function App() {
           />
           <Route
             path="external-collection/:id"
-            element={<UnifiedCollectionDetails isExternal={true} />}
+            element={<CollectionDetails isExternal={true} />}
           />
           <Route
             path="/item/:id"

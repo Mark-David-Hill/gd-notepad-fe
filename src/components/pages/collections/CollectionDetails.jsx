@@ -3,8 +3,6 @@ import { useParams, useLocation } from "react-router-dom";
 
 import AddColorSchemeForm from "../../forms/AddColorSchemeForm";
 import CollectionTabSelect from "./CollectionTabSelect";
-import ItemsList from "../../item-cards/ItemsList";
-import CollectionOverview from "./CollectionOverview";
 import AddItemForm from "../../forms/AddItemForm";
 import AddTypeForm from "../../forms/AddTypeForm";
 import ItemCard from "../../item-cards/ItemCard";
@@ -20,7 +18,7 @@ import useExternalCollectionData from "../../../hooks/useExternalCollectionData"
 const LIGHT_DETAIL_STYLE = "aurora";
 const DARK_DETAIL_STYLE = "noir";
 
-const UnifiedCollectionDetails = ({ isExternal = false }) => {
+const CollectionDetails = ({ isExternal = false }) => {
   const { id } = useParams();
   const location = useLocation();
   const { theme } = useContext(ThemeContext);
@@ -166,9 +164,9 @@ const UnifiedCollectionDetails = ({ isExternal = false }) => {
     );
   }
 
-  // Render hero section for external collections
+  // Render hero section for all collections
   const renderHeroSection = () => {
-    if (!isExternal) return null;
+    if (!collection) return null;
 
     const heroInitial = collection.name?.[0]?.toUpperCase() || "?";
     const summaryStats = [
@@ -204,7 +202,7 @@ const UnifiedCollectionDetails = ({ isExternal = false }) => {
               </div>
             ))}
           </div>
-          {collection.sheet_url && (
+          {isExternal && collection.sheet_url && (
             <a
               className="external-collection-details__hero-link"
               href={collection.sheet_url}
@@ -224,11 +222,7 @@ const UnifiedCollectionDetails = ({ isExternal = false }) => {
     return (
       <>
         <SearchSection
-          className={
-            isExternal
-              ? "search-section external-collection-details__search"
-              : "search-section"
-          }
+          className="search-section"
           types={types}
           viewType={viewType}
           setViewType={setViewType}
@@ -249,72 +243,54 @@ const UnifiedCollectionDetails = ({ isExternal = false }) => {
           />
         )}
 
-        <div
-          className={
-            isExternal ? "external-collection-details__panel" : "items-container"
-          }
-        >
+        <div className="collection-details__panel">
           <h2>Items</h2>
 
           <div
-            className={
-              isExternal
-                ? `external-collection-details__grid external-collection-details__grid--${viewType}`
-                : "items-wrapper"
-            }
+            className={`collection-details__grid collection-details__grid--${viewType}`}
           >
             {filteredItems.length === 0 ? (
-              <p
-                className={
-                  isExternal ? "external-collection-details__empty" : ""
-                }
-              >
+              <p className="collection-details__empty">
                 No items match your filters yet.
               </p>
-            ) : isExternal ? (
+            ) : (
               filteredItems.map((item, index) => {
-                const itemType = types.find((t) => t.type_id === item.type_id);
-                const colorScheme = itemType
-                  ? colorSchemes.find(
-                      (cs) => cs.color_scheme_id === itemType.color_scheme_id
-                    )
-                  : null;
+                const itemType = isExternal
+                  ? types.find((t) => t.type_id === item.type_id)
+                  : item.type;
+                const colorScheme = isExternal
+                  ? itemType
+                    ? colorSchemes.find(
+                        (cs) => cs.color_scheme_id === itemType.color_scheme_id
+                      )
+                    : null
+                  : itemType?.color_scheme;
 
-                const itemWithImage = {
-                  ...item,
-                  image_url: item.image_url || itemType?.image_url || "",
-                };
+                const itemWithImage = isExternal
+                  ? {
+                      ...item,
+                      image_url: item.image_url || itemType?.image_url || "",
+                    }
+                  : item;
 
                 return (
                   <ItemCard
                     key={item.item_id || index}
                     itemData={itemWithImage}
                     itemType="item"
-                    pageRoute={null}
+                    pageRoute={isExternal ? null : "item"}
                     colorScheme={colorScheme}
                     typeImageUrl={itemType?.image_url}
                     viewType={viewType}
                     types={types}
-                    isExternal={true}
-                    relationships={relationships}
-                    items={items}
-                    colorSchemes={colorSchemes}
+                    isExternal={isExternal}
+                    relationships={isExternal ? relationships : undefined}
+                    items={isExternal ? items : undefined}
+                    colorSchemes={isExternal ? colorSchemes : undefined}
+                    setItems={!isExternal ? setItems : undefined}
                   />
                 );
               })
-            ) : (
-              <ItemsList
-                collectionId={currentCollectionId}
-                itemsList={items}
-                setItems={setItems}
-                currentRelationships={selectedElements}
-                viewType={viewType}
-                searchTerm={searchTerm}
-                currentTypes={selectedTypes}
-                currentCollections={[collection]}
-                currentRelatedElements={selectedElements}
-                types={types}
-              />
             )}
           </div>
         </div>
@@ -325,11 +301,7 @@ const UnifiedCollectionDetails = ({ isExternal = false }) => {
   // Render types tab content
   const renderTypesTab = () => {
     return (
-      <div
-        className={
-          isExternal ? "external-collection-details__panel" : "items-container"
-        }
-      >
+      <div className="collection-details__panel">
         {!isExternal && authInfo && (
           <AddTypeForm collectionId={id} setTypes={setTypes} />
         )}
@@ -340,13 +312,9 @@ const UnifiedCollectionDetails = ({ isExternal = false }) => {
 
         <h2>Types</h2>
 
-        <div
-          className={
-            isExternal ? "external-collection-details__grid" : "items-wrapper"
-          }
-        >
+        <div className="collection-details__grid">
           {types.length === 0 ? (
-            <p className={isExternal ? "external-collection-details__empty" : ""}>
+            <p className="collection-details__empty">
               No types available.
             </p>
           ) : (
@@ -382,7 +350,7 @@ const UnifiedCollectionDetails = ({ isExternal = false }) => {
   const renderNotesTab = () => {
     if (notes.length === 0) {
       return (
-        <p className={isExternal ? "external-collection-details__empty" : ""}>
+        <p className="collection-details__empty">
           No notes available yet.
         </p>
       );
@@ -394,26 +362,14 @@ const UnifiedCollectionDetails = ({ isExternal = false }) => {
   const renderContent = () => {
     if (loading) {
       return (
-        <p
-          className={
-            isExternal ? "external-collection-details__loading" : ""
-          }
-        >
-          {isExternal ? "Loading collection..." : "Loading..."}
+        <p className="collection-details__loading">
+          Loading collection...
         </p>
       );
     }
 
     return (
       <div className="collection-wrapper">
-        {!isExternal && (
-          <CollectionOverview
-            collectionData={collection}
-            types={types}
-            items={items}
-          />
-        )}
-
         {currentTab === "items" && items.length > 0 && renderItemsTab()}
         {currentTab === "types" && renderTypesTab()}
         {currentTab === "notes" && renderNotesTab()}
@@ -423,28 +379,20 @@ const UnifiedCollectionDetails = ({ isExternal = false }) => {
 
   // Main render
   const containerClassName = isExternal
-    ? `collection-container external-collection-details external-collection-details--${detailStyle}`
-    : "collection-container";
-
-  const tabsClassName = isExternal
-    ? "view-select-wrapper external-collection-details__tabs"
-    : "view-select-wrapper";
-
-  const contentContainerClassName = isExternal
-    ? "external-collection-details__content"
-    : "";
+    ? `collection-container collection-details collection-details--${detailStyle}`
+    : "collection-container collection-details";
 
   return (
     <div className={containerClassName}>
       {renderHeroSection()}
       {error ? (
-        <p className="external-collection-details__alert">Error: {error}</p>
+        <p className="collection-details__alert">Error: {error}</p>
       ) : (
-        <div className={contentContainerClassName || undefined}>
+        <div className="collection-details__content">
           <CollectionTabSelect
             currentTab={currentTab}
             setCurrentTab={setCurrentTab}
-            className={tabsClassName}
+            className="view-select-wrapper"
           />
           {renderContent()}
         </div>
@@ -453,5 +401,5 @@ const UnifiedCollectionDetails = ({ isExternal = false }) => {
   );
 };
 
-export default UnifiedCollectionDetails;
+export default CollectionDetails;
 
