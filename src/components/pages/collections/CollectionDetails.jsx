@@ -1,5 +1,6 @@
 import { useEffect, useContext, useMemo } from "react";
 import { useParams, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import AddColorSchemeForm from "../../forms/AddColorSchemeForm";
 import CollectionTabSelect from "./CollectionTabSelect";
@@ -77,13 +78,15 @@ const CollectionDetails = ({ isExternal = false }) => {
   const collection = isExternal ? externalCollectionData : internalCollection;
   const items = isExternal ? externalItems : internalItems;
   const types = isExternal ? externalTypes : internalTypes;
-  const relationships = isExternal ? externalRelationships : internalRelationships;
+  const relationships = isExternal
+    ? externalRelationships
+    : internalRelationships;
   const notes = isExternal ? externalNotes : internalNotes;
   const colorSchemes = isExternal ? externalColorSchemes : [];
   const setItems = isExternal ? null : setInternalItems;
   const setTypes = isExternal ? null : setInternalTypes;
 
-  const loading = isExternal ? externalLoading : !Boolean(collection && items);
+  const loading = isExternal ? externalLoading : !(collection && items);
   const error = isExternal ? externalError : null;
 
   const {
@@ -202,7 +205,7 @@ const CollectionDetails = ({ isExternal = false }) => {
               </div>
             ))}
           </div>
-          {isExternal && collection.sheet_url && (
+          {isExternal && collection.sheet_url && authInfo && (
             <a
               className="external-collection-details__hero-link"
               href={collection.sheet_url}
@@ -314,9 +317,7 @@ const CollectionDetails = ({ isExternal = false }) => {
 
         <div className="collection-details__grid">
           {types.length === 0 ? (
-            <p className="collection-details__empty">
-              No types available.
-            </p>
+            <p className="collection-details__empty">No types available.</p>
           ) : (
             types.map((type) => {
               const colorScheme = isExternal
@@ -350,9 +351,7 @@ const CollectionDetails = ({ isExternal = false }) => {
   const renderNotesTab = () => {
     if (notes.length === 0) {
       return (
-        <p className="collection-details__empty">
-          No notes available yet.
-        </p>
+        <p className="collection-details__empty">No notes available yet.</p>
       );
     }
     return <NotesDisplay notes={notes} items={items} />;
@@ -362,9 +361,7 @@ const CollectionDetails = ({ isExternal = false }) => {
   const renderContent = () => {
     if (loading) {
       return (
-        <p className="collection-details__loading">
-          Loading collection...
-        </p>
+        <p className="collection-details__loading">Loading collection...</p>
       );
     }
 
@@ -401,5 +398,8 @@ const CollectionDetails = ({ isExternal = false }) => {
   );
 };
 
-export default CollectionDetails;
+CollectionDetails.propTypes = {
+  isExternal: PropTypes.bool,
+};
 
+export default CollectionDetails;
