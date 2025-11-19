@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import PropTypes from "prop-types";
 
 import fetchWrapper from "../../lib/apiCall";
 
@@ -126,6 +127,11 @@ const AddTypeForm = ({ collectionId, setTypes }) => {
       />
     </div>
   );
+};
+
+AddTypeForm.propTypes = {
+  collectionId: PropTypes.string.isRequired,
+  setTypes: PropTypes.func.isRequired,
 };
 
 export default AddTypeForm;

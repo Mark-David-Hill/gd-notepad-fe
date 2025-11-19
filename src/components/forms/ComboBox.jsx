@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faTimes } from "@fortawesome/free-solid-svg-icons";
 
@@ -210,6 +211,13 @@ const ComboBox = ({
       )}
     </div>
   );
+};
+
+ComboBox.propTypes = {
+  placeholder: PropTypes.string.isRequired,
+  allOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  currentOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setCurrentOptions: PropTypes.func.isRequired,
 };
 
 export default ComboBox;

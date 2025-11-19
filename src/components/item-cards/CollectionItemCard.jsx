@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import ItemCard from "./ItemCard";
 
 const CollectionItemCard = ({
@@ -23,6 +24,16 @@ const CollectionItemCard = ({
       types={types}
     />
   );
+};
+
+CollectionItemCard.propTypes = {
+  itemData: PropTypes.object.isRequired,
+  setItems: PropTypes.func.isRequired,
+  colorScheme: PropTypes.object,
+  typeImageUrl: PropTypes.string,
+  pageRoute: PropTypes.string,
+  viewType: PropTypes.string,
+  types: PropTypes.array,
 };
 
 export default CollectionItemCard;

@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const NotesDisplay = ({ notes, items }) => {
   if (!notes || notes.length === 0) {
     return (
@@ -54,6 +56,11 @@ const NotesDisplay = ({ notes, items }) => {
       </div>
     </div>
   );
+};
+
+NotesDisplay.propTypes = {
+  notes: PropTypes.array,
+  items: PropTypes.array.isRequired,
 };
 
 export default NotesDisplay;

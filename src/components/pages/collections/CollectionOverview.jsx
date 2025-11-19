@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import ItemCard from "../../item-cards/ItemCard";
 
 export default function CollectionOverview({ collectionData, types, items }) {
@@ -9,3 +10,9 @@ export default function CollectionOverview({ collectionData, types, items }) {
     </div>
   );
 }
+
+CollectionOverview.propTypes = {
+  collectionData: PropTypes.object.isRequired,
+  types: PropTypes.array,
+  items: PropTypes.array,
+};

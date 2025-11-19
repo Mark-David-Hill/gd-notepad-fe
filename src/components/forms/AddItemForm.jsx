@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import PropTypes from "prop-types";
 
 import fetchWrapper from "../../lib/apiCall";
 import { AuthContext } from "../context/AuthContextProvider";
@@ -111,6 +112,12 @@ const AddItemForm = ({ types, collectionId, setItems }) => {
       />
     </div>
   );
+};
+
+AddItemForm.propTypes = {
+  types: PropTypes.array.isRequired,
+  collectionId: PropTypes.string.isRequired,
+  setItems: PropTypes.func.isRequired,
 };
 
 export default AddItemForm;

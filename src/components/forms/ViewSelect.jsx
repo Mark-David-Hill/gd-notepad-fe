@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const ViewSelect = ({ viewType, setViewType }) => {
   return (
     <div className="view-select-wrapper">
@@ -21,6 +23,11 @@ const ViewSelect = ({ viewType, setViewType }) => {
       </button>
     </div>
   );
+};
+
+ViewSelect.propTypes = {
+  viewType: PropTypes.string.isRequired,
+  setViewType: PropTypes.func.isRequired,
 };
 
 export default ViewSelect;

@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const DEFAULT_TABS = [
   { id: "items", label: "Items" },
   { id: "types", label: "Types" },
@@ -22,5 +24,17 @@ const CollectionTabSelect = ({
     ))}
   </div>
 );
+
+CollectionTabSelect.propTypes = {
+  currentTab: PropTypes.string.isRequired,
+  setCurrentTab: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  tabs: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })
+  ),
+};
 
 export default CollectionTabSelect;

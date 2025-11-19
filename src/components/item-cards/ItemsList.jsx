@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import PropTypes from "prop-types";
 
 import CollectionItemCard from "./CollectionItemCard";
 
@@ -73,6 +74,16 @@ const ItemsList = ({
       )}
     </div>
   );
+};
+
+ItemsList.propTypes = {
+  itemsList: PropTypes.array.isRequired,
+  setItems: PropTypes.func.isRequired,
+  currentRelationships: PropTypes.array,
+  viewType: PropTypes.string.isRequired,
+  searchTerm: PropTypes.string,
+  currentTypes: PropTypes.array.isRequired,
+  types: PropTypes.array.isRequired,
 };
 
 export default ItemsList;

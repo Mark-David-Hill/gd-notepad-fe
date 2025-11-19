@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import PropTypes from "prop-types";
 
 import SquareView from "./SquareView";
 import CardView from "./CardView";
@@ -81,6 +82,21 @@ const ItemCard = ({
       {ViewComponent ? <ViewComponent {...sharedProps} /> : null}
     </div>
   );
+};
+
+ItemCard.propTypes = {
+  viewType: PropTypes.string,
+  setItems: PropTypes.func,
+  itemType: PropTypes.string.isRequired,
+  pageRoute: PropTypes.string,
+  colorScheme: PropTypes.object,
+  typeImageUrl: PropTypes.string,
+  itemData: PropTypes.object.isRequired,
+  types: PropTypes.array,
+  isExternal: PropTypes.bool,
+  relationships: PropTypes.array,
+  items: PropTypes.array,
+  colorSchemes: PropTypes.array,
 };
 
 export default ItemCard;
