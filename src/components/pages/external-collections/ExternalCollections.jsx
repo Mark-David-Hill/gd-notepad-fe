@@ -1,11 +1,8 @@
 import { useEffect, useContext, useMemo, useState } from "react";
-import { NavLink } from "react-router-dom";
-import PropTypes from "prop-types";
 
-import ItemCard from "../../item-cards/ItemCard";
+import CollectionCard from "../collections/CollectionCard";
 import useFetch from "../../../hooks/useFetch";
 
-import { CollectionContext } from "../../context/CollectionContextProvider";
 import { ThemeContext } from "../../context/ThemeContextProvider";
 import { AuthContext } from "../../context/AuthContextProvider";
 
@@ -36,63 +33,7 @@ const extractImageUrl = (url) => {
   return url;
 };
 
-// Custom card view for external collections
-const CARD_VARIANTS = [LIGHT_MODE_VARIANT, DARK_MODE_VARIANT];
-
-const ExternalCollectionCard = ({ collection, variant }) => {
-  const cardVariant = CARD_VARIANTS.includes(variant)
-    ? variant
-    : LIGHT_MODE_VARIANT;
-
-  const placeholderLetter = collection.name?.[0]?.toUpperCase() || "?";
-
-  return (
-    <article
-      className={`external-collection-card external-collection-card--${cardVariant}`}
-    >
-      <div className="external-collection-card__media">
-        {collection.image_url ? (
-          <img
-            src={collection.image_url}
-            alt={`${collection.name} cover art`}
-            loading="lazy"
-          />
-        ) : (
-          <div
-            aria-hidden="true"
-            className="external-collection-card__placeholder"
-          >
-            {placeholderLetter}
-          </div>
-        )}
-      </div>
-      <div className="external-collection-card__content">
-        <h3>{collection.name}</h3>
-        {collection.description && <p>{collection.description}</p>}
-        {collection.sheet_url && (
-          <NavLink
-            className="external-collection-card__link"
-            to={`/external-collection/${collection.collection_id}`}
-            state={{ collection }}
-          >
-            View External Collection
-          </NavLink>
-        )}
-      </div>
-    </article>
-  );
-};
-
-ExternalCollectionCard.propTypes = {
-  collection: PropTypes.shape({
-    collection_id: PropTypes.string,
-    name: PropTypes.string,
-    description: PropTypes.string,
-    image_url: PropTypes.string,
-    sheet_url: PropTypes.string,
-  }).isRequired,
-  variant: PropTypes.oneOf(CARD_VARIANTS).isRequired,
-};
+// No longer needed - using unified CollectionCard component
 
 const ExternalCollections = () => {
   const [externalCollections, setExternalCollections] = useState([]);
@@ -100,7 +41,6 @@ const ExternalCollections = () => {
   const [error, setError] = useState(null);
 
   const { authInfo } = useContext(AuthContext);
-  const { types } = useContext(CollectionContext);
   const { theme } = useContext(ThemeContext);
   const { data: internalCollections = [], loading: internalLoading } =
     useFetch("/collections");
@@ -216,10 +156,11 @@ const ExternalCollections = () => {
           ) : (
             <div className="collections-wrapper external-collections__grid">
               {externalCollections.map((collection) => (
-                <ExternalCollectionCard
+                <CollectionCard
                   key={collection.collection_id || collection.name}
                   collection={collection}
                   variant={cardStyle}
+                  isExternal={true}
                 />
               ))}
             </div>
@@ -233,14 +174,13 @@ const ExternalCollections = () => {
             {internalLoading ? (
               <p>Loading internal collections...</p>
             ) : (
-              <div className="collections-wrapper">
+              <div className="collections-wrapper external-collections__grid">
                 {internalCollections.map((collection) => (
-                  <ItemCard
+                  <CollectionCard
                     key={collection.collection_id}
-                    itemData={collection}
-                    itemType="collection"
-                    pageRoute="collection"
-                    types={types}
+                    collection={collection}
+                    variant={cardStyle}
+                    isExternal={false}
                   />
                 ))}
               </div>
@@ -250,6 +190,10 @@ const ExternalCollections = () => {
       </div>
     </section>
   );
+};
+
+ExternalCollections.propTypes = {
+  // This component does not accept any props
 };
 
 export default ExternalCollections;
