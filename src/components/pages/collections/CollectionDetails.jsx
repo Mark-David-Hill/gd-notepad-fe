@@ -375,9 +375,7 @@ const CollectionDetails = ({ isExternal = false }) => {
   };
 
   // Main render
-  const containerClassName = isExternal
-    ? `collection-container collection-details collection-details--${detailStyle}`
-    : "collection-container collection-details";
+  const containerClassName = `collection-container collection-details collection-details--${detailStyle}`;
 
   return (
     <div className={containerClassName}>

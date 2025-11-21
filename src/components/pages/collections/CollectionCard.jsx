@@ -67,3 +67,5 @@ CollectionCard.propTypes = {
 
 export default CollectionCard;
 
+
+
