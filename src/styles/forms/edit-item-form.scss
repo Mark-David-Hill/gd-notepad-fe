@@ -9,9 +9,9 @@
   input,
   select,
   textarea {
-    width: 450px !important;
-    max-width: 450px !important;
-    box-sizing: border-box !important;
+    width: 450px;
+    max-width: 450px;
+    box-sizing: border-box;
   }
 
   h3 {
@@ -43,7 +43,7 @@
     label {
       font-size: 12px;
       font-weight: 500;
-      color: #333;
+      color: var(--text-primary);
       text-align: left;
     }
   }
@@ -51,17 +51,18 @@
   select,
   input,
   textarea {
-    width: 450px !important;
+    width: 450px;
     padding: 6px 8px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     font-size: 12px;
-    background-color: white;
+    background-color: var(--surface-card);
+    color: var(--text-primary);
 
     &:focus {
       outline: none;
-      border-color: #007bff;
-      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+      border-color: var(--accent);
+      box-shadow: var(--focus-ring);
     }
   }
 
@@ -76,7 +77,7 @@
     justify-content: flex-end;
     margin-top: 12px;
     padding-top: 10px;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--border-color);
 
     button {
       padding: 6px 12px;
@@ -89,21 +90,21 @@
       min-width: 60px;
 
       &:first-child {
-        background-color: #6c757d;
-        color: white;
+        background-color: var(--text-secondary);
+        color: var(--text-inverse);
 
         &:hover {
-          background-color: #5a6268;
+          background-color: var(--text-primary);
           transform: translateY(-1px);
         }
       }
 
       &:last-child {
-        background-color: #007bff;
-        color: white;
+        background-color: var(--accent);
+        color: var(--accent-contrast);
 
         &:hover {
-          background-color: #0056b3;
+          background-color: var(--accent-strong);
           transform: translateY(-1px);
         }
       }

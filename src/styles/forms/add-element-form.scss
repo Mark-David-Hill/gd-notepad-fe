@@ -13,7 +13,8 @@
     gap: 5px;
     width: 40%;
     padding: 20px;
-    border: 1px solid blue;
-    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--surface-card);
   }
 }

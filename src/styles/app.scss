@@ -1,11 +1,3 @@
-html,
-body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
 #root {
   min-height: 100dvh;
 }
@@ -19,13 +11,10 @@ body {
   background: transparent;
 }
 
-.app-container h1,
-.app-container h2,
-.app-container h3,
-.app-container h4,
-.app-container h5,
-.app-container h6 {
-  color: inherit;
+.app-container {
+  h1, h2, h3, h4, h5, h6 {
+    color: inherit;
+  }
 }
 
 .app-container > .items-container {

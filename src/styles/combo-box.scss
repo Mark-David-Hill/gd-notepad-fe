@@ -1,12 +1,12 @@
 .combo-box-container {
   position: relative;
   width: 250px;
-  font-family: Arial, sans-serif;
+  font-family: inherit;
   margin: 10px;
 
   &:focus {
     outline: none;
-    border: 1px solid #007bff;
+    border: 1px solid var(--accent);
     border-radius: 4px;
   }
 
@@ -17,7 +17,7 @@
   }
 
   input {
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     font-size: 14px;
     padding: 10px 30px 10px 10px;
@@ -25,14 +25,17 @@
     box-sizing: border-box;
     outline: none;
     transition: border-color 0.2s ease;
+    background: var(--surface-card);
+    color: var(--text-primary);
 
     &::placeholder {
-      color: #aaa;
+      color: var(--text-secondary);
       font-style: italic;
     }
 
     &:focus {
-      border-color: #007bff;
+      border-color: var(--accent);
+      box-shadow: var(--focus-ring);
     }
   }
 
@@ -41,7 +44,7 @@
     right: 10px;
     cursor: pointer;
     font-size: 16px;
-    color: #555;
+    color: var(--text-secondary);
   }
 
   .combo-box-options {
@@ -51,53 +54,54 @@
     right: 0;
     max-height: 200px;
     overflow-y: auto;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
-    background-color: white;
+    background-color: var(--surface-card);
     z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
 
     .combo-box-option {
       padding: 10px;
       font-size: 14px;
       cursor: pointer;
       transition: background-color 0.2s ease;
+      color: var(--text-primary);
 
       &:hover {
-        background-color: #e4e4e4;
+        background-color: var(--surface-hover);
       }
 
       &.selected {
-        background-color: #007bff;
-        color: white;
+        background-color: var(--accent);
+        color: var(--accent-contrast);
 
         &:hover {
-          background-color: #0056b3;
+          background-color: var(--accent-strong);
         }
       }
 
       &.focused {
-        background-color: #e4e4e4;
-        border: 1px solid #002d5d;
+        background-color: var(--surface-hover);
+        border: 1px solid var(--accent);
         outline: none;
 
         &.selected {
-          background-color: #459fff;
+          background-color: var(--accent-strong);
         }
       }
     }
 
     .combo-box-option.no-results {
-      color: #888;
+      color: var(--text-secondary);
       font-style: italic;
 
       &:hover {
-        background-color: white;
+        background-color: var(--surface-card);
       }
     }
 
     .select-all {
-      background-color: #beddff;
+      background-color: var(--accent-soft);
     }
   }
 }
