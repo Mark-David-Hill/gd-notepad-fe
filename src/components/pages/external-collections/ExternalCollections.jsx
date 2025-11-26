@@ -106,26 +106,13 @@ const ExternalCollections = () => {
 
           // Extract actual image URL from Google imgres URLs
           if (obj.image_url) {
-            const extractedUrl = extractImageUrl(obj.image_url);
-            console.log(`Image URL transformation for ${obj.name}:`, {
-              original: obj.image_url,
-              extracted: extractedUrl,
-            });
-            obj.image_url = extractedUrl;
+            obj.image_url = extractImageUrl(obj.image_url);
           }
 
           return obj;
         });
 
         setExternalCollections(data);
-        console.log("External Collections Data:", data);
-        console.log(
-          "Sample image URLs:",
-          data.slice(0, 3).map((d) => ({
-            name: d.name,
-            image_url: d.image_url,
-          }))
-        );
         setError(null);
       } catch (err) {
         console.error("Error fetching Google Sheet data:", err);

@@ -7,15 +7,6 @@ const RelationshipCard = ({
   headerColor,
   textColor,
 }) => {
-  // Debug logging
-  console.log("RelationshipCard received colors:", {
-    backgroundGradient,
-    backgroundColor,
-    headerColor,
-    textColor,
-    element: element.name,
-  });
-
   // Determine if backgroundGradient is a CSS gradient or a plain color
   // If backgroundColor is provided, use it; otherwise fall back to backgroundGradient
   const cardBackground = backgroundColor

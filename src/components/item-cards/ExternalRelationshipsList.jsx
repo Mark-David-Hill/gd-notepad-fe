@@ -9,14 +9,6 @@ const ExternalRelationshipsList = ({
   items,
   colorSchemes,
 }) => {
-  // Debug logging
-  console.log("ExternalRelationshipsList received:", {
-    itemData: itemData?.name,
-    relationshipsCount: relationships?.length,
-    typesCount: types?.length,
-    itemsCount: items?.length,
-    colorSchemesCount: colorSchemes?.length,
-  });
   const getRelatedElement = (relationship, itemData) => {
     return relationship.item_1_id === itemData.item_id
       ? items.find((item) => item.item_id === relationship.item_2_id)
@@ -76,13 +68,6 @@ const ExternalRelationshipsList = ({
                       const relatedItemColorScheme =
                         getColorSchemeForType(relatedType);
 
-                      // Debug logging
-                      console.log("Relationship Color Debug:", {
-                        relatedType,
-                        relatedItemColorScheme,
-                        colorSchemes,
-                      });
-
                       // Use only the related item's color (no gradient in row view)
                       let backgroundColor = "#e6f2ff"; // Default
                       let headerColor = "#3b82f6"; // Default (darker for header)
@@ -98,14 +83,6 @@ const ExternalRelationshipsList = ({
                         textColor =
                           relatedItemColorScheme.text_color || "#1e40af";
                       }
-
-                      // Debug the final colors
-                      console.log("Final Colors:", {
-                        backgroundColor,
-                        headerColor,
-                        textColor,
-                        relationship: relationship.description,
-                      });
 
                       // Create a mock element object that matches the expected structure
                       // Use type's image_url as fallback if item doesn't have one

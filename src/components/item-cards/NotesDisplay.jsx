@@ -26,7 +26,6 @@ const NotesDisplay = ({ notes, items }) => {
       <div className="notes-wrapper">
         {Object.entries(notesByItem).map(([itemId, itemNotes]) => {
           const item = items.find(i => i.item_id === itemId);
-          console.log('Found item for notes:', item);
           if (!item) return null;
           
           // Get the type image URL as fallback

@@ -97,14 +97,6 @@ const useExternalCollectionData = (collectionData) => {
         setRelationships(relationshipsData);
         setNotes(notesData);
 
-        console.log(`External Collection "${collectionData.name}" Data:`, {
-          items: itemsData,
-          types: typesData,
-          colorSchemes: colorSchemesData,
-          relationships: relationshipsData,
-          notes: notesData,
-        });
-
         setError(null);
       } catch (err) {
         console.error("Error fetching external collection data:", err);
