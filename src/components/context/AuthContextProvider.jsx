@@ -1,4 +1,5 @@
 import { useState, createContext, useEffect } from "react";
+import PropTypes from "prop-types";
 
 import fetchWrapper from "../../lib/apiCall";
 
@@ -72,3 +73,7 @@ export default function AuthContextProvider({ children }) {
     </AuthContext.Provider>
   );
 }
+
+AuthContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};

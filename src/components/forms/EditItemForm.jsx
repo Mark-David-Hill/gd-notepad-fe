@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
 import fetchWrapper from "../../lib/apiCall";
 import { getColor } from "../../util/getColor";
@@ -133,6 +134,16 @@ const EditItemForm = ({
       </div>
     </div>
   );
+};
+
+EditItemForm.propTypes = {
+  itemData: PropTypes.object.isRequired,
+  itemType: PropTypes.string.isRequired,
+  types: PropTypes.array.isRequired,
+  colorScheme: PropTypes.object,
+  onSave: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onPreviewUpdate: PropTypes.func,
 };
 
 export default EditItemForm;

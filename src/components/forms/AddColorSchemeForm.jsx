@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import PropTypes from "prop-types";
 
 import fetchWrapper from "../../lib/apiCall";
 import { AuthContext } from "../context/AuthContextProvider";
@@ -118,6 +119,10 @@ const AddColorSchemeForm = ({ setColorSchemes }) => {
       />
     </div>
   );
+};
+
+AddColorSchemeForm.propTypes = {
+  setColorSchemes: PropTypes.func.isRequired,
 };
 
 export default AddColorSchemeForm;

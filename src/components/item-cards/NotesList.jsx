@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const NotesList = ({ itemData }) => {
   return (
     itemData.notes.length > 0 && (
@@ -9,6 +11,10 @@ const NotesList = ({ itemData }) => {
       </div>
     )
   );
+};
+
+NotesList.propTypes = {
+  itemData: PropTypes.object.isRequired,
 };
 
 export default NotesList;

@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import { useItemDeletion } from "../../hooks/useItemActions";
 import { getColor } from "../../util/getColor";
@@ -116,6 +117,16 @@ const CardView = ({
       </div>
     </div>
   );
+};
+
+CardView.propTypes = {
+  itemData: PropTypes.object.isRequired,
+  setItems: PropTypes.func.isRequired,
+  itemType: PropTypes.string.isRequired,
+  pageRoute: PropTypes.string,
+  colorScheme: PropTypes.object,
+  isEditable: PropTypes.bool,
+  types: PropTypes.array.isRequired,
 };
 
 export default CardView;

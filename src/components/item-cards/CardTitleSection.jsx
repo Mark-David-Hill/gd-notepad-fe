@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const CardTitleSection = ({
   itemData,
@@ -43,6 +44,14 @@ const CardTitleSection = ({
       </div>
     )
   );
+};
+
+CardTitleSection.propTypes = {
+  itemData: PropTypes.object.isRequired,
+  itemType: PropTypes.string.isRequired,
+  pageRoute: PropTypes.string,
+  colorScheme: PropTypes.object,
+  typeImageUrl: PropTypes.string,
 };
 
 export default CardTitleSection;

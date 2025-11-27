@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const RelationshipCard = ({
   element,
   description,
@@ -102,6 +104,16 @@ const RelationshipCard = ({
       </div>
     </div>
   );
+};
+
+RelationshipCard.propTypes = {
+  element: PropTypes.object.isRequired,
+  description: PropTypes.string,
+  count: PropTypes.number,
+  backgroundGradient: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  headerColor: PropTypes.string,
+  textColor: PropTypes.string,
 };
 
 export default RelationshipCard;

@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 import { useItemNavigation } from "../../hooks/useItemActions";
 import { getColor } from "../../util/getColor";
 
@@ -21,6 +23,13 @@ const SquareView = ({ itemData, pageRoute, colorScheme, id }) => {
       </div>
     </div>
   );
+};
+
+SquareView.propTypes = {
+  itemData: PropTypes.object.isRequired,
+  pageRoute: PropTypes.string,
+  colorScheme: PropTypes.object,
+  id: PropTypes.string.isRequired,
 };
 
 export default SquareView;

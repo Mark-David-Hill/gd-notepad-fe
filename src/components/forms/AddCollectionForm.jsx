@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import PropTypes from "prop-types";
 
 import ItemCard from "../item-cards/ItemCard";
 import fetchWrapper from "../../lib/apiCall";
@@ -88,6 +89,10 @@ const AddCollectionForm = ({ setCollections }) => {
       />
     </div>
   );
+};
+
+AddCollectionForm.propTypes = {
+  setCollections: PropTypes.func.isRequired,
 };
 
 export default AddCollectionForm;

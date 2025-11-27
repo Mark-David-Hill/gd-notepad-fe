@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import RelationshipsList from "./RelationshipsList";
 import NotesList from "./NotesList";
@@ -53,6 +54,14 @@ const PageView = ({
       </div>
     </div>
   );
+};
+
+PageView.propTypes = {
+  itemData: PropTypes.object.isRequired,
+  itemType: PropTypes.string.isRequired,
+  pageRoute: PropTypes.string,
+  colorScheme: PropTypes.object,
+  typeImageUrl: PropTypes.string,
 };
 
 export default PageView;

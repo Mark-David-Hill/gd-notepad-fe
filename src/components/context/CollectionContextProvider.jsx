@@ -1,4 +1,5 @@
 import { useState, createContext, useEffect } from "react";
+import PropTypes from "prop-types";
 
 import fetchWrapper from "../../lib/apiCall";
 
@@ -82,3 +83,7 @@ export default function CollectionContextProvider({ children }) {
     </CollectionContext.Provider>
   );
 }
+
+CollectionContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};

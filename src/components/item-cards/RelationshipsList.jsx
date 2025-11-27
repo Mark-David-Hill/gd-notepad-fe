@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import PropTypes from "prop-types";
 
 import RelationshipCard from "./RelationshipCard";
 
@@ -64,6 +65,10 @@ const RelationshipsList = ({ itemData }) => {
       </div>
     )
   );
+};
+
+RelationshipsList.propTypes = {
+  itemData: PropTypes.object.isRequired,
 };
 
 export default RelationshipsList;

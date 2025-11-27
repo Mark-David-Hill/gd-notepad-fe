@@ -179,8 +179,4 @@ const ExternalCollections = () => {
   );
 };
 
-ExternalCollections.propTypes = {
-  // This component does not accept any props
-};
-
 export default ExternalCollections;
