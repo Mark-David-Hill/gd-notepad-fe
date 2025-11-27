@@ -16,7 +16,7 @@ const CollectionCard = ({ collection, variant, isExternal = false }) => {
     ? `/external-collection/${collection.collection_id}`
     : `/collection/${collection.collection_id}`;
   
-  const linkText = isExternal ? "View External Collection" : "View Collection";
+  const linkText = "View Collection";
 
   return (
     <article

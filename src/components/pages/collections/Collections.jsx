@@ -19,7 +19,7 @@ const Collections = () => {
   return (
     <section className="items-container">
       <header className="collections-header">
-        <h1>Collections</h1>
+        <h1>{authInfo ? "GD Notepad" : "GD Notepad Collections"}</h1>
       </header>
       <div className="items-wrapper">
         {authInfo && (
