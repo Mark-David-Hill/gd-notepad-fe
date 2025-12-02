@@ -1,6 +1,8 @@
 import { useEffect, useContext, useMemo, useState } from "react";
 
 import CollectionCard from "../collections/CollectionCard";
+import LoadingSpinner from "../../common/LoadingSpinner";
+import ErrorMessage from "../../common/ErrorMessage";
 import useFetch from "../../../hooks/useFetch";
 
 import { ThemeContext } from "../../context/ThemeContextProvider";
@@ -42,8 +44,13 @@ const ExternalCollections = () => {
 
   const { authInfo } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
-  const { data: internalCollections = [], loading: internalLoading } =
+  const { data: internalCollections, loading: internalLoading } =
     useFetch("/collections");
+
+  // Ensure internalCollections is always an array
+  const safeInternalCollections = Array.isArray(internalCollections)
+    ? internalCollections
+    : [];
 
   const cardStyle = useMemo(
     () => (theme === "dark" ? DARK_MODE_VARIANT : LIGHT_MODE_VARIANT),
@@ -137,9 +144,9 @@ const ExternalCollections = () => {
             {authInfo && <h2>External Collections</h2>}
           </div>
           {loading ? (
-            <p>Loading external collections...</p>
+            <LoadingSpinner message="Loading external collections..." />
           ) : error ? (
-            <p>Error: {error}</p>
+            <ErrorMessage message={error} />
           ) : (
             <div className="collections-wrapper external-collections__grid">
               {externalCollections.map((collection) => (
@@ -159,10 +166,10 @@ const ExternalCollections = () => {
           <div>
             <h2>Internal Collections</h2>
             {internalLoading ? (
-              <p>Loading internal collections...</p>
+              <LoadingSpinner message="Loading internal collections..." />
             ) : (
               <div className="collections-wrapper external-collections__grid">
-                {internalCollections.map((collection) => (
+                {safeInternalCollections.map((collection) => (
                   <CollectionCard
                     key={collection.collection_id}
                     collection={collection}

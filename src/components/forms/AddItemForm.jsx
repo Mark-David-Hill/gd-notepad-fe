@@ -1,116 +1,86 @@
-import { useState, useContext } from "react";
 import PropTypes from "prop-types";
-
-import fetchWrapper from "../../lib/apiCall";
-import { AuthContext } from "../context/AuthContextProvider";
-
+import BaseAddForm from "./BaseAddForm";
 import CollectionItemCard from "../item-cards/CollectionItemCard";
+import LoadingSpinner from "../common/LoadingSpinner";
+
+const DEFAULT_IMAGE_URL =
+  "https://www.svgrepo.com/show/508699/landscape-placeholder.svg";
+
+const ItemPreview = ({ formData }) => (
+  <CollectionItemCard
+    itemData={{
+      description: formData.description || "",
+      name: formData.name || "",
+      image_url: formData.image_url || DEFAULT_IMAGE_URL,
+      type_id: formData.type_id || "",
+      notes: [],
+    }}
+    viewType="add"
+  />
+);
+
+ItemPreview.propTypes = {
+  formData: PropTypes.object.isRequired,
+};
 
 const AddItemForm = ({ types, collectionId, setItems }) => {
-  const { authInfo } = useContext(AuthContext);
-  const [addFormIsOpen, setAddFormIsOpen] = useState(false);
-  const [formName, setFormName] = useState("");
-  const [formImgUrl, setFormImgUrl] = useState("");
-  const [formDescription, setFormDescription] = useState("");
-  const [formTypeId, setFormTypeId] = useState("");
+  if (!types || !types.length) {
+    return <LoadingSpinner message="Loading types..." />;
+  }
 
-  const handleResetForm = () => {
-    setFormTypeId("");
-    setFormImgUrl("");
-    setFormName("");
-    setFormDescription("");
-  };
+  const fields = [
+    {
+      name: "collection_id",
+      type: "hidden",
+      defaultValue: collectionId,
+    },
+    {
+      name: "type_id",
+      label: "Type",
+      type: "select",
+      placeholder: "Select Type",
+      options: types.map((type) => ({
+        value: type.type_id,
+        label: type.name,
+      })),
+    },
+    {
+      name: "name",
+      label: "Name",
+      type: "text",
+      placeholder: "Name",
+      required: true,
+    },
+    {
+      name: "image_url",
+      label: "Image URL",
+      type: "text",
+      placeholder: "Image URL",
+    },
+    {
+      name: "description",
+      label: "Description",
+      type: "textarea",
+      placeholder: "Description",
+      required: true,
+    },
+  ];
 
-  const handleAddItem = () => {
-    if (formName && formDescription) {
-      const body = {
-        type_id: formTypeId,
-        collection_id: collectionId,
-        name: formName,
-        description: formDescription,
-        image_url: formImgUrl,
-      };
-
-      fetchWrapper
-        .apiCall(`/item`, "POST", body)
-        .then((response) => {
-          setItems((prev) => [...prev, response.result]);
-          handleResetForm();
-          setAddFormIsOpen(false);
-        })
-        .catch((error) => console.error("couldn't add item", error));
+  const handleSuccess = (result) => {
+    if (setItems && typeof setItems === "function") {
+      setItems((prev) => [...prev, result]);
     }
   };
 
-  if (!types || !types.length) {
-    return <p>Loading...</p>;
-  }
-
-  // Don't render anything if user is not authenticated
-  if (!authInfo) {
-    return null;
-  }
-
-  return !addFormIsOpen ? (
-    <button onClick={() => setAddFormIsOpen(true)}>Add Item</button>
-  ) : (
-    <div className="add-item-wrapper">
-      <div className="add-item-form">
-        <select
-          name="form-type"
-          onChange={(e) => setFormTypeId(e.target.value)}
-          value={formTypeId}
-        >
-          <option value="">Select Type</option>
-          {types &&
-            types.map((type) => (
-              <option key={type.type_id} value={type.type_id}>
-                {type.name}
-              </option>
-            ))}
-        </select>
-
-        <input
-          type="text"
-          placeholder="Name"
-          value={formName}
-          onChange={(e) => setFormName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Image URL"
-          value={formImgUrl}
-          onChange={(e) => setFormImgUrl(e.target.value)}
-        />
-        <textarea
-          placeholder="Description"
-          value={formDescription}
-          onChange={(e) => setFormDescription(e.target.value)}
-        ></textarea>
-
-        <button
-          onClick={() => {
-            setAddFormIsOpen(false);
-            handleResetForm();
-          }}
-        >
-          Cancel
-        </button>
-        <button onClick={handleAddItem}>Add Item</button>
-      </div>
-      <CollectionItemCard
-        itemData={{
-          description: formDescription,
-          name: formName,
-          image_url:
-            formImgUrl ||
-            "https://www.svgrepo.com/show/508699/landscape-placeholder.svg",
-          type_id: formTypeId,
-          notes: [],
-        }}
-        viewType="add"
-      />
-    </div>
+  return (
+    <BaseAddForm
+      endpoint="/item"
+      buttonText="Add Item"
+      fields={fields}
+      onSuccess={handleSuccess}
+      previewComponent={ItemPreview}
+      requiresAuth={true}
+    />
   );
 };
 

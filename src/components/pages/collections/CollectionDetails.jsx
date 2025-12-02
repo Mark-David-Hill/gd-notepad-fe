@@ -107,38 +107,46 @@ const CollectionDetails = ({ isExternal = false }) => {
     [theme]
   );
 
-  // Helper function to check if an item is related to selected elements
+  // Helper function to check if an item is related to ALL selected elements
   const isItemRelatedToSelected = (item) => {
     if (selectedElements.length === 0) return true;
 
     if (isExternal) {
       // External collections use flat relationship structure
-      return relationships.some((relationship) => {
-        const item1 = items.find((i) => i.item_id === relationship.item_1_id);
-        const item2 = items.find((i) => i.item_id === relationship.item_2_id);
+      // Check that item is related to ALL selected elements
+      return selectedElements.every((selectedName) => {
+        return relationships.some((relationship) => {
+          const item1 = items.find((i) => i.item_id === relationship.item_1_id);
+          const item2 = items.find((i) => i.item_id === relationship.item_2_id);
 
-        const isRelated =
-          (item.item_id === relationship.item_1_id &&
-            selectedElements.includes(item2?.name)) ||
-          (item.item_id === relationship.item_2_id &&
-            selectedElements.includes(item1?.name));
+          // Check if this relationship connects the item to the selected element
+          const isRelated =
+            (item.item_id === relationship.item_1_id &&
+              item2?.name === selectedName) ||
+            (item.item_id === relationship.item_2_id &&
+              item1?.name === selectedName);
 
-        return isRelated;
+          return isRelated;
+        });
       });
     } else {
       // Internal collections use nested relationship structure
-      return relationships.some((relationship) => {
-        if (!relationship.item_1 || !relationship.item_2) {
-          return false;
-        }
+      // Check that item is related to ALL selected elements
+      return selectedElements.every((selectedName) => {
+        return relationships.some((relationship) => {
+          if (!relationship.item_1 || !relationship.item_2) {
+            return false;
+          }
 
-        const isRelated =
-          (item.name === relationship.item_1.name &&
-            selectedElements.includes(relationship.item_2.name)) ||
-          (item.name === relationship.item_2.name &&
-            selectedElements.includes(relationship.item_1.name));
+          // Check if this relationship connects the item to the selected element
+          const isRelated =
+            (item.name === relationship.item_1.name &&
+              relationship.item_2.name === selectedName) ||
+            (item.name === relationship.item_2.name &&
+              relationship.item_1.name === selectedName);
 
-        return isRelated;
+          return isRelated;
+        });
       });
     }
   };
@@ -269,12 +277,11 @@ const CollectionDetails = ({ isExternal = false }) => {
                     : null
                   : itemType?.color_scheme;
 
-                const itemWithImage = isExternal
-                  ? {
-                      ...item,
-                      image_url: item.image_url || itemType?.image_url || "",
-                    }
-                  : item;
+                // Apply image fallback for both internal and external collections
+                const itemWithImage = {
+                  ...item,
+                  image_url: item.image_url || itemType?.image_url || "",
+                };
 
                 return (
                   <ItemCard

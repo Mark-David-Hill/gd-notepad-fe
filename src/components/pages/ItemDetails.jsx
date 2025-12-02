@@ -1,37 +1,51 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import CollectionItemCard from "../item-cards/CollectionItemCard";
-
-import fetchWrapper from "../../lib/apiCall";
+import LoadingSpinner from "../common/LoadingSpinner";
+import ErrorMessage from "../common/ErrorMessage";
+import useApi from "../../hooks/useApi";
 
 export default function Item() {
   const { id } = useParams();
-
-  const [elementData, setElementData] = useState(null);
+  const { data: elementData, loading, error, execute } = useApi(`/item/${id}`, {
+    method: "GET",
+    autoFetch: false,
+  });
 
   useEffect(() => {
-    fetchWrapper
-      .apiCall(`/item/${id}`, "GET")
-      .then((response) => {
-        setElementData(response.result);
-      })
-      .catch((error) => console.error(`couldn't retrieve game element`, error));
-  }, [id]);
+    execute();
+  }, [id, execute]);
 
+  if (loading) {
+    return (
+      <div className="game-element-container">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="game-element-container">
+        <ErrorMessage message={error} />
+      </div>
+    );
+  }
+
+  if (!elementData) {
+    return null;
+  }
+
+  // useApi already extracts result/results, so elementData is the item itself
   return (
     <div className="game-element-container">
-      {elementData ? (
-        <CollectionItemCard
-          itemData={elementData}
-          viewType="page"
-          colorScheme={elementData.type.colorScheme}
-          typeImageUrl={elementData.type.image_url}
-        />
-      ) : (
-        <p>Loading...</p>
-        // <FontAwesomeIcon icon="fa-circle-notch" spin size="xl" />
-      )}
+      <CollectionItemCard
+        itemData={elementData}
+        viewType="page"
+        colorScheme={elementData.type?.colorScheme}
+        typeImageUrl={elementData.type?.image_url}
+      />
     </div>
   );
 }

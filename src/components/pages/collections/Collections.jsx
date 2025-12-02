@@ -2,6 +2,8 @@ import { useContext } from "react";
 
 import AddCollectionForm from "../../forms/AddCollectionForm";
 import ItemCard from "../../item-cards/ItemCard";
+import LoadingSpinner from "../../common/LoadingSpinner";
+import ErrorMessage from "../../common/ErrorMessage";
 
 import { AuthContext } from "../../context/AuthContextProvider";
 import { CollectionContext } from "../../context/CollectionContextProvider";
@@ -10,9 +12,10 @@ import useFetch from "../../../hooks/useFetch";
 const Collections = () => {
   const { authInfo } = useContext(AuthContext);
   const { types } = useContext(CollectionContext);
-  const { data: collections = [], loading, refetch } = useFetch("/collections");
+  const { data: collections = [], loading, error, refetch } = useFetch("/collections");
 
-  const handleCollectionAdded = () => {
+  const handleCollectionAdded = (newCollection) => {
+    // Refetch to get updated list from server
     refetch();
   };
 
@@ -26,7 +29,9 @@ const Collections = () => {
           <AddCollectionForm setCollections={handleCollectionAdded} />
         )}
         {loading ? (
-          <p>Loading…</p>
+          <LoadingSpinner />
+        ) : error ? (
+          <ErrorMessage message={error} />
         ) : (
           <div className="collections-wrapper">
             {collections.map((collection) => (

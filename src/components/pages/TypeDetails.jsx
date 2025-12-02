@@ -1,42 +1,56 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 
 import ItemCard from "../item-cards/ItemCard";
-
-import fetchWrapper from "../../lib/apiCall";
+import LoadingSpinner from "../common/LoadingSpinner";
+import ErrorMessage from "../common/ErrorMessage";
+import useApi from "../../hooks/useApi";
 import { CollectionContext } from "../context/CollectionContextProvider";
 
 export default function Type() {
   const { id } = useParams();
   const { types } = useContext(CollectionContext);
-
-  const [typeData, setTypeData] = useState(null);
+  const { data: typeData, loading, error, execute } = useApi(`/type/${id}`, {
+    method: "GET",
+    autoFetch: false,
+  });
 
   useEffect(() => {
-    fetchWrapper
-      .apiCall(`/type/${id}`, "GET")
-      .then((response) => {
-        setTypeData(response.result);
-      })
-      .catch((error) => console.error(`couldn't retrieve type data`, error));
-  }, [id]);
+    execute();
+  }, [id, execute]);
 
+  if (loading) {
+    return (
+      <div className="game-element-container">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="game-element-container">
+        <ErrorMessage message={error} />
+      </div>
+    );
+  }
+
+  if (!typeData) {
+    return null;
+  }
+
+  // useApi already extracts result/results, so typeData is the type itself
   return (
     <div className="game-element-container">
-      {typeData ? (
-        <ItemCard
-          itemData={typeData}
-          itemType="type"
-          pageRoute="type"
-          viewType="page"
-          colorScheme={typeData.colorScheme}
-          typeImageUrl={typeData.image_url}
-          types={types}
-        />
-      ) : (
-        <p>Loading...</p>
-        // <FontAwesomeIcon icon="fa-circle-notch" spin size="xl" />
-      )}
+      <ItemCard
+        itemData={typeData}
+        itemType="type"
+        pageRoute="type"
+        viewType="page"
+        colorScheme={typeData.colorScheme}
+        typeImageUrl={typeData.image_url}
+        types={types}
+      />
     </div>
   );
 }

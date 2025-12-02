@@ -1,4 +1,4 @@
-import { useState, createContext, useEffect } from "react";
+import { useState, createContext, useEffect, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 
 import fetchWrapper from "../../lib/apiCall";
@@ -12,21 +12,99 @@ export default function CollectionContextProvider({ children }) {
   const [items, setItems] = useState([]);
   const [relationships, setRelationships] = useState([]);
   const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const gameDataState = {
-    currentCollectionId,
-    setCurrentCollectionId,
-    currentCollection,
-    setCurrentCollection,
-    types,
-    setTypes,
-    items,
-    setItems,
-    relationships,
-    setRelationships,
-    notes,
-    setNotes,
-  };
+  // Extract notes from items helper
+  const extractNotesFromItems = useCallback((itemsList) => {
+    const allNotes = [];
+    itemsList.forEach((item) => {
+      if (item.notes && Array.isArray(item.notes)) {
+        const notesWithItemId = item.notes.map((note) => ({
+          ...note,
+          item_id: item.item_id,
+        }));
+        allNotes.push(...notesWithItemId);
+      }
+    });
+    return allNotes;
+  }, []);
+
+  // Helper to fetch optional endpoints (returns empty array on 404 or "not found" errors)
+  const fetchOptionalEndpoint = useCallback(async (endpoint) => {
+    try {
+      const response = await fetchWrapper.apiCall(endpoint, "GET");
+      return response.results || [];
+    } catch (err) {
+      // Check if it's a "not found" error (404 or similar)
+      // The API might return messages like "No relationships found" or "404"
+      const errorMessage = err.message?.toLowerCase() || "";
+      const isNotFoundError =
+        errorMessage.includes("404") ||
+        errorMessage.includes("not found") ||
+        errorMessage.includes("no ") && (
+          errorMessage.includes("relationships") ||
+          errorMessage.includes("types") ||
+          errorMessage.includes("items")
+        );
+
+      if (isNotFoundError) {
+        // Resource doesn't exist yet, return empty array (this is expected)
+        return [];
+      }
+      
+      // For other errors, log but still return empty array to not break the flow
+      console.warn(`Warning: Failed to fetch ${endpoint}:`, err.message);
+      return [];
+    }
+  }, []);
+
+  // Fetch collection data
+  const fetchCollectionData = useCallback(
+    async (collectionId) => {
+      if (!collectionId) return;
+
+      setLoading(true);
+      setError(null);
+
+      try {
+        // Fetch main collection first (required)
+        const collectionRes = await fetchWrapper.apiCall(
+          `/collection/${collectionId}`,
+          "GET"
+        );
+
+        // Fetch optional endpoints in parallel (types, relationships, items)
+        // These can return 404 if empty, which is fine
+        const [typesRes, relationshipsRes, itemsRes] = await Promise.all([
+          fetchOptionalEndpoint(`/types/collection/${collectionId}`),
+          fetchOptionalEndpoint(`/relationships/collection/${collectionId}`),
+          fetchOptionalEndpoint(`/items/collection/${collectionId}`),
+        ]);
+
+        setCurrentCollection(collectionRes.result);
+        setTypes(Array.isArray(typesRes) ? typesRes : []);
+        setRelationships(Array.isArray(relationshipsRes) ? relationshipsRes : []);
+        setItems(Array.isArray(itemsRes) ? itemsRes : []);
+        setNotes(extractNotesFromItems(Array.isArray(itemsRes) ? itemsRes : []));
+      } catch (err) {
+        // Only fail if the main collection fetch fails
+        const errorMessage =
+          err.message || "Failed to load collection data";
+        setError(errorMessage);
+        console.error("Error loading collection data:", errorMessage);
+        // Reset state on error
+        setCurrentCollection(null);
+        setTypes([]);
+        setItems([]);
+        setRelationships([]);
+        setNotes([]);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [extractNotesFromItems, fetchOptionalEndpoint]
+  );
 
   useEffect(() => {
     if (
@@ -34,48 +112,56 @@ export default function CollectionContextProvider({ children }) {
       (!currentCollection ||
         currentCollectionId !== currentCollection.collection_id)
     ) {
-      fetchWrapper
-        .apiCall(`/collection/${currentCollectionId}`, "GET")
-        .then((response) => {
-          setCurrentCollection(response.result);
-        })
-        .catch((error) => console.error(`couldn't retrieve collection`, error));
-
-      fetchWrapper
-        .apiCall(`/types/collection/${currentCollectionId}`, "GET")
-        .then((response) => {
-          setTypes(response.results);
-        })
-        .catch((error) => console.error(`couldn't get types`, error));
-
-      fetchWrapper
-        .apiCall(`/relationships/collection/${currentCollectionId}`, "GET")
-        .then((response) => {
-          setRelationships(response.results);
-        })
-        .catch((error) => console.error(`couldn't get relationships`, error));
-
-      fetchWrapper
-        .apiCall(`/items/collection/${currentCollectionId}`, "GET")
-        .then((response) => {
-          setItems(response.results);
-          
-          // Extract notes from items and add item_id to each note
-          const allNotes = [];
-          response.results.forEach(item => {
-            if (item.notes && Array.isArray(item.notes)) {
-              const notesWithItemId = item.notes.map(note => ({
-                ...note,
-                item_id: item.item_id
-              }));
-              allNotes.push(...notesWithItemId);
-            }
-          });
-          setNotes(allNotes);
-        })
-        .catch((error) => console.error(`couldn't get items`, error));
+      fetchCollectionData(currentCollectionId);
+    } else if (!currentCollectionId) {
+      // Reset state when collection ID is cleared
+      setCurrentCollection(null);
+      setTypes([]);
+      setItems([]);
+      setRelationships([]);
+      setNotes([]);
+      setError(null);
     }
-  }, [currentCollectionId]);
+  }, [currentCollectionId, currentCollection, fetchCollectionData]);
+
+  // Memoize refetch function to use current collectionId
+  const refetch = useCallback(() => {
+    if (currentCollectionId) {
+      fetchCollectionData(currentCollectionId);
+    }
+  }, [currentCollectionId, fetchCollectionData]);
+
+  // Memoize context value to prevent unnecessary re-renders
+  const gameDataState = useMemo(
+    () => ({
+      currentCollectionId,
+      setCurrentCollectionId,
+      currentCollection,
+      setCurrentCollection,
+      types,
+      setTypes,
+      items,
+      setItems,
+      relationships,
+      setRelationships,
+      notes,
+      setNotes,
+      loading,
+      error,
+      refetch,
+    }),
+    [
+      currentCollectionId,
+      currentCollection,
+      types,
+      items,
+      relationships,
+      notes,
+      loading,
+      error,
+      refetch,
+    ]
+  );
 
   return (
     <CollectionContext.Provider value={gameDataState}>

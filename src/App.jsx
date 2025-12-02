@@ -14,6 +14,8 @@ import NoPage from "./components/pages/NoPage";
 import Login from "./components/pages/Login";
 import Navbar from "./components/nav/Navbar";
 import Footer from "./components/nav/Footer";
+import ProtectedRoute from "./components/common/ProtectedRoute";
+import LoadingSpinner from "./components/common/LoadingSpinner";
 
 import { AuthContext } from "./components/context/AuthContextProvider";
 
@@ -21,7 +23,7 @@ function App() {
   const { isAuthenticated } = useContext(AuthContext);
 
   if (isAuthenticated === null) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (
@@ -31,27 +33,25 @@ function App() {
         <Routes>
           <Route
             path="/login"
-            element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login />}
+            element={
+              isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login />
+            }
           />
           <Route path="/" element={<ExternalCollections />} />
           <Route
             path="/dashboard"
             element={
-              isAuthenticated ? (
+              <ProtectedRoute>
                 <ExternalCollections />
-              ) : (
-                <Navigate to="/login" />
-              )
+              </ProtectedRoute>
             }
           />
           <Route
             path="collection/:id"
             element={
-              isAuthenticated ? (
+              <ProtectedRoute>
                 <CollectionDetails isExternal={false} />
-              ) : (
-                <Navigate to="/login" />
-              )
+              </ProtectedRoute>
             }
           />
           <Route
@@ -60,11 +60,19 @@ function App() {
           />
           <Route
             path="/item/:id"
-            element={isAuthenticated ? <Item /> : <Navigate to="/login" />}
+            element={
+              <ProtectedRoute>
+                <Item />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/type/:id"
-            element={isAuthenticated ? <Type /> : <Navigate to="/login" />}
+            element={
+              <ProtectedRoute>
+                <Type />
+              </ProtectedRoute>
+            }
           />
           <Route path="*" element={<NoPage />} />
         </Routes>

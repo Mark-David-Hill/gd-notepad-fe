@@ -1,131 +1,114 @@
-import { useState, useEffect, useContext } from "react";
+import { useContext, useEffect } from "react";
 import PropTypes from "prop-types";
-
-import fetchWrapper from "../../lib/apiCall";
-
+import BaseAddForm from "./BaseAddForm";
 import ItemCard from "../item-cards/ItemCard";
-
 import { getColor } from "../../util/getColor";
 import { CollectionContext } from "../context/CollectionContextProvider";
-import { AuthContext } from "../context/AuthContextProvider";
+import useApi from "../../hooks/useApi";
+import LoadingSpinner from "../common/LoadingSpinner";
+
+const DEFAULT_IMAGE_URL =
+  "https://www.svgrepo.com/show/508699/landscape-placeholder.svg";
+
+const TypePreview = ({ formData, colorSchemes, types }) => {
+  const selectedColorScheme = colorSchemes?.find(
+    (cs) => cs.color_scheme_id === formData.color_scheme_id
+  );
+
+  return (
+    <ItemCard
+      colorScheme={selectedColorScheme}
+      itemData={{
+        description: formData.description || "",
+        name: formData.name || "",
+        image_url: formData.image_url || DEFAULT_IMAGE_URL,
+      }}
+      itemType="type"
+      pageRoute="type"
+      types={types}
+    />
+  );
+};
+
+TypePreview.propTypes = {
+  formData: PropTypes.object.isRequired,
+  colorSchemes: PropTypes.array,
+  types: PropTypes.array,
+};
 
 const AddTypeForm = ({ collectionId, setTypes }) => {
   const { types } = useContext(CollectionContext);
-  const { authInfo } = useContext(AuthContext);
-  const [addFormIsOpen, setAddFormIsOpen] = useState(false);
-  const [colorSchemes, setColorSchemes] = useState([]);
-  const [formName, setFormName] = useState("");
-  const [formImgUrl, setFormImgUrl] = useState("");
-  const [formDescription, setFormDescription] = useState("");
-  const [formColorSchemeId, setFormColorSchemeId] = useState("");
+  const { data: colorSchemes, loading: colorSchemesLoading, execute } = useApi(
+    "/color-schemes",
+    { autoFetch: false }
+  );
 
-  const handleResetForm = () => {
-    setFormColorSchemeId("");
-    setFormImgUrl("");
-    setFormName("");
-    setFormDescription("");
-  };
+  useEffect(() => {
+    execute();
+  }, [execute]);
 
-  const handleAddItem = () => {
-    if (formName && formDescription) {
-      const body = {
-        collection_id: collectionId,
-        color_scheme_id: formColorSchemeId,
-        name: formName,
-        description: formDescription,
-        image_url: formImgUrl,
-      };
+  if (colorSchemesLoading) {
+    return <LoadingSpinner message="Loading color schemes..." />;
+  }
 
-      fetchWrapper
-        .apiCall(`/type`, "POST", body)
-        .then((response) => {
-          setTypes((prev) => [...prev, response.result]);
-          handleResetForm();
-          setAddFormIsOpen(false);
-        })
-        .catch((error) => console.error("couldn't add type", error));
+  const fields = [
+    {
+      name: "collection_id",
+      type: "hidden",
+      defaultValue: collectionId,
+    },
+    {
+      name: "name",
+      label: "Name",
+      type: "text",
+      placeholder: "Name",
+      required: true,
+    },
+    {
+      name: "color_scheme_id",
+      label: "Color Scheme",
+      type: "select",
+      placeholder: "Select Color Scheme",
+      options:
+        colorSchemes?.map((colorScheme) => ({
+          value: colorScheme.color_scheme_id,
+          label: colorScheme.name,
+          style: {
+            color: getColor(colorScheme, "text_color", "black"),
+          },
+        })) || [],
+    },
+    {
+      name: "image_url",
+      label: "Image URL",
+      type: "text",
+      placeholder: "Image URL",
+    },
+    {
+      name: "description",
+      label: "Description",
+      type: "textarea",
+      placeholder: "Description",
+      required: true,
+    },
+  ];
+
+  const handleSuccess = (result) => {
+    if (setTypes && typeof setTypes === "function") {
+      setTypes((prev) => [...prev, result]);
     }
   };
 
-  useEffect(() => {
-    fetchWrapper.apiCall("/color-schemes", "GET").then((response) => {
-      setColorSchemes(response.results);
-    });
-  }, []);
-
-  // Don't render anything if user is not authenticated
-  if (!authInfo) {
-    return null;
-  }
-
-  return !addFormIsOpen ? (
-    <button onClick={() => setAddFormIsOpen(true)}>Add Type</button>
-  ) : (
-    <div className="add-item-wrapper">
-      <div className="add-item-form">
-        <input
-          type="text"
-          placeholder="Name"
-          value={formName}
-          onChange={(e) => setFormName(e.target.value)}
-        />
-
-        <select
-          name="form-type"
-          onChange={(e) => setFormColorSchemeId(e.target.value)}
-          value={formColorSchemeId}
-        >
-          <option value="">Select Color Scheme</option>
-          {colorSchemes &&
-            colorSchemes.map((colorScheme) => (
-              <option
-                key={colorScheme.color_scheme_id}
-                value={colorScheme.color_scheme_id}
-                style={{ color: getColor(colorScheme, "text_color", "black") }}
-              >
-                {colorScheme.name}
-              </option>
-            ))}
-        </select>
-
-        <input
-          type="text"
-          placeholder="Image URL"
-          value={formImgUrl}
-          onChange={(e) => setFormImgUrl(e.target.value)}
-        />
-        <textarea
-          placeholder="Description"
-          value={formDescription}
-          onChange={(e) => setFormDescription(e.target.value)}
-        ></textarea>
-
-        <button
-          onClick={() => {
-            setAddFormIsOpen(false);
-            handleResetForm();
-          }}
-        >
-          Cancel
-        </button>
-        <button onClick={handleAddItem}>Add Type</button>
-      </div>
-      <ItemCard
-        colorScheme={colorSchemes?.find(
-          (colorScheme) => colorScheme.color_scheme_id === formColorSchemeId
-        )}
-        itemData={{
-          description: formDescription,
-          name: formName,
-          image_url:
-            formImgUrl ||
-            "https://www.svgrepo.com/show/508699/landscape-placeholder.svg",
-        }}
-        itemType="type"
-        pageRoute="type"
-        types={types}
-      />
-    </div>
+  return (
+    <BaseAddForm
+      endpoint="/type"
+      buttonText="Add Type"
+      fields={fields}
+      onSuccess={handleSuccess}
+      previewComponent={TypePreview}
+      previewProps={{ colorSchemes, types }}
+      requiresAuth={true}
+    />
   );
 };
 
