@@ -42,15 +42,15 @@ export default function Type() {
   // useApi already extracts result/results, so typeData is the type itself
   return (
     <div className="game-element-container">
-      <ItemCard
-        itemData={typeData}
-        itemType="type"
-        pageRoute="type"
-        viewType="page"
-        colorScheme={typeData.colorScheme}
-        typeImageUrl={typeData.image_url}
-        types={types}
-      />
+        <ItemCard
+          itemData={typeData}
+          itemType="type"
+          pageRoute="type"
+          viewType="page"
+          colorScheme={typeData.colorScheme}
+          typeImageUrl={typeData.image_url}
+          types={types}
+        />
     </div>
   );
 }

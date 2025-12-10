@@ -115,37 +115,37 @@ const CollectionDetails = ({ isExternal = false }) => {
       // External collections use flat relationship structure
       // Check that item is related to ALL selected elements
       return selectedElements.every((selectedName) => {
-        return relationships.some((relationship) => {
-          const item1 = items.find((i) => i.item_id === relationship.item_1_id);
-          const item2 = items.find((i) => i.item_id === relationship.item_2_id);
+      return relationships.some((relationship) => {
+        const item1 = items.find((i) => i.item_id === relationship.item_1_id);
+        const item2 = items.find((i) => i.item_id === relationship.item_2_id);
 
           // Check if this relationship connects the item to the selected element
-          const isRelated =
-            (item.item_id === relationship.item_1_id &&
+        const isRelated =
+          (item.item_id === relationship.item_1_id &&
               item2?.name === selectedName) ||
-            (item.item_id === relationship.item_2_id &&
+          (item.item_id === relationship.item_2_id &&
               item1?.name === selectedName);
 
-          return isRelated;
+        return isRelated;
         });
       });
     } else {
       // Internal collections use nested relationship structure
       // Check that item is related to ALL selected elements
       return selectedElements.every((selectedName) => {
-        return relationships.some((relationship) => {
-          if (!relationship.item_1 || !relationship.item_2) {
-            return false;
-          }
+      return relationships.some((relationship) => {
+        if (!relationship.item_1 || !relationship.item_2) {
+          return false;
+        }
 
           // Check if this relationship connects the item to the selected element
-          const isRelated =
-            (item.name === relationship.item_1.name &&
+        const isRelated =
+          (item.name === relationship.item_1.name &&
               relationship.item_2.name === selectedName) ||
-            (item.name === relationship.item_2.name &&
+          (item.name === relationship.item_2.name &&
               relationship.item_1.name === selectedName);
 
-          return isRelated;
+        return isRelated;
         });
       });
     }
@@ -279,8 +279,8 @@ const CollectionDetails = ({ isExternal = false }) => {
 
                 // Apply image fallback for both internal and external collections
                 const itemWithImage = {
-                  ...item,
-                  image_url: item.image_url || itemType?.image_url || "",
+                      ...item,
+                      image_url: item.image_url || itemType?.image_url || "",
                 };
 
                 return (

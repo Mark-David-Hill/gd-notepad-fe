@@ -40,12 +40,12 @@ export default function Item() {
   // useApi already extracts result/results, so elementData is the item itself
   return (
     <div className="game-element-container">
-      <CollectionItemCard
-        itemData={elementData}
-        viewType="page"
+        <CollectionItemCard
+          itemData={elementData}
+          viewType="page"
         colorScheme={elementData.type?.colorScheme}
         typeImageUrl={elementData.type?.image_url}
-      />
+        />
     </div>
   );
 }

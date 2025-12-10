@@ -14,9 +14,9 @@ const apiCall = async (endpoint, method, body = null) => {
     credentials: "include",
   };
 
-  if (body) {
-    payload.body = JSON.stringify(body);
-  }
+    if (body) {
+      payload.body = JSON.stringify(body);
+    }
 
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, payload);
@@ -31,7 +31,7 @@ const apiCall = async (endpoint, method, body = null) => {
         // If response is not JSON, use statusText
       }
       throw new Error(errorMessage);
-    }
+        }
 
     return await response.json();
   } catch (error) {

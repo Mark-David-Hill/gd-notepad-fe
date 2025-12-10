@@ -6,16 +6,16 @@ const DEFAULT_IMAGE_URL =
   "https://www.svgrepo.com/show/508699/landscape-placeholder.svg";
 
 const CollectionPreview = ({ formData }) => (
-  <ItemCard
-    itemData={{
+      <ItemCard
+        itemData={{
       description: formData.description || "",
       name: formData.name || "",
       image_url: formData.image_url || DEFAULT_IMAGE_URL,
-      notes: [],
-    }}
-    itemType="collection"
-    types={[]}
-  />
+          notes: [],
+        }}
+        itemType="collection"
+        types={[]}
+      />
 );
 
 CollectionPreview.propTypes = {

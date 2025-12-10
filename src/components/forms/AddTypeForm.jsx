@@ -108,7 +108,7 @@ const AddTypeForm = ({ collectionId, setTypes }) => {
       previewComponent={TypePreview}
       previewProps={{ colorSchemes, types }}
       requiresAuth={true}
-    />
+      />
   );
 };
 
