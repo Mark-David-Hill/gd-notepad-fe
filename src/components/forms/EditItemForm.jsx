@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 
 import fetchWrapper from "../../lib/apiCall";
-import { getColor } from "../../util/getColor";
+import useForm from "../../hooks/useForm";
+import FormField from "./FormField";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 const EditItemForm = ({
   itemData,
@@ -13,22 +15,31 @@ const EditItemForm = ({
   onCancel,
   onPreviewUpdate,
 }) => {
-  const [formName, setFormName] = useState("");
-  const [formImgUrl, setFormImgUrl] = useState("");
-  const [formDescription, setFormDescription] = useState("");
-  const [formTypeId, setFormTypeId] = useState("");
+  // Initialize form values from itemData
+  const getInitialValues = () => {
+    if (!itemData) return {};
+    
+    // For items, type_id is nested under itemData.type.type_id
+    // For other item types, it might be directly on itemData.type_id
+    const currentTypeId = itemData.type?.type_id || itemData.type_id || "";
+    
+    return {
+      name: itemData.name || "",
+      image_url: itemData.image_url || "",
+      description: itemData.description || "",
+      type_id: currentTypeId,
+    };
+  };
 
-  // Populate form with existing data when component mounts or itemData changes
+  const { values, handleChange, setValues } = useForm(getInitialValues());
+
+  // Update form when itemData changes
   useEffect(() => {
     if (itemData) {
-      setFormName(itemData.name || "");
-      setFormImgUrl(itemData.image_url || "");
-      setFormDescription(itemData.description || "");
-      // For items, type_id is nested under itemData.type.type_id
-      // For other item types, it might be directly on itemData.type_id
-      const currentTypeId = itemData.type?.type_id || itemData.type_id || "";
-      setFormTypeId(currentTypeId);
+      const initialValues = getInitialValues();
+      setValues(initialValues);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemData]);
 
   // Update preview whenever form data changes
@@ -36,96 +47,98 @@ const EditItemForm = ({
     if (onPreviewUpdate && itemData) {
       const previewData = {
         ...itemData,
-        name: formName,
-        image_url: formImgUrl,
-        description: formDescription,
+        name: values.name,
+        image_url: values.image_url,
+        description: values.description,
       };
       onPreviewUpdate(previewData);
     }
-  }, [formName, formImgUrl, formDescription, onPreviewUpdate, itemData]);
+  }, [values.name, values.image_url, values.description, onPreviewUpdate, itemData]);
 
-  const handleSave = () => {
-    if (formName && formDescription) {
-      const body = {
-        name: formName,
-        description: formDescription,
-        image_url: formImgUrl,
-      };
+  const handleSave = async () => {
+    // Validate required fields
+    if (!values.name || !values.description) {
+      return;
+    }
 
-      // Only include type_id if it's not empty
-      if (formTypeId) {
-        body.type_id = formTypeId;
-      }
+    const body = {
+      name: values.name,
+      description: values.description,
+      image_url: values.image_url,
+    };
 
-      const itemId = itemData[`${itemType}_id`];
+    // Only include type_id if it's not empty
+    if (values.type_id) {
+      body.type_id = values.type_id;
+    }
 
-      fetchWrapper
-        .apiCall(`/${itemType}/${itemId}`, "PUT", body)
-        .then((response) => {
-          onSave(response.result);
-        })
-        .catch((error) => console.error("couldn't update item", error));
+    const itemId = itemData[`${itemType}_id`];
+
+    try {
+      const response = await fetchWrapper.apiCall(`/${itemType}/${itemId}`, "PUT", body);
+      onSave(response.result);
+    } catch (error) {
+      console.error("couldn't update item", error);
     }
   };
 
   if (!types || !types.length) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner message="Loading types..." />;
   }
+
+  const typeOptions = (
+    <>
+      <option value="">Select Type</option>
+      {types.map((type) => (
+        <option key={type.type_id} value={type.type_id}>
+          {type.name}
+        </option>
+      ))}
+    </>
+  );
 
   return (
     <div className="edit-item-form">
       <h3>Edit Item</h3>
 
       <div className="form-content">
-        <div className="form-field">
-          <label htmlFor="type-select">Type:</label>
-          <select
-            id="type-select"
-            name="form-type"
-            onChange={(e) => setFormTypeId(e.target.value)}
-            value={formTypeId}
-          >
-            <option value="">Select Type</option>
-            {types &&
-              types.map((type) => (
-                <option key={type.type_id} value={type.type_id}>
-                  {type.name}
-                </option>
-              ))}
-          </select>
-        </div>
+        <FormField
+          id="type-select"
+          label="Type"
+          type="select"
+          value={values.type_id || ""}
+          onChange={(e) => handleChange("type_id", e.target.value)}
+          options={typeOptions}
+        />
 
-        <div className="form-field">
-          <label htmlFor="name-input">Name:</label>
-          <input
-            id="name-input"
-            type="text"
-            placeholder="Name"
-            value={formName}
-            onChange={(e) => setFormName(e.target.value)}
-          />
-        </div>
+        <FormField
+          id="name-input"
+          label="Name"
+          type="text"
+          value={values.name || ""}
+          onChange={(e) => handleChange("name", e.target.value)}
+          placeholder="Name"
+          required
+        />
 
-        <div className="form-field">
-          <label htmlFor="image-input">Image URL:</label>
-          <input
-            id="image-input"
-            type="text"
-            placeholder="Image URL"
-            value={formImgUrl}
-            onChange={(e) => setFormImgUrl(e.target.value)}
-          />
-        </div>
+        <FormField
+          id="image-input"
+          label="Image URL"
+          type="text"
+          value={values.image_url || ""}
+          onChange={(e) => handleChange("image_url", e.target.value)}
+          placeholder="Image URL"
+        />
 
-        <div className="form-field">
-          <label htmlFor="description-textarea">Description:</label>
-          <textarea
-            id="description-textarea"
-            placeholder="Description"
-            value={formDescription}
-            onChange={(e) => setFormDescription(e.target.value)}
-          ></textarea>
-        </div>
+        <FormField
+          id="description-textarea"
+          label="Description"
+          type="textarea"
+          value={values.description || ""}
+          onChange={(e) => handleChange("description", e.target.value)}
+          placeholder="Description"
+          required
+        />
 
         <div className="form-buttons">
           <button onClick={onCancel}>Cancel</button>
