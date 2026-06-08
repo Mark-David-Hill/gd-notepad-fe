@@ -6,7 +6,7 @@ import fetchWrapper from "../../lib/apiCall";
 export const AuthContext = createContext();
 
 export default function AuthContextProvider({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [authInfo, setAuthInfo] = useState(null);
 
   const checkAuthentication = async () => {
