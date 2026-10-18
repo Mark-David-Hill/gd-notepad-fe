@@ -8,7 +8,9 @@ import useFetch from "../../../hooks/useFetch";
 import { ThemeContext } from "../../context/ThemeContextProvider";
 import { AuthContext } from "../../context/AuthContextProvider";
 
-const GOOGLE_SHEET_ID = "1aYK-0RBzHnzvZKmVjWwwbfmPqY29f6SnyjfT8InQf10";
+const GOOGLE_SHEET_ID =
+  import.meta.env.VITE_GOOGLE_SHEET_ID ||
+  "1aYK-0RBzHnzvZKmVjWwwbfmPqY29f6SnyjfT8InQf10";
 const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv`;
 
 const LIGHT_MODE_VARIANT = "soft";

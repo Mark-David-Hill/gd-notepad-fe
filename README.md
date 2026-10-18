@@ -148,15 +148,14 @@ npm run test
 
 ### Environment Variables
 
-The application expects the backend API to be running at `http://localhost:8086`. Configure this in:
+Copy `.env.example` to `.env` and adjust as needed. Both variables are optional:
 
-- `src/lib/apiCall.js` - API base URL configuration
+- `VITE_API_BASE_URL` - Backend API base URL. Defaults to `http://localhost:8086`.
+- `VITE_GOOGLE_SHEET_ID` - ID of the public Google Sheet that lists external collections. Defaults to the demo catalog sheet.
 
 ### Google Sheets Integration
 
-External collections load from a Google Sheet configured in:
-
-- `src/components/pages/external-collections/ExternalCollections.jsx`
+External collections load from the catalog sheet set by `VITE_GOOGLE_SHEET_ID` (read in `src/components/pages/external-collections/ExternalCollections.jsx`).
 
 ## Development Notes
 
