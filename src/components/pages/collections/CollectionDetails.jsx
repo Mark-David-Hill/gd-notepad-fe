@@ -1,5 +1,5 @@
 import { useEffect, useContext, useMemo } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { NavLink, useParams, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import AddColorSchemeForm from "../../forms/AddColorSchemeForm";
@@ -15,6 +15,7 @@ import { AuthContext } from "../../context/AuthContextProvider";
 import { ThemeContext } from "../../context/ThemeContextProvider";
 import useCollectionViewState from "../../../hooks/useCollectionViewState";
 import useExternalCollectionData from "../../../hooks/useExternalCollectionData";
+import useExternalCollectionEntry from "../../../hooks/useExternalCollectionEntry";
 
 const LIGHT_DETAIL_STYLE = "aurora";
 const DARK_DETAIL_STYLE = "noir";
@@ -38,10 +39,16 @@ const CollectionDetails = ({ isExternal = false }) => {
     notes: internalNotes,
   } = useContext(CollectionContext);
 
-  // External collection data (from localStorage/state)
-  const externalCollectionData =
-    location.state?.collection ||
-    JSON.parse(localStorage.getItem(`external-collection-${id}`) || "null");
+  // External collection catalog row (from router state, or the catalog sheet
+  // on refresh / shared links)
+  const {
+    collection: externalCollectionData,
+    loading: externalEntryLoading,
+    error: externalEntryError,
+  } = useExternalCollectionEntry(
+    isExternal ? id : null,
+    isExternal ? location.state?.collection : null
+  );
 
   const {
     items: externalItems,
@@ -52,16 +59,6 @@ const CollectionDetails = ({ isExternal = false }) => {
     loading: externalLoading,
     error: externalError,
   } = useExternalCollectionData(isExternal ? externalCollectionData : null);
-
-  // Store external collection data in localStorage for page refreshes
-  useEffect(() => {
-    if (isExternal && location.state?.collection) {
-      localStorage.setItem(
-        `external-collection-${id}`,
-        JSON.stringify(location.state.collection)
-      );
-    }
-  }, [id, location.state, isExternal]);
 
   // Set internal collection ID
   useEffect(() => {
@@ -166,11 +163,23 @@ const CollectionDetails = ({ isExternal = false }) => {
     return typeMatch && searchMatch && relatedMatch;
   });
 
-  // Early return if collection not found
+  if (isExternal && externalEntryLoading) {
+    return (
+      <div className="collection-container">
+        <p className="collection-details__loading">Loading collection...</p>
+      </div>
+    );
+  }
+
   if (isExternal && !collection) {
     return (
       <div className="collection-container">
-        <p>Collection not found. Please navigate from the collections page.</p>
+        <p>
+          {externalEntryError
+            ? `Couldn't load the collection catalog: ${externalEntryError}`
+            : "Collection not found."}
+        </p>
+        <NavLink to="/">Back to collections</NavLink>
       </div>
     );
   }

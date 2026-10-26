@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { extractImageUrl, parseCSVLine } from "../util/googleSheetsUtil";
+import { fetchSheetRows } from "../util/googleSheetsUtil";
 
 const useExternalCollectionData = (collectionData) => {
   const [items, setItems] = useState([]);
@@ -10,43 +10,12 @@ const useExternalCollectionData = (collectionData) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Helper function to fetch a specific sheet tab
-  const fetchSheetTab = async (sheetId, tabName) => {
-    const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(
-      tabName
-    )}`;
-    const response = await fetch(csvUrl);
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch ${tabName} tab: ${response.status}`);
-    }
-
-    const csvText = await response.text();
-    const lines = csvText.split("\n").filter((line) => line.trim());
-    const headers = parseCSVLine(lines[0]);
-
-    const data = lines.slice(1).map((line) => {
-      const values = parseCSVLine(line);
-
-      const obj = headers.reduce((acc, header, index) => {
-        acc[header] = values[index] || "";
-        return acc;
-      }, {});
-
-      // Extract actual image URL from Google imgres URLs
-      if (obj.image_url) {
-        obj.image_url = extractImageUrl(obj.image_url);
-      }
-
-      return obj;
-    });
-
-    return data;
-  };
-
   useEffect(() => {
     const fetchCollectionData = async () => {
-      if (!collectionData?.sheet_url) {
+      // Nothing to load yet (or this is an internal collection)
+      if (!collectionData) return;
+
+      if (!collectionData.sheet_url) {
         setError("No sheet URL provided for this collection");
         setLoading(false);
         return;
@@ -54,6 +23,7 @@ const useExternalCollectionData = (collectionData) => {
 
       try {
         setLoading(true);
+        setError(null);
 
         // Extract Google Sheet ID from the URL
         let sheetId;
@@ -78,11 +48,11 @@ const useExternalCollectionData = (collectionData) => {
           relationshipsData,
           notesData,
         ] = await Promise.all([
-          fetchSheetTab(sheetId, "Items"),
-          fetchSheetTab(sheetId, "Types").catch(() => []),
-          fetchSheetTab(sheetId, "ColorSchemes").catch(() => []),
-          fetchSheetTab(sheetId, "Relationships").catch(() => []),
-          fetchSheetTab(sheetId, "Notes").catch(() => []),
+          fetchSheetRows(sheetId, "Items"),
+          fetchSheetRows(sheetId, "Types").catch(() => []),
+          fetchSheetRows(sheetId, "ColorSchemes").catch(() => []),
+          fetchSheetRows(sheetId, "Relationships").catch(() => []),
+          fetchSheetRows(sheetId, "Notes").catch(() => []),
         ]);
 
         // Attach notes to items

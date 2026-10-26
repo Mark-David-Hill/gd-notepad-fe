@@ -40,6 +40,8 @@ Navbar.propTypes = {
 ```
 
 ### 2. Environment Variables for Configuration
+
+**Status:** Done in `1b84f31`. Both values are read in `src/lib/config.js`, and `.env.example` documents them.
 Hardcoded values should be moved to environment variables for better configuration management.
 
 **Issues:**

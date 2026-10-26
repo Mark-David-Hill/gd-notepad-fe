@@ -4,38 +4,13 @@ import CollectionCard from "../collections/CollectionCard";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import ErrorMessage from "../../common/ErrorMessage";
 import useFetch from "../../../hooks/useFetch";
+import { fetchCatalog } from "../../../util/googleSheetsUtil";
 
 import { ThemeContext } from "../../context/ThemeContextProvider";
 import { AuthContext } from "../../context/AuthContextProvider";
 
-const GOOGLE_SHEET_ID =
-  import.meta.env.VITE_GOOGLE_SHEET_ID ||
-  "1aYK-0RBzHnzvZKmVjWwwbfmPqY29f6SnyjfT8InQf10";
-const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:csv`;
-
 const LIGHT_MODE_VARIANT = "soft";
 const DARK_MODE_VARIANT = "modern";
-
-// Extract actual image URL from Google imgres URLs
-const extractImageUrl = (url) => {
-  if (!url) return url;
-
-  // If it's a Google imgres URL, extract the imgurl parameter
-  if (url.includes("google.com/imgres") || url.includes("imgurl=")) {
-    try {
-      const urlObj = new URL(url);
-      const imgurl = urlObj.searchParams.get("imgurl");
-      if (imgurl) {
-        return decodeURIComponent(imgurl);
-      }
-    } catch (e) {
-      console.warn("Failed to parse image URL:", url);
-    }
-  }
-
-  // Return original URL if not a Google imgres URL
-  return url;
-};
 
 // No longer needed - using unified CollectionCard component
 
@@ -66,64 +41,7 @@ const ExternalCollections = () => {
     const fetchGoogleSheetData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(SHEET_CSV_URL);
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data: ${response.status}`);
-        }
-
-        const csvText = await response.text();
-
-        // Parse CSV data with proper handling of quoted fields
-        const parseCSVLine = (line) => {
-          const values = [];
-          let current = "";
-          let inQuotes = false;
-
-          for (let i = 0; i < line.length; i++) {
-            const char = line[i];
-            const nextChar = line[i + 1];
-
-            if (char === '"') {
-              if (inQuotes && nextChar === '"') {
-                // Escaped quote
-                current += '"';
-                i++;
-              } else {
-                // Toggle quote state
-                inQuotes = !inQuotes;
-              }
-            } else if (char === "," && !inQuotes) {
-              // End of field
-              values.push(current.trim());
-              current = "";
-            } else {
-              current += char;
-            }
-          }
-          values.push(current.trim());
-          return values;
-        };
-
-        const lines = csvText.split("\n").filter((line) => line.trim());
-        const headers = parseCSVLine(lines[0]);
-
-        const data = lines.slice(1).map((line) => {
-          const values = parseCSVLine(line);
-
-          const obj = headers.reduce((acc, header, index) => {
-            acc[header] = values[index] || "";
-            return acc;
-          }, {});
-
-          // Extract actual image URL from Google imgres URLs
-          if (obj.image_url) {
-            obj.image_url = extractImageUrl(obj.image_url);
-          }
-
-          return obj;
-        });
-
+        const data = await fetchCatalog();
         setExternalCollections(data);
         setError(null);
       } catch (err) {

@@ -159,7 +159,7 @@ When `VITE_API_BASE_URL` is unset, the app runs as a read-only demo: it makes no
 
 ### Google Sheets Integration
 
-External collections load from the catalog sheet set by `VITE_GOOGLE_SHEET_ID` (read in `src/components/pages/external-collections/ExternalCollections.jsx`).
+External collections load from the catalog sheet set by `VITE_GOOGLE_SHEET_ID` (read in `src/lib/config.js`). Each catalog row's `sheet_url` points at that collection's own sheet. Detail pages look up their row by `collection_id`, so `/external-collection/:id` links work on refresh and can be shared.
 
 ## Development Notes
 
