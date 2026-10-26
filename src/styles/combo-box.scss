@@ -56,7 +56,7 @@
     overflow-y: auto;
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    background-color: var(--surface-card);
+    background-color: var(--surface-popover);
     z-index: 1000;
     box-shadow: var(--shadow-sm);
 
@@ -96,7 +96,7 @@
       font-style: italic;
 
       &:hover {
-        background-color: var(--surface-card);
+        background-color: var(--surface-popover);
       }
     }
 
@@ -107,6 +107,9 @@
 }
 
 .search-section {
+  // Stay above item cards so the combo-box dropdown isn't hidden behind them
+  position: relative;
+  z-index: 10;
   display: flex;
   justify-content: center;
   align-items: center;
