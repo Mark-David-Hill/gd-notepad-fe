@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../context/AuthContextProvider";
 import { ThemeContext } from "../context/ThemeContextProvider";
+import { IS_DEMO_MODE } from "../../lib/config";
 
 export default function Navbar() {
   const { authInfo, logout } = useContext(AuthContext);
@@ -41,7 +42,7 @@ export default function Navbar() {
 
           {authInfo ? (
             <button onClick={handleLogout}>Logout</button>
-          ) : (
+          ) : IS_DEMO_MODE ? null : (
             <NavLink
               to="/login"
               className={({ isActive }) =>

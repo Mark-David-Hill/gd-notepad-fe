@@ -1,5 +1,4 @@
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:8086";
+import { API_BASE_URL, IS_DEMO_MODE } from "./config";
 
 /**
  * Makes an API call to the backend
@@ -9,6 +8,10 @@ const API_BASE_URL =
  * @returns {Promise} Promise that resolves with the response data
  */
 const apiCall = async (endpoint, method, body = null) => {
+  if (IS_DEMO_MODE) {
+    throw new Error("The API is not available in demo mode");
+  }
+
   const payload = {
     method,
     headers: { "Content-Type": "application/json" },

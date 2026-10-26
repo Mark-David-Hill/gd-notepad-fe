@@ -46,8 +46,11 @@ const ExternalCollections = () => {
 
   const { authInfo } = useContext(AuthContext);
   const { theme } = useContext(ThemeContext);
-  const { data: internalCollections, loading: internalLoading } =
-    useFetch("/collections");
+  // Internal collections need a logged-in API session, so skip the request
+  // for visitors (always the case in demo mode).
+  const { data: internalCollections, loading: internalLoading } = useFetch(
+    authInfo ? "/collections" : null
+  );
 
   // Ensure internalCollections is always an array
   const safeInternalCollections = Array.isArray(internalCollections)

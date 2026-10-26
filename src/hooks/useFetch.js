@@ -3,7 +3,7 @@ import useApi from "./useApi";
 
 /**
  * Hook for automatic data fetching on mount
- * @param {string} url - API endpoint
+ * @param {string|null} url - API endpoint; pass null to skip fetching
  * @returns {Object} { data, loading, error, refetch }
  */
 export default function useFetch(url) {
@@ -16,6 +16,8 @@ export default function useFetch(url) {
   const hasFetchedRef = useRef(false);
 
   useEffect(() => {
+    if (!url) return;
+
     // Fetch if URL changed or if this is the first render
     if (urlRef.current !== url || !hasFetchedRef.current) {
       urlRef.current = url;

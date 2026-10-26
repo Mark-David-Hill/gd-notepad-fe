@@ -16,8 +16,10 @@ import Navbar from "./components/nav/Navbar";
 import Footer from "./components/nav/Footer";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import LoadingSpinner from "./components/common/LoadingSpinner";
+import DemoBanner from "./components/common/DemoBanner";
 
 import { AuthContext } from "./components/context/AuthContextProvider";
+import { IS_DEMO_MODE } from "./lib/config";
 
 function App() {
   const { isAuthenticated } = useContext(AuthContext);
@@ -30,11 +32,18 @@ function App() {
     <Router>
       <div className="app-container">
         <Navbar />
+        {IS_DEMO_MODE && <DemoBanner />}
         <Routes>
           <Route
             path="/login"
             element={
-              isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login />
+              IS_DEMO_MODE ? (
+                <Navigate to="/" replace />
+              ) : isAuthenticated ? (
+                <Navigate to="/dashboard" replace />
+              ) : (
+                <Login />
+              )
             }
           />
           <Route path="/" element={<ExternalCollections />} />

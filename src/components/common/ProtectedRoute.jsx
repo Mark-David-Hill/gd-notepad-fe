@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { AuthContext } from "../context/AuthContextProvider";
 import LoadingSpinner from "./LoadingSpinner";
+import { IS_DEMO_MODE } from "../../lib/config";
 
 /**
  * ProtectedRoute component that redirects to login if user is not authenticated
@@ -14,7 +15,10 @@ export default function ProtectedRoute({ children, redirectTo = "/login" }) {
     return <LoadingSpinner />;
   }
 
-  return isAuthenticated ? children : <Navigate to={redirectTo} replace />;
+  if (isAuthenticated) return children;
+
+  // The demo has no login page, so send visitors home instead.
+  return <Navigate to={IS_DEMO_MODE ? "/" : redirectTo} replace />;
 }
 
 ProtectedRoute.propTypes = {

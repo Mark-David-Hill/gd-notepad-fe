@@ -148,10 +148,14 @@ npm run test
 
 ### Environment Variables
 
-Copy `.env.example` to `.env` and adjust as needed. Both variables are optional:
+Copy `.env.example` to `.env` and adjust as needed:
 
-- `VITE_API_BASE_URL` - Backend API base URL. Defaults to `http://localhost:8086`.
+- `VITE_API_BASE_URL` - Backend API base URL, e.g. `http://localhost:8086`. Set this to use the Flask API locally. Leave it unset to run the read-only demo (see below).
 - `VITE_GOOGLE_SHEET_ID` - ID of the public Google Sheet that lists external collections. Defaults to the demo catalog sheet.
+
+### Demo Mode
+
+When `VITE_API_BASE_URL` is unset, the app runs as a read-only demo: it makes no API calls, hides Login, redirects protected routes to the home page, and shows a banner pointing to the backend repo. Public collections still load from Google Sheets. This is how the hosted demo is built.
 
 ### Google Sheets Integration
 

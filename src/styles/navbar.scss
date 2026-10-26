@@ -13,6 +13,27 @@
   backdrop-filter: blur(10px);
 }
 
+.demo-banner {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  background: var(--accent-soft);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
+  text-align: center;
+
+  p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  a {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+}
+
 .navbar-container {
   width: 100%;
   margin: 0;

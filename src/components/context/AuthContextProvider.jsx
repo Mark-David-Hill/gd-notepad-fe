@@ -2,14 +2,20 @@ import { useState, createContext, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import fetchWrapper from "../../lib/apiCall";
+import { IS_DEMO_MODE } from "../../lib/config";
 
 export const AuthContext = createContext();
 
 export default function AuthContextProvider({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  // In demo mode there is no API to ask, so the visitor is simply logged out.
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    IS_DEMO_MODE ? false : null
+  );
   const [authInfo, setAuthInfo] = useState(null);
 
   const checkAuthentication = async () => {
+    if (IS_DEMO_MODE) return false;
+
     try {
       const response = await fetchWrapper.apiCall(`/user/check-login`, "GET");
       setAuthInfo(response.result);
@@ -24,6 +30,10 @@ export default function AuthContextProvider({ children }) {
   };
 
   const handleLogin = async (email, password) => {
+    if (IS_DEMO_MODE) {
+      return { success: false, message: "Login is not available in demo mode" };
+    }
+
     const body = { email, password };
 
     try {
@@ -43,6 +53,8 @@ export default function AuthContextProvider({ children }) {
   };
 
   const handleLogout = async () => {
+    if (IS_DEMO_MODE) return;
+
     try {
       await fetchWrapper.apiCall(`/user/logout`, "POST");
     } catch (error) {
