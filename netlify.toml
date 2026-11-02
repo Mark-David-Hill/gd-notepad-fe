@@ -1,0 +1,15 @@
+# Netlify deploys the read-only demo: leave VITE_API_BASE_URL unset in the
+# site's environment so the build runs in demo mode.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Single-page app: send every route to index.html so refreshed and shared
+# links (e.g. /external-collection/:id) load instead of returning a 404.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

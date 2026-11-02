@@ -157,6 +157,10 @@ Copy `.env.example` to `.env` and adjust as needed:
 
 When `VITE_API_BASE_URL` is unset, the app runs as a read-only demo: it makes no API calls, hides Login, redirects protected routes to the home page, and shows a banner pointing to the backend repo. Public collections still load from Google Sheets. This is how the hosted demo is built.
 
+### Deploying
+
+The live demo is deployed on Netlify from `main`. `netlify.toml` sets the build command, the `dist` output folder, the Node version and the single-page-app redirect that keeps deep links working on refresh. Leave `VITE_API_BASE_URL` unset in Netlify so the site builds in demo mode.
+
 ### Google Sheets Integration
 
 External collections load from the catalog sheet set by `VITE_GOOGLE_SHEET_ID` (read in `src/lib/config.js`). Each catalog row's `sheet_url` points at that collection's own sheet. Detail pages look up their row by `collection_id`, so `/external-collection/:id` links work on refresh and can be shared.
