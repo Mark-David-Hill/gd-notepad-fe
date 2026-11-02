@@ -2,6 +2,8 @@
 
 A modern React-based frontend for the Game Design Notepad application, providing an intuitive interface for organizing and analyzing game design elements.
 
+**Live demo:** [gd-notepad.netlify.app](https://gd-notepad.netlify.app/). This is a read-only demo that loads collections from public Google Sheets. Login and editing need the Flask API in [gd-notepad-be](https://github.com/Mark-David-Hill/gd-notepad-be), which isn't hosted.
+
 ## Overview
 
 This frontend application allows users to:
